@@ -1,0 +1,27 @@
+export default {
+  links: {
+    account: "حساب",
+    profile: "ملفى الشخصى",
+    login: "تسجيل دخول",
+    forget_password: "نسيت كلمة السر",
+    reset_password: "إعادة تعيين كلمة السر",
+    user: "مستخدم | مستخدمين",
+    dashboard: "لوحة التحكم",
+    setting: "إعداد | إعدادات",
+    system_settings: "إعدادات النظام",
+    certificate: "شهادة | شهادات",
+    link: "رابط | روابط",
+    category: "قسم | أقسام",
+    tag: "وسم | وسوم",
+    menu: "قائمة | قوائم",
+    team: "عضو فريق | أعضاء الفريق",
+    testimonial: "رأى العميل | أراء العملاء",
+    service: "خدمة | خدمات",
+    portfolio: "معرض عمل | معرضأعمالى",
+    client: "عميل | عملاء",
+    post: "مقال | مقالات",
+    message: "رسالة | رسائل",
+    role: "دور | أدوار",
+    theme_generator: "مولد الثيمات",
+  }
+}

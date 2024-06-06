@@ -1,0 +1,28 @@
+/* @font-face {
+    font-family: 'Tajawal';
+    src: local("Tajawal"),
+    url(../fonts/tajawal/Tajawal-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Lemon-Medium";
+    src: local("Lemon"),
+    url(../fonts/Lemon/Lemon-Medium.otf) format("truetype");
+  }
+
+*:lang(ar),
+html:lang(ar) {
+    font-family: 'Tajawal';
+}
+
+*:lang(en),
+html:lang(en) {
+    font-family: 'Lemon-Medium';
+} */
+
+
+/* @media (min-width: 1024px) {
+    .page-container {
+        padding-left: 94px;
+    }
+} */

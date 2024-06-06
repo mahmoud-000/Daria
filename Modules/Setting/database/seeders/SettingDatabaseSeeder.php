@@ -1,0 +1,78 @@
+<?php
+
+namespace Modules\Setting\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Modules\Setting\Models\Setting;
+
+class SettingDatabaseSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Setting::insert(
+            [
+                [
+                    'key' => 'system_logo',
+                    'value' => ''
+                ],
+                [
+                    'key' => 'driver',
+                    'value' => 'smtp'
+                ],
+                [
+                    'key' => 'host',
+                    'value' => 'localhost'
+                ],
+                [
+                    'key' => 'port',
+                    'value' => 1025
+                ],
+                [
+                    'key' => 'encryption',
+                    'value' => false
+                ],
+                [
+                    'key' => 'username',
+                    'value' => 'Test Username'
+                ],
+                [
+                    'key' => 'password',
+                    'value' => 'Password@1'
+                ],
+                [
+                    'key' => 'sender_name',
+                    'value' => 'Support'
+                ],
+                [
+                    'key' => 'sender_email',
+                    'value' => 'support@mail.com'
+                ],
+                [
+                    'key' => 'email',
+                    'value' => 'company@company.com'
+                ],
+                [
+                    'key' => 'system_name',
+                    'value' => 'Ticket System'
+                ],
+                [
+                    'key' => 'company_name',
+                    'value' => 'Ticket System'
+                ],
+                [
+                    'key' => 'company_phone',
+                    'value' => '0123456789'
+                ],
+                [
+                    'key' => 'company_address',
+                    'value' => 'address test'
+                ],
+                [
+                    'key' => 'currency',
+                    'value' => 'USD'
+                ],
+            ]
+        );
+        // Setting::factory(10)->create();
+    }
+}
