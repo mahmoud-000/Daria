@@ -18,31 +18,17 @@ class Department extends Model
         'name',
         'remarks',
         'is_active',
-        'company_id',
-        'branch_id',
         'department_id',
     ];
 
     protected $casts = [
         'is_active'         => \App\Enums\ActiveEnum::class,
-        'company_id'       => 'integer',
-        'branch_id'       => 'integer',
         'department_id'       => 'integer',
     ];
 
     public static function searchable()
     {
         return ['name'];
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
     }
 
     public function parent()

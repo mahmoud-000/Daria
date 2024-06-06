@@ -3,7 +3,6 @@
 namespace Modules\Department\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Gate;
 use Modules\Department\Models\Department;
@@ -14,6 +13,6 @@ class DepartmentShow extends Controller
     public function __invoke(Department $department)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-department'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return DepartmentResource::make($department->load(['parent', 'parent.media', 'media']));
+        return DepartmentResource::make($department->load(['parent']));
     }
 }

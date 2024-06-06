@@ -30,6 +30,7 @@ use Modules\Variant\Models\Variant;
 use Modules\Warehouse\Models\Warehouse;
 use Modules\Company\Models\Company;
 use Modules\Branch\Models\Branch;
+use Modules\Department\Models\Department;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -53,6 +54,11 @@ abstract class TestCase extends BaseTestCase
     public function createBranch($args = [])
     {
         return Branch::factory()->make($args);
+    }
+
+    public function createDepartment($args = [])
+    {
+        return Department::factory()->create($args);
     }
 
     public function storeBranch($args = [])

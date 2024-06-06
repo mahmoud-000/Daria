@@ -3,6 +3,7 @@
 return [
   'company'               => 'Company',
   'branch'               => 'Branch',
+  'department'           => 'Department',
 
   'user'                  => 'User',
   'customer'              => 'Customer',

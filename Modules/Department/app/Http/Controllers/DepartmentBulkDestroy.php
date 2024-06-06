@@ -15,11 +15,7 @@ class DepartmentBulkDestroy extends Controller
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('bulk-delete-department'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         try {
             Department::whereIn('id', $request->ids)->delete();
-            // $department->permissions()->detach();
-            // $department->roles()->detach();
-            // $department->contacts()->delete();
-            // $department->locations()->delete();
-            // $department->media()->delete();
+
             return $this->success(__('status.deleted_selected_success'));
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->error(__('status.delete_error'), Response::HTTP_INTERNAL_SERVER_ERROR);

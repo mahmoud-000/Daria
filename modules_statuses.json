@@ -31,5 +31,6 @@
     "Payment": true,
     "Company": true,
     "Branch": true,
-    "Patch": true
+    "Patch": true,
+    "Department": true
 }

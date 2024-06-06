@@ -15,11 +15,7 @@ class CategoryBulkDestroy extends Controller
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('bulk-delete-category'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         try {
             Category::whereIn('id', $request->ids)->delete();
-            // $category->permissions()->detach();
-            // $category->roles()->detach();
-            // $category->contacts()->delete();
-            // $category->locations()->delete();
-            // $category->media()->delete();
+
             return $this->success(__('status.deleted_selected_success'));
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->error(__('status.delete_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
