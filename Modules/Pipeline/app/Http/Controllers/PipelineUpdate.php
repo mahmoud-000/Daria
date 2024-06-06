@@ -10,6 +10,7 @@ use Modules\Pipeline\Models\Pipeline;
 use Modules\Pipeline\Http\Requests\UpdatePipelineRequest;
 use Modules\Stage\Http\Controllers\StageDestroy;
 use Modules\Stage\Http\Controllers\StageUpdate;
+use Modules\Stage\Models\Stage;
 
 class PipelineUpdate extends Controller
 {
@@ -27,14 +28,17 @@ class PipelineUpdate extends Controller
                 // Check if pipeline has just default stage
                 // Then Delete the other stages with stock
                 if (count($stages) === 2) {
-                    (new StageDestroy)($pipeline);
+                    // Find Stage Ids to delete except the default one
+                    $stagesIds = collect($pipeline->stages)->where('default', '!=', true)->pluck('id')->toArray();
+
+                    $pipeline->stages()->whereIn('id', $stagesIds)->delete();
                 }
                 // ================================================
                 // Check if pipeline has stages to update them
                 // If Count 1 stage this is the default one and will be updated
                 // If Count greater than 1 stage this is the default one plus other stages and will be updated
                 if (count($stages)) {
-                    (new StageUpdate)($pipeline, $stages);
+                    $this->stagesUpdatedAndDestroy($pipeline, $stages);
                 }
                 return $pipeline;
             });
@@ -43,6 +47,46 @@ class PipelineUpdate extends Controller
             $this->error(__('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
         } catch (\Exception $e) {
             $this->error(trans('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    protected function stagesUpdatedAndDestroy($pipeline, $stages)
+    {
+        $existingStagesIds = [];
+        $existingStages = [];
+        $newStagesArray = [];
+
+        foreach ($stages as $stage) {
+            // Check if the stage has id or not
+            // If not, create a new stage
+            // If has id, update the existing stage
+            if (isset($stage['id'])) {
+                $stage['pipeline_id'] = $pipeline->id;
+                $existingStages[] = $stage;
+                $existingStagesIds[] = $stage['id'];
+            } else {
+                if (!$stage['default']) {
+                    $newStagesArray[] = $stage;
+                }
+            }
+        }
+        // If has stages to update
+        if (count($existingStagesIds)) {
+            // Get the ids of the not existing stages
+            $stagesDeletedIds = Stage::wherePipelineId($pipeline->id)
+                ->whereNotIn('id', $existingStagesIds)
+                ->where('default', '!=', true)
+                ->pluck('id')
+                ->toArray();
+            // Update the existing stages
+            Stage::upsert($existingStages, ['id']);
+            // Delete the not existing stages
+            Stage::whereIn('id', $stagesDeletedIds)
+                ->delete();
+        }
+        // Create new stages if not empty
+        if (count($newStagesArray)) {
+            $pipeline->stages()->createMany($newStagesArray);
         }
     }
 }

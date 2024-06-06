@@ -279,7 +279,7 @@ class ItemsTest extends TestCase
             [
                 'name' => 'newitemname',
                 'label' => 'testitemlabel',
-                'code' => '5566678',
+                'code' => '55666781',
                 'barcode_type' => 1,
                 'category_id' => $categoryId,
                 'tax_type' => 1,

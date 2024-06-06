@@ -18,7 +18,8 @@ return [
   'expense_category'      => 'Expense Category',
   'settings'              => 'Settings',
 
-  'item'               => 'Item',
+  'item'                  => 'Item',
+  'variant'               => 'Variant',
   'purchase'              => 'Purchase',
   'purchase_return'       => 'Purchase Return',
   'sale'                  => 'Sale',

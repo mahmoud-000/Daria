@@ -3,51 +3,22 @@
 namespace Modules\Stage\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 use Modules\Stage\Models\Stage;
+use Modules\Stage\Http\Requests\UpdateStageRequest;
 
 class StageUpdate extends Controller
 {
-    public function __invoke($pipeline, $stages)
+    public function __invoke(UpdateStageRequest $request, Stage $stage)
     {
-        DB::transaction(function () use ($pipeline, $stages) {
-            $existingStagesIds = [];
-            $existingStages = [];
-            $newStagesArray = [];
-            
-            foreach ($stages as $stage) {
-                // Check if the stage has id or not
-                // If not, create a new stage
-                // If has id, update the existing stage
-                if (isset($stage['id'])) {
-                    $stage['pipeline_id'] = $pipeline->id;
-                    $existingStages[] = $stage;
-                    $existingStagesIds[] = $stage['id'];
-                } else {
-                    if (!$stage['default']) {
-                        $newStagesArray[] = $stage;
-                    }
-                }
-            }
-            // If has stages to update
-            if (count($existingStagesIds)) {
-                // Get the ids of the not existing stages
-                $stagesDeletedIds = Stage::wherePipelineId($pipeline->id)
-                    ->whereNotIn('id', $existingStagesIds)
-                    ->where('default', '!=', true)
-                    ->pluck('id')
-                    ->toArray();
-                // Update the existing stages
-                Stage::upsert($existingStages, ['id']);
-                // Delete the not existing stages
-                Stage::whereIn('id', $stagesDeletedIds)
-                    ->delete();
-            }
-            // Create new stages if not empty
-            $newStagesCreated = [];
-            if (count($newStagesArray)) {
-                $newStagesCreated = (new StageStore)($pipeline, $newStagesArray);
-            }
-        });
+        try {
+            $stage->update($request->validated());
+
+            return $this->success(__('status.updated', ['name' => $stage['name'], 'module' => __('modules.stage')]));
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->error(__('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            $this->error(trans('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

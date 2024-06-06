@@ -3,20 +3,22 @@
 namespace Modules\Variant\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Modules\Stock\Http\Controllers\StockDestroy;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Gate;
+use Modules\Variant\Models\Variant;
 
 class VariantDestroy extends Controller
 {
-    public function __invoke($item)
+    public function __invoke(Variant $variant)
     {
-        DB::transaction(function () use ($item) {
-            // Find Variant Ids to delete except the default one
-            $variantsIds = collect($item->variants)->where('default', '!=', true)->pluck('id')->toArray();
-            // Delete the stock for the variants
-            (new StockDestroy)($variantsIds);
-            // Delete the variants from the item
-            $item->variants()->whereIn('id', $variantsIds)->delete();
-        });
+        if (!auth()->user()->is_owner)  abort_if(Gate::denies('delete-variant'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
+        try {
+            $variant->delete();
+            return $this->success(__('status.deleted', ['name' => $variant->name, 'module' => __('modules.variant')]));
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->error(__('status.delete_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            return $this->error(__('status.delete_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

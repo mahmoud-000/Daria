@@ -14,9 +14,7 @@ class VariantResource extends JsonResource
             'code' => $this->code,
             'cost' => $this->cost,
             'price' => $this->price,
-            'color' => $this->color,
-            // 'default' => $this->default,
-       
+            'color' => $this->color
         ];
     }
 }

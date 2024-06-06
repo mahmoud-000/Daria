@@ -6,6 +6,8 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Branch\Models\Branch;
+use Modules\Company\Models\Company;
 use Modules\Department\Database\Factories\DepartmentFactory;
 
 class Department extends Model
@@ -31,6 +33,16 @@ class Department extends Model
     public static function searchable()
     {
         return ['name'];
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function parent()

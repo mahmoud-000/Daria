@@ -17,6 +17,7 @@ class StoreStageRequest extends FormRequest
             'complete' => ['required', 'numeric', 'min:0', 'max:100'],
             'color'    => ['required', 'string', new WithOutSpaces],
             'default'  => ['sometimes', 'boolean'],
+            'pipeline_id'       => ['required', 'integer'],
         ];
     }
 

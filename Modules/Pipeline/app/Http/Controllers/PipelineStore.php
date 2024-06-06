@@ -20,7 +20,7 @@ class PipelineStore extends Controller
                 $stages = $request['stages'];
                 $pipeline = Pipeline::create(Arr::except($request, ['stages']));
                 if (isset($stages) && count($stages)) {
-                    (new StageStore)($pipeline, $stages);
+                    $pipeline->stages()->createMany($stages);
                 }
                 return $pipeline;
             });

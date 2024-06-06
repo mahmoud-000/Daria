@@ -2,11 +2,11 @@
 
 namespace Modules\Variant\Http\Requests;
 
+use App\Rules\WithOutSpaces;
 use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class StoreVariantRequest extends FormRequest
 {
@@ -14,7 +14,12 @@ class StoreVariantRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'       => ['required', 'string', 'min:3', 'max:100'],
+            'code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')],
+            'cost'       => ['required', 'numeric', 'min:0'],
+            'price'      => ['required', 'numeric', 'min:0'],
+            'color'      => ['required', 'string', new WithOutSpaces],
+            'item_id'       => ['required', 'integer'],
         ];
     }
 

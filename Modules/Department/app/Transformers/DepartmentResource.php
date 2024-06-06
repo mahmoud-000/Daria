@@ -3,7 +3,8 @@
 namespace Modules\Department\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Upload\Transformers\UploadResource;
+use Modules\Branch\Transformers\BranchResource;
+use Modules\Company\Transformers\CompanyResource;
 
 class DepartmentResource extends JsonResource
 {
@@ -14,11 +15,12 @@ class DepartmentResource extends JsonResource
             'name' => $this->name,
             'department_id' => $this->department_id,
             'department' => $this->whenLoaded('parent') ? DepartmentResource::make($this->whenLoaded('parent')): null,
+            'company_id' => $this->company_id,
+            'company' => $this->whenLoaded('company') ? CompanyResource::make($this->whenLoaded('company')): null,
+            'branch_id' => $this->branch_id,
+            'branch' => $this->whenLoaded('branch') ? BranchResource::make($this->whenLoaded('branch')): null,
             'remarks' => $this->remarks ?? '',
-            'is_active' => $this->is_active,
-            'logo' => $this->whenLoaded('media') && $this->media_count
-                ? (new UploadResource($this->getFirstMedia('departments')))->additional(['conversion' => 'logo'])
-                : config('upload.default_image'),
+            'is_active' => $this->is_active
         ];
     }
 }

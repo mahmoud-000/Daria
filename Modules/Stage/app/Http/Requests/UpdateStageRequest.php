@@ -13,11 +13,11 @@ class UpdateStageRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'max:100'],
-            'complete' => ['required', 'numeric', 'min:0','max:100'],
+            'name'     => ['required', 'string', 'min:3', 'max:100'],
+            'complete' => ['required', 'numeric', 'min:0', 'max:100'],
             'color'    => ['required', 'string', new WithOutSpaces],
             'default'  => ['sometimes', 'boolean'],
-            'id'       => ['sometimes', 'nullable', 'numeric'],
+            'pipeline_id'       => ['required', 'integer'],
         ];
     }
 

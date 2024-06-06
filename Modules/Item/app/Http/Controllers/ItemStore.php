@@ -11,7 +11,6 @@ use Modules\Item\Models\Item;
 use Modules\Item\Http\Requests\StoreItemRequest;
 use Modules\Stock\Http\Controllers\StockStore;
 use Modules\Upload\Http\Controllers\FilesAssign;
-use Modules\Variant\Http\Controllers\VariantStore;
 
 class ItemStore extends Controller
 {
@@ -30,7 +29,7 @@ class ItemStore extends Controller
                 $newVariants = [];
                 // Check if item has variants
                 if ($request['type'] === ItemTypesEnum::VARIABLE->value && count($variants)) {;
-                    $newVariants = (new VariantStore)($item, $variants);
+                    $newVariants = $item->variants()->createMany($variants);
                 }
 
                 (new StockStore)($item, $newVariants);
