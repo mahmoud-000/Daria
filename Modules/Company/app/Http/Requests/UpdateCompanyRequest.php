@@ -27,9 +27,9 @@ class UpdateCompanyRequest extends FormRequest
             'branches.*.state' => ['string', 'nullable'],
             'branches.*.zip' => ['string', 'nullable'],
             'branches.*.address' => ['string', 'nullable'],
-            'branches.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->whereNull('deleted_at')->ignore($this->company->id, 'company_id')],
-            'branches.*.phone' => ['sometimes', 'nullable', 'string'],
-            'branches.*.mobile' => ['sometimes', 'nullable', 'string'],
+            'branches.*.email' => ['distinct', 'sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->whereNull('deleted_at')->ignore($this->company->id, 'company_id')],
+            'branches.*.phone' => ['distinct', 'sometimes', 'nullable', 'string'],
+            'branches.*.mobile' => ['distinct', 'sometimes', 'nullable', 'string'],
 
             'logo' => ['sometimes', 'array', 'nullable'],
         ];

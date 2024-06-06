@@ -133,7 +133,7 @@ class CompaniesTest extends TestCase
                 'branches' => $allBranches
             ]
         )->json();
-      
+           
         $this->assertDatabaseCount('companies', 1);
         $this->assertDatabaseHas('companies', [
             'name' => 'newcompanyname'

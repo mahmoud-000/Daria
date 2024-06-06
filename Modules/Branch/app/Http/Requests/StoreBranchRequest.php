@@ -2,10 +2,10 @@
 
 namespace Modules\Branch\Http\Requests;
 
-use App\Rules\WithOutSpaces;
 use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class StoreBranchRequest extends FormRequest
 {
@@ -13,10 +13,18 @@ class StoreBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'min:3', 'max:100'],
-            'complete' => ['required', 'numeric', 'min:0', 'max:100'],
-            'color'    => ['required', 'string', new WithOutSpaces],
-            'default'  => ['sometimes', 'boolean'],
+            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')],
+            'is_main'  => ['required', 'boolean'],
+            'is_active'  => ['required', 'boolean'],
+            'country' => ['sometimes', 'string', 'nullable'],
+            'city' => ['sometimes', 'string', 'nullable'],
+            'state' => ['sometimes', 'string', 'nullable'],
+            'zip' => ['sometimes', 'string', 'nullable'],
+            'address' => ['sometimes', 'string', 'nullable'],
+            'email' => ['sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->whereNull('deleted_at')],
+            'phone' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'phone')->whereNull('deleted_at')],
+            'mobile' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'mobile')->whereNull('deleted_at')],
+            'company_id'       => ['required', 'integer'],
         ];
     }
 

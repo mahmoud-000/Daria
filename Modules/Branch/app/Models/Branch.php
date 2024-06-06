@@ -6,8 +6,8 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Pipeline\Models\Pipeline;
 use Modules\Branch\Database\Factories\BranchFactory;
+use Modules\Company\Models\Company;
 
 class Branch extends Model
 {
@@ -33,9 +33,9 @@ class Branch extends Model
         'is_main'           => 'boolean',
     ];
 
-    public function pipeline()
+    public function company()
     {
-        return $this->belongsTo(Pipeline::class, 'pipeline_id');
+        return $this->belongsTo(Company::class);
     }
 
     public static function searchable()

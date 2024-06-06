@@ -12,7 +12,6 @@ class StageStore extends Controller
     public function __invoke(StoreStageRequest $request)
     {
         try {
-
             $stage = Stage::create($request->validated());
 
             return $this->success(__('status.created', ['name' => $stage['name'], 'module' => __('modules.stage')]));

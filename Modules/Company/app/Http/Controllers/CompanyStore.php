@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Modules\Company\Models\Company;
 use Modules\Company\Http\Requests\StoreCompanyRequest;
-use Modules\Branch\Http\Controllers\BranchStore;
 
 class CompanyStore extends Controller
 {
@@ -20,8 +19,9 @@ class CompanyStore extends Controller
             $company = DB::transaction(function () use ($request) {
                 $branches = $request['branches'];
                 $company = Company::create(Arr::except($request, ['logo', 'branches']));
+
                 if (isset($branches) && count($branches)) {
-                    (new BranchStore)($company, $branches);
+                    $company->branches()->createMany($branches);
                 }
 
                 if (isset($request['logo']) && !is_null($request['logo']) && !array_key_exists('fake', $request['logo'])) {

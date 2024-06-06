@@ -3,55 +3,22 @@
 namespace Modules\Branch\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 use Modules\Branch\Models\Branch;
+use Modules\Branch\Http\Requests\UpdateBranchRequest;
 
 class BranchUpdate extends Controller
 {
-    public function __invoke($company, $branches)
+    public function __invoke(UpdateBranchRequest $request, Branch $branch)
     {
-        // dd($branches);
-        DB::transaction(function () use ($company, $branches) {
-            $existingBranchesIds = [];
-            $existingBranches = [];
-            $newBranchesArray = [];
-           
-            foreach ($branches as $branch) {
-                // Check if the branch has id or not
-                // If not, create a new branch
-                // If has id, update the existing branch
-                if (isset($branch['id'])) {
-                    $branch['company_id'] = $company->id;
-                    $existingBranches[] = $branch;
-                    $existingBranchesIds[] = $branch['id'];
-                } else {
-                    if (!$branch['is_main']) {
-                        $newBranchesArray[] = $branch;
-                    }
-                }
-            }
-            
-            // If has branches to update
-            if (count($existingBranchesIds)) {
-                // Get the ids of the not existing branches
-                $branchesDeletedIds = Branch::whereCompanyId($company->id)
-                    ->whereNotIn('id', $existingBranchesIds)
-                    ->where('is_main', '!=', true)
-                    ->pluck('id')
-                    ->toArray();
-                
-                // Update the existing branches
-                Branch::upsert($existingBranches, ['id']);
-                // Delete the not existing branches
-                Branch::whereIn('id', $branchesDeletedIds)
-                    ->delete();
-            }
-            // Create new branches if not empty
-            $newBranchesCreated = [];
-            
-            if (count($newBranchesArray)) {
-                $newBranchesCreated = (new BranchStore)($company, $newBranchesArray);
-            }
-        });
+        try {
+            $branch->update($request->validated());
+
+            return $this->success(__('status.updated', ['name' => $branch['name'], 'module' => __('modules.branch')]));
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->error(__('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            $this->error(trans('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
