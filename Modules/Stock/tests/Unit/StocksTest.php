@@ -31,7 +31,7 @@ class StocksTest extends TestCase
             'invoice_type' => 'purchase',
             'not_include' => [3]
         ]))->json();
-        
+
         $this->assertDatabaseCount('stock', 6);
         $this->assertDatabaseHas('stock', [
             'warehouse_id' => $warehouse1Id,
@@ -143,10 +143,10 @@ class StocksTest extends TestCase
             'invoice_type' => 'purchase',
             'not_include' => [3]
         ]))->json();
-        
+
         $this->assertDatabaseCount('stock', 6);
         $this->assertDatabaseCount('items', 3);
-       
+
         $this->assertEquals(1, count($res['data']));
         $this->assertEquals(1, $res['meta']['total']);
 
@@ -167,10 +167,10 @@ class StocksTest extends TestCase
             'invoice_type' => 'purchase',
             'not_include' => [3]
         ]))->json();
-        
+
         $this->assertDatabaseCount('stock', 6);
         $this->assertDatabaseCount('items', 3);
-       
+
         $this->assertEquals(0, count($res['data']));
         $this->assertEquals(0, $res['meta']['total']);
     }

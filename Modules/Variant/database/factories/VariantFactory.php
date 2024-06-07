@@ -20,7 +20,7 @@ class VariantFactory extends Factory
             'code' => $this->faker->randomNumber(8),
             'color' => $this->faker->hexColor(),
             'item_id' => $this->faker->randomElement($itemIds),
-            // 'default' => true,
+            'is_active' => true,
         ];
     }
 }

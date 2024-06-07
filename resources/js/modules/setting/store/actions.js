@@ -17,7 +17,7 @@ export const fetchSystemSettings = ({ commit }) => {
         })
             .catch(error => {
                 commit('SET_LOADING', false, { root: true })
-                fireErrorNotify(error) 
+                fireErrorNotify(error, error.response.data.payload) 
                 reject(error);
             });
     })
@@ -35,7 +35,7 @@ export const createOrUpdate = ({ commit }, setting) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })

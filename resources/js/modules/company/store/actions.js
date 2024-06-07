@@ -45,7 +45,7 @@ export const createCompany = async ({ dispatch }, company) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updateCompany = async ({ dispatch }, company) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyCompany = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyCompanies = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -108,9 +108,9 @@ export const importCsv = async ({ commit }, companies) => {
     })
 };
 
-export const fetchOptions = ({ commit }) => {
+export const fetchOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        CompanyModel.options().then(res => {
+        CompanyModel.options(query).then(res => {
             commit('SET_OPTIONS', res.data)
             resolve(res);
         })
@@ -135,7 +135,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })

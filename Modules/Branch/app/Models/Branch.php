@@ -25,6 +25,7 @@ class Branch extends Model
         'mobile',
         'is_active',
         'is_main',
+        'remarks',
         'company_id',
     ];
 

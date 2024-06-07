@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->boolean('is_active')->nullable()->default(0);
             $table->boolean('is_main')->nullable()->default(0);
+            $table->text('remarks')->nullable();
             $table->foreignId('company_id')->constrained();
             
             $table->softDeletes();

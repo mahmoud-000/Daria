@@ -13,7 +13,7 @@ class PipelineFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'module_name' => $this->faker->randomElement(['purchase', 'purchase_return', 'sale', 'sale_return']),
+            'app_name' => $this->faker->randomElement(['purchase', 'purchase_return', 'sale', 'sale_return']),
             'is_active' => true,
             'remarks'  => $this->faker->paragraph(),
         ];

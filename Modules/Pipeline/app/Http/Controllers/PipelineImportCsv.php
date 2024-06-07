@@ -32,7 +32,7 @@ class PipelineImportCsv extends Controller
                 $validator = Validator::make($pipeline, [
                     'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('pipelines', 'name')->whereNull('deleted_at')],
                     'color'         => ['required', 'string', new WithOutSpaces],
-                    'is_active'     => ['nullable', 'boolean'],
+                    'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],
                 ]);
 

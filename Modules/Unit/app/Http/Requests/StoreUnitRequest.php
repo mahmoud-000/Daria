@@ -24,7 +24,7 @@ class StoreUnitRequest extends FormRequest
                 'sometimes', 'numeric', 'nullable',
                 Rule::requiredIf(!!$this->unit_id)
             ],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
         ];
     }

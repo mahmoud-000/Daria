@@ -168,7 +168,7 @@ abstract class TestCase extends BaseTestCase
         return Item::factory()->create($args);
     }
 
-    public function createInitItem($type = ItemTypesEnum::STANDARD, $unit = 'kg', $cost = 10, $price = 20, $tax = 10, $taxType = 1, $productType = 1, $warehouse1Id = null, $warehouse2Id = null)
+    public function createInitItem($type = ItemTypesEnum::STANDARD, $unit = 'kg', $cost = 10, $price = 20, $tax = 10, $taxType = 1, $productType = 1, $warehouse1Id = null, $warehouse2Id = null, $isActiveVariant = true)
     {
         $warehouse1Id = $warehouse1Id ?? $this->createWarehouse()->id;
         $warehouse2Id = $warehouse2Id ?? $this->createWarehouse()->id;
@@ -188,7 +188,7 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         if ($type === ItemTypesEnum::VARIABLE) {
-            $item->variants()->create($this->createVariant(['cost' => $cost, 'price' => $price])->toArray());
+            $item->variants()->create($this->createVariant(['cost' => $cost, 'price' => $price, 'is_active' => $isActiveVariant])->toArray());
         }
 
         // Warehouse 1

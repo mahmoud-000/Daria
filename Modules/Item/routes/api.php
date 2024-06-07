@@ -8,9 +8,11 @@ use Modules\Item\Http\Controllers\ItemsList;
 use Modules\Item\Http\Controllers\ItemStore;
 use Modules\Item\Http\Controllers\ItemUpdate;
 use Modules\Item\Http\Controllers\ItemFormOptions;
+use Modules\Item\Http\Controllers\ItemOptions;
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
-    Route::get('/items/options', ItemFormOptions::class)->name('items.options');
+    Route::get('/items/options', ItemOptions::class)->name('items.options');
+    Route::get('/items/form_options', ItemFormOptions::class)->name('items.form_options');
     Route::get('/items', ItemsList::class)->name('items.index');
     Route::post('/items', ItemStore::class)->name('items.store');
     Route::put('/items/{item}', ItemUpdate::class)->name('items.update');

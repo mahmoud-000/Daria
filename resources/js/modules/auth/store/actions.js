@@ -24,7 +24,7 @@ export const loginAction = ({ commit }, userInfo) => {
           commit("SET_LOGIN_USER", response.payload.user);
           commit("SET_TOKEN", response.payload.token);
           commit("SET_PERMISSIONS", response.payload.permissions);
-          fireSuccessNotify(response, response.payload.message)
+          fireSuccessNotify(response, response.payload?.message)
           router.push(
             urlParams.get("redirect") || { name: "dashboard" }
           );
@@ -52,7 +52,7 @@ export const logoutAction = ({ commit }) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload.message)
+        fireErrorNotify(error, error.response?.data.payload?.message)
         commit("REMOVE_AUTH_DETAILS");
         router.push({ name: "login" });
         reject(error);
@@ -138,7 +138,7 @@ export const updateProfileUser = ({ commit }, profile) => {
       resolve(res);
     })
       .catch(error => {
-        fireErrorNotify(error)
+        fireErrorNotify(error, error.response.data.payload)
         reject(error);
       });
   })
@@ -153,7 +153,7 @@ export const updateProfileCustomer = ({ commit }, profile) => {
       resolve(res);
     })
       .catch(error => {
-        fireErrorNotify(error)
+        fireErrorNotify(error, error.response.data.payload)
         reject(error);
       });
   })

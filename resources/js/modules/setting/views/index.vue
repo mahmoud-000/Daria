@@ -16,6 +16,7 @@ const settings = computed(() =>
             "unit.list",
             "warehouse.list",
             "pipeline.list",
+            "stage.list",
         ].includes(r.name)
     )
 );

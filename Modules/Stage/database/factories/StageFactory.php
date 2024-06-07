@@ -16,7 +16,8 @@ class StageFactory extends Factory
             'color' => $this->faker->hexColor(),
             'complete' => $this->faker->numberBetween(10, 90),
             'pipeline_id' => null,
-            'default' => false,
+            'is_default' => false,
+            'is_active' => true,
         ];
     }
 }

@@ -16,7 +16,7 @@ export default {
       active: 'Active',
       not_active: 'Not Active',
     },
-    module_names: {
+    app_names: {
       purchase: 'Purchase',
       purchase_return: 'Purchase Return',
       sale: 'Sale',

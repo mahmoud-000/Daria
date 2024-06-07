@@ -64,14 +64,15 @@ export const variant = reactive({
     cost: 0,
     price: 0,
     color: "#FFFFFF",
-    // default: false,
+    is_active: 0
 });
 
 export const stage = reactive({
     name: "",
     color: "#000000",
     complete: 0,
-    default: false
+    is_default: false,
+    is_active: 0
 });
 
 export const operators = reactive([
@@ -80,10 +81,10 @@ export const operators = reactive([
 ]);
 
 export const moduleNames = reactive([
-    { value: 'purchase', label: t("select.module_names.purchase") },
-    { value: 'purchase_return', label: t("select.module_names.purchase_return") },
-    { value: 'sale', label: t("select.module_names.sale") },
-    { value: 'sale_return', label: t("select.module_names.sale_return") },
+    { value: 'purchase', label: t("select.app_names.purchase") },
+    { value: 'purchase_return', label: t("select.app_names.purchase_return") },
+    { value: 'sale', label: t("select.app_names.sale") },
+    { value: 'sale_return', label: t("select.app_names.sale_return") },
 ]);
 
 export const branch = reactive({

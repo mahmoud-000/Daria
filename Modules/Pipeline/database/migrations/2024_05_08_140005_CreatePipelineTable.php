@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('pipelines', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('module_name', 100);
-            $table->boolean('is_active')->nullable()->default(0);
+            $table->string('app_name', 100);
+            $table->boolean('is_active')->nullable()->is_default(0);
             $table->text('remarks')->nullable();
 
             $table->softDeletes();

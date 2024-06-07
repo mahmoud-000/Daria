@@ -360,7 +360,7 @@ onMounted(() => {
                                 </q-item-section>
                                 <q-item-section side>
                                     <q-item-label caption>
-                                        <q-td>
+                                        <q-td class="text-center" :props="props">
                                             <q-avatar size="md">
                                                 <q-img :src="col.value" />
                                             </q-avatar>
@@ -425,9 +425,9 @@ onMounted(() => {
 
         <!-- Is Active Badge -->
         <template #body-cell-is_active="props">
-            <q-td :props="props">
+            <q-td class="text-center" :props="props">
                 <q-badge
-                    :color="props.row.is_active === 1 ? 'positive' : 'negative'"
+                    :color="props.row.is_active ? 'positive' : 'negative'"
                     class="q-ma-none"
                     >{{ props.value }}</q-badge
                 >
@@ -435,7 +435,7 @@ onMounted(() => {
         </template>
 
         <template #body-cell-actions="props">
-            <q-td :props="props">
+            <q-td class="text-center" :props="props">
                 <BaseBtn
                     glossy
                     round

@@ -21,28 +21,28 @@ const config = reactive({
             <BaseTable :config="config" :columns="columns">
                 <!-- Paid Amount -->
                 <template #body-cell-paid_amount="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         {{ numberFormatWithCurrency(props.value) }}
                     </q-td>
                 </template>
 
                 <!-- Grand Total -->
                 <template #body-cell-grand_total="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         {{ numberFormatWithCurrency(props.value) }}
                     </q-td>
                 </template>
 
                 <!-- Due -->
                 <template #body-cell-due="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         {{ numberFormatWithCurrency(props.value) }}
                     </q-td>
                 </template>
 
                 <!-- Payment Status -->
                 <template #body-cell-payment_status="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge
                             outline
                             v-if="props.row.payment_status === 1"

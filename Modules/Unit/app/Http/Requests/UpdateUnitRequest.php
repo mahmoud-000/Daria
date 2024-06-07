@@ -24,22 +24,13 @@ class UpdateUnitRequest extends FormRequest
                 'sometimes', 'numeric', 'nullable',
                 Rule::requiredIf(!!$this->unit_id)
             ],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['required', 'boolean'],
             'remarks'      => ['string', 'nullable', 'max:255']
         ];
     }
 
     public function authorize()
     {
-        return auth()->user()->is_owner || Gate::allows('edit-user');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
+        return auth()->user()->is_owner || Gate::allows('edit-unit');
     }
 }

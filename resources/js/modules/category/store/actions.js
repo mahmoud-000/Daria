@@ -45,7 +45,7 @@ export const createCategory = async ({ dispatch }, category) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updateCategory = async ({ dispatch }, category) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyCategory = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyCategories = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -136,7 +136,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })

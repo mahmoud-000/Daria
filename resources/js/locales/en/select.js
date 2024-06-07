@@ -16,7 +16,7 @@ export default {
       active: 'Active',
       not_active: 'Not Active',
     },
-    module_names: {
+    app_names: {
       purchase: 'Purchase',
       purchase_return: 'Purchase Return',
       sale: 'Sale',
@@ -55,6 +55,15 @@ export default {
       paid: "Paid",
       unpaid: "Unpaid",
       partial: "Partial",
+    },
+    branch: {
+      main: "Main",
+      not_main: "Not Main",
+    },
+
+    stage: {
+      default: "Default",
+      not_default: "Not Default",
     },
   }
 }

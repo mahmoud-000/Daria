@@ -16,22 +16,15 @@ class UpdateStageRequest extends FormRequest
             'name'     => ['required', 'string', 'min:3', 'max:100'],
             'complete' => ['required', 'numeric', 'min:0', 'max:100'],
             'color'    => ['required', 'string', new WithOutSpaces],
-            'default'  => ['sometimes', 'boolean'],
+            'is_default'  => ['sometimes', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'pipeline_id'       => ['required', 'integer'],
+            'remarks'       => ['string', 'nullable'],
         ];
     }
 
     public function authorize()
     {
         return auth()->user()->is_owner || Gate::allows('edit-stage');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
     }
 }

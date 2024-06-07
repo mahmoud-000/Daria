@@ -29,7 +29,7 @@ class BrandImportCsv extends Controller
             foreach ($brandsArray as $brand) {
                 $validator = Validator::make($brand, [
                     'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('brands', 'name')->whereNull('deleted_at')],
-                    'is_active'     => ['nullable', 'boolean'],
+                    'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],
                 ]);
 

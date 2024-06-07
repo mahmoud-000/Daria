@@ -41,7 +41,7 @@ export const createSupplier = async (_, supplier) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -55,7 +55,7 @@ export const updateSupplier = async (_, supplier) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -69,7 +69,7 @@ export const destroySupplier = (_, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -83,7 +83,7 @@ export const bulkDestroySuppliers = (_, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -112,7 +112,7 @@ export const register = async (_, supplier) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })

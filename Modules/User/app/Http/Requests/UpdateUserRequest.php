@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'gender'        => ['nullable', 'integer'],
             'date_of_birth' => ['nullable', 'string'],
             'date_of_joining' => ['nullable', 'string'],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
 
             'send_notify'    => ['sometimes', 'boolean'],

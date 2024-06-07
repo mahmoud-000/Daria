@@ -36,7 +36,7 @@ class StagesTest extends TestCase
             'name' => 'teststagename',
             'color' => '#000000',
             'complete' => 33,
-            'default' => false,
+            'is_default' => false,
             'pipeline_id' => $pipelineId,
         ])->json();
 
@@ -56,7 +56,7 @@ class StagesTest extends TestCase
                 'name' => 'newstagename',
                 'color' => '#ffffff',
                 'complete' => 66,
-                'default' => false,
+                'is_default' => false,
                 'pipeline_id' => $this->stage->pipeline_id,
             ]
         )->json();

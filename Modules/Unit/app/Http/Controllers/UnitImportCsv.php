@@ -44,7 +44,7 @@ class UnitImportCsv extends Controller
                         'sometimes', 'integer', 'nullable',
                         Rule::requiredIf($unit['unit_id'])
                     ],
-                    'is_active'     => ['nullable', 'boolean'],
+                    'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],
                 ]);
 

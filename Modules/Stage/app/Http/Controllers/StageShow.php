@@ -13,6 +13,6 @@ class StageShow extends Controller
     public function __invoke(Stage $stage)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-stage'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return StageResource::make($stage);
+        return StageResource::make($stage->load('pipeine'));
     }
 }

@@ -14,7 +14,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('departments', 'name')->whereNull('deleted_at')->ignore($this->id)],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'department_id'       => ['sometimes', 'integer', 'nullable'],
             'remarks'       => ['string', 'nullable']
         ];

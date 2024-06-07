@@ -19,14 +19,14 @@ const config = reactive({
         <template #default>
             <BaseTable :config="config" :columns="columns">
                 <template #body-cell-logo="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-avatar size="md">
                             <q-img :src="props.value" />
                         </q-avatar>
                     </q-td>
                 </template>
                 <template #body-cell-parent="props">
-                    <q-td>
+                    <q-td class="text-center" :props="props">
                         <q-list dense dark>
                             <q-item>
                                 <q-item-section>

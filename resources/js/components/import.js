@@ -83,6 +83,14 @@ export const CurrencyInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/CurrencyInput.vue")
 );
 
+export const CompanyInput = defineAsyncComponent(() =>
+    import("../components/Form/Inputs/CompanyInput.vue")
+);
+
+export const ItemInput = defineAsyncComponent(() =>
+    import("../components/Form/Inputs/ItemInput.vue")
+);
+
 export const CategoryInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/CategoryInput.vue")
 );

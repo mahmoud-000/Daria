@@ -14,7 +14,7 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->whereNull('deleted_at')->ignore($this->company)],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
 
             'branches'            => ['required', 'array', 'present'],

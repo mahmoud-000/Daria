@@ -24,7 +24,7 @@ class StoreWarehouseRequest extends FormRequest
             'zip' => ['string', 'nullable'],
             'first_address' => ['string', 'nullable'],
             'second_address' => ['string', 'nullable'],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
             'logo'          => ['sometimes', 'array', 'nullable'],
         ];

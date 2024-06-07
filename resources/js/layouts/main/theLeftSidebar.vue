@@ -33,6 +33,7 @@ const navigation = computed(() =>
             "people.list",
             "organization.list",
             "item.list",
+            "variant.list",
             "invoice.list",
             "setting.list",
         ].includes(r.name)

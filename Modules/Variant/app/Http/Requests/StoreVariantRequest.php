@@ -19,7 +19,9 @@ class StoreVariantRequest extends FormRequest
             'cost'       => ['required', 'numeric', 'min:0'],
             'price'      => ['required', 'numeric', 'min:0'],
             'color'      => ['required', 'string', new WithOutSpaces],
+            'is_active'     => ['required', 'boolean'],
             'item_id'       => ['required', 'integer'],
+            'remarks'       => ['string', 'nullable'],
         ];
     }
 

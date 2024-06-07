@@ -41,7 +41,7 @@ export const createRole = async ({ dispatch }, role) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -55,7 +55,7 @@ export const updateRole = async ({ dispatch }, role) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -69,7 +69,7 @@ export const destroyRole = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -83,7 +83,7 @@ export const bulkDestroyRoles = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -104,9 +104,9 @@ export const importCsv = async ({ commit }, roles) => {
     })
 };
 
-export const fetchOptions = ({ commit }) => {
+export const fetchOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        RoleModel.options().then(res => {
+        RoleModel.options(query).then(res => {
             commit('SET_OPTIONS', res.data)
             resolve(res);
         })

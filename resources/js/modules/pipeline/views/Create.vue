@@ -5,7 +5,7 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const formData = reactive({
     name: "",
-    module_name: null,
+    app_name: null,
     is_active: 0,
     stages: [
         {

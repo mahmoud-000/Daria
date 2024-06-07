@@ -14,8 +14,9 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->float('cost', 10, 0)->nullable()->default(0);
             $table->float('price', 10, 0)->nullable()->default(0);
-            // $table->boolean('default')->default(0)->nullable();
             $table->string('color')->nullable();
+            $table->boolean('is_active')->nullable()->default(0);
+            $table->text('remarks')->nullable();
             $table->foreignId('item_id')->constrained();
             $table->softDeletes();
             $table->timestamp('created_at')->useCurrent();

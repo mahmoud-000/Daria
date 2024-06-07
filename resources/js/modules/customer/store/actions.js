@@ -41,7 +41,7 @@ export const createCustomer = async (_, customer) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -55,7 +55,7 @@ export const updateCustomer = async (_, customer) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -69,7 +69,7 @@ export const destroyCustomer = (_, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -83,7 +83,7 @@ export const bulkDestroyCustomers = (_, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -112,15 +112,15 @@ export const register = async (_, customer) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
 };
 
-export const fetchOptions = ({ commit }) => {
+export const fetchOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        CustomerModel.options().then(res => {
+        CustomerModel.options(query).then(res => {
             commit('SET_OPTIONS', res.data)
             resolve(res);
         })

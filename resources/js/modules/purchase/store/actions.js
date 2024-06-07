@@ -73,7 +73,7 @@ export const destroyPurchase = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyPurchases = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -123,15 +123,15 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
 };
 
-export const fetchFormOptions = ({ commit }) => {
+export const fetchFormOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        PurchaseModel.options().then(res => {
+        PurchaseModel.formOptions(query).then(res => {
             commit('supplier/SET_OPTIONS', res.suppliers, { root: true})
             commit('delegate/SET_OPTIONS', res.delegates, { root: true})
             commit('warehouse/SET_OPTIONS', res.warehouses, { root: true})

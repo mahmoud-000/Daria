@@ -10,10 +10,14 @@ class StageResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'pipeline_id' => $this->pipeline_id,
+            'pipeline' => $this->whenLoaded('pipeline') ? $this->whenLoaded('pipeline') : null,
             'name' => $this->name,
             'complete' => $this->complete,
             'color' => $this->color,
-            'default' => $this->default,
+            'is_default' => $this->is_default,
+            'is_active' => $this->is_active,
+            'remarks' => $this->remarks ?? '',
         ];
     }
 }

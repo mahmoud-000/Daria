@@ -36,7 +36,7 @@ export const createPermission = async ({ dispatch }, permission) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -50,7 +50,7 @@ export const updatePermission = async ({ dispatch }, permission) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -64,15 +64,15 @@ export const destroyPermission = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
 };
 
-export const fetchOptions = ({ commit }) => {
+export const fetchOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        PermissionModel.options().then(res => {
+        PermissionModel.options(query).then(res => {
             commit('SET_OPTIONS', res)
             resolve(res);
         })

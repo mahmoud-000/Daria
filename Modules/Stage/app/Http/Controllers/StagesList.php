@@ -15,8 +15,12 @@ class StagesList extends Controller
     {
         if (!auth()->user()->is_owner)  abort_if(!Gate::any(['list-stage', auth()->user()->is_owner]), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
-        return StageResource::collection(Stage::search($req->filter)
-        ->orderBy($req->sortBy, $dir)
-        ->paginate($req->rowsPerPage));
+        return StageResource::collection(
+            Stage::query()
+                ->with(['pipeline:id,name'])
+                ->search($req->filter)
+                ->orderBy($req->sortBy, $dir)
+                ->paginate($req->rowsPerPage)
+            );
     }
 }

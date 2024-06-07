@@ -21,7 +21,7 @@ const config = reactive({
             <BaseTable :config="config" :columns="columns">
                 <!-- Avatar -->
                 <template #body-cell-avatar="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-avatar size="md">
                             <q-img :src="props.value" />
                         </q-avatar>
@@ -30,7 +30,7 @@ const config = reactive({
 
                 <!-- UserName -->
                 <template #body-cell-username="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>

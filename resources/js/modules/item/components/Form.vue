@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, toRefs, watch } from "vue";
 import useVuelidate from "@vuelidate/core";
+import { helpers } from "@vuelidate/validators";
 import {
     required,
     requiredIf,
@@ -96,6 +97,20 @@ const rules = computed(() => ({
     type: { required },
     product_type: { required },
     is_active: { required },
+    variants: {
+        $each: helpers.forEach({
+            name: {
+                required,
+                minLength: minLength(3),
+                maxLength: maxLength(100),
+            },
+            cost: { required, minValue: minValue(0) },
+            price: { required, minValue: minValue(0) },
+            code: { required, minLength: minLength(8) },
+            color: { required },
+            is_active: { required },
+        }),
+    },
 }));
 
 const $v = useVuelidate(rules, formData);
@@ -498,6 +513,7 @@ watch(
                 <!-- Variants -->
                 <CardVariants
                     :form-data="formData"
+                    :v="$v"
                     v-if="[VARIABLE].includes(formData.type)"
                 />
 

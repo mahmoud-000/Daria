@@ -19,5 +19,6 @@ return [
     'has_effect' => "This :name has effect type with another Pipeline",
     're_assign_error' => "Re assign Failed With Server Error",
     'bulk_re_assign_success' => "Bulk leads re assign successfully",
-    'details_dublicate_error' => "Details Contain duplicate values with same Production Date and Expired Date with same item",
+    'details_dublicate_error' => "Details Contain duplicate values with same Production Date and Expired Date with same item.",
+    'delete_main_branch_error' => "Main Branch not able to delete."
 ];

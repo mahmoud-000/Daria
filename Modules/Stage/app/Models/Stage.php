@@ -18,11 +18,14 @@ class Stage extends Model
         'color',
         'complete',
         'pipeline_id',
-        'default',
+        'is_default',
+        'is_active',
+        'remarks',
     ];
 
     protected $casts = [
-        'default'         => 'boolean',
+        'is_active'         => \App\Enums\ActiveEnum::class,
+        'is_default'         => 'boolean',
     ];
 
     public function pipeline()

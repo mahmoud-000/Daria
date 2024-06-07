@@ -34,6 +34,7 @@ class PermissionDatabaseSeeder extends Seeder
             'sales channel' => 'sales channels',
             'lead' => 'leads',
             'stage' => 'stages',
+            'variant' => 'variants',
             'role' => 'roles',
         ];
 

@@ -24,7 +24,7 @@ class UpdateWarehouseRequest extends FormRequest
             'zip' => ['string', 'nullable'],
             'first_address' => ['string', 'nullable'],
             'second_address' => ['string', 'nullable'],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['required', 'boolean'],
             'remarks'      => ['string', 'nullable', 'max:255'],
             'logo'         => ['sometimes', 'array', 'nullable'],
         ];
@@ -32,15 +32,6 @@ class UpdateWarehouseRequest extends FormRequest
 
     public function authorize()
     {
-        return auth()->user()->is_owner || Gate::allows('edit-user');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
+        return auth()->user()->is_owner || Gate::allows('edit-warehouse');
     }
 }

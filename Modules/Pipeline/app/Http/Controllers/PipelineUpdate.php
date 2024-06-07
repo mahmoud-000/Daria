@@ -25,18 +25,18 @@ class PipelineUpdate extends Controller
                 $stages = $request['stages'];
 
                 // ================================================
-                // Check if pipeline has just default stage
+                // Check if pipeline has just is_default stage
                 // Then Delete the other stages with stock
                 if (count($stages) === 2) {
-                    // Find Stage Ids to delete except the default one
-                    $stagesIds = collect($pipeline->stages)->where('default', '!=', true)->pluck('id')->toArray();
+                    // Find Stage Ids to delete except the is_default one
+                    $stagesIds = collect($pipeline->stages)->where('is_default', '!=', true)->pluck('id')->toArray();
 
                     $pipeline->stages()->whereIn('id', $stagesIds)->delete();
                 }
                 // ================================================
                 // Check if pipeline has stages to update them
-                // If Count 1 stage this is the default one and will be updated
-                // If Count greater than 1 stage this is the default one plus other stages and will be updated
+                // If Count 1 stage this is the is_default one and will be updated
+                // If Count greater than 1 stage this is the is_default one plus other stages and will be updated
                 if (count($stages)) {
                     $this->stagesUpdatedAndDestroy($pipeline, $stages);
                 }
@@ -65,7 +65,7 @@ class PipelineUpdate extends Controller
                 $existingStages[] = $stage;
                 $existingStagesIds[] = $stage['id'];
             } else {
-                if (!$stage['default']) {
+                if (!$stage['is_default']) {
                     $newStagesArray[] = $stage;
                 }
             }
@@ -75,7 +75,7 @@ class PipelineUpdate extends Controller
             // Get the ids of the not existing stages
             $stagesDeletedIds = Stage::wherePipelineId($pipeline->id)
                 ->whereNotIn('id', $existingStagesIds)
-                ->where('default', '!=', true)
+                ->where('is_default', '!=', true)
                 ->pluck('id')
                 ->toArray();
             // Update the existing stages

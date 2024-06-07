@@ -15,7 +15,7 @@ class Pipeline extends Model
 
     protected $fillable = [
         'name',
-        'module_name',
+        'app_name',
         'remarks',
         'is_active',
     ];

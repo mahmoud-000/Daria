@@ -10,7 +10,7 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 const store = useStore();
 const route = useRoute();
 
-await store.dispatch("purchase/fetchFormOptions");
+await store.dispatch("purchase/fetchFormOptions", { app_name: "purchase" });
 await store.dispatch("purchase/fetchPurchase", route.params.id);
 
 const formData = computed(() => store.getters["purchase/getPurchase"]);

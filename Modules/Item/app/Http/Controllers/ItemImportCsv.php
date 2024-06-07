@@ -78,7 +78,7 @@ class ItemImportCsv extends Controller
                     'tax_type'      => ['integer', 'sometimes', 'nullable', Rule::requiredIf(!!$item['tax']), 'integer', Rule::in([1, 2])],
                     'tax'           => ['sometimes', Rule::requiredIf(!!$item['tax_type']), 'numeric', 'min:0'],
                     'stock_alert'   => ['sometimes', 'nullable', 'integer', 'min:0'],
-                    'is_active'     => ['nullable', 'boolean'],
+                    'is_active'     => ['required', 'boolean'],
                     'type'    => ['nullable', 'integer', Rule::in([1, 2, 3])],
                     'remarks'       => ['string', 'nullable'],
                 ]);

@@ -8,7 +8,8 @@ import { useStore } from "vuex";
 const organizations = computed(() =>
     routeChildren().filter((r) =>
         [
-            "company.list"
+            "company.list",
+            "branch.list",
         ].includes(r.name)
     )
 );

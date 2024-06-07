@@ -16,7 +16,7 @@ class CompanyResource extends JsonResource
             'is_active' => $this->is_active,
             'remarks' => $this->remarks ?? '',
             'branches' => BranchResource::collection($this->whenLoaded('branches')),
-            'logo' => $this->whenLoaded('media') ? (new UploadResource($this->getFirstMedia('companies')))->additional(['conversion' => 'logo'])
+            'logo' => $this->whenLoaded('media') && $this->media_count ? (new UploadResource($this->getFirstMedia('companies')))->additional(['conversion' => 'logo'])
                 : config('upload.default_image')
         ];
     }

@@ -12,7 +12,6 @@ class VariantStore extends Controller
     public function __invoke(StoreVariantRequest $request)
     {
         try {
-
             $variant = Variant::create($request->validated());
 
             return $this->success(__('status.created', ['name' => $variant['name'], 'module' => __('modules.variant')]));

@@ -13,7 +13,7 @@ class UpdateBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')],
+            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')->ignore($this->branch)],
             'is_main'  => ['required', 'boolean'],
             'is_active'  => ['required', 'boolean'],
             'country' => ['sometimes', 'string', 'nullable'],
@@ -31,14 +31,5 @@ class UpdateBranchRequest extends FormRequest
     public function authorize()
     {
         return auth()->user()->is_owner || Gate::allows('edit-branch');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
     }
 }

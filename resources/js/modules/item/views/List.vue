@@ -25,7 +25,7 @@ const SERVICE = 3;
             <BaseTable :config="config" :columns="columns">
                 <!-- Active Image -->
                 <template #body-cell-active_image="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-avatar size="md">
                             <q-img :src="props.value" />
                         </q-avatar>
@@ -62,7 +62,7 @@ const SERVICE = 3;
 
                 <!-- Item Type Badge -->
                 <template #body-cell-type="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
@@ -118,7 +118,7 @@ const SERVICE = 3;
 
                 <!-- For Purchase Badge -->
                 <template #body-cell-is_available_for_purchase="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge
                             :color="
                                 props.row.is_available_for_purchase === 1
@@ -133,7 +133,7 @@ const SERVICE = 3;
 
                 <!-- For Sale Badge -->
                 <template #body-cell-is_available_for_sale="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge
                             :color="
                                 props.row.is_available_for_sale === 1

@@ -22,7 +22,7 @@ const config = reactive({
             <BaseTable :config="config" :columns="columns">
                 <!-- Avatar -->
                 <template #body-cell-avatar="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-avatar size="md">
                             <q-img :src="props.value" />
                         </q-avatar>
@@ -31,35 +31,35 @@ const config = reactive({
 
                 <!-- FullName -->
                 <template #body-cell-fullname="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
 
                 <!-- Company Name -->
                 <template #body-cell-company_name="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
 
                 <!-- Type -->
                 <template #body-cell-type="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
 
                 <!-- Commission Type -->
                 <template #body-cell-commssion_type="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
 
                 <!-- Commission -->
                 <template #body-cell-commission="props">
-                    <q-td :props="props">
+                    <q-td class="text-center" :props="props">
                         {{
                             props.row.commission_type === 1
                                 ? numberFormatWithCurrency(props.value)

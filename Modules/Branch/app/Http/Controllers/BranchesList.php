@@ -15,8 +15,12 @@ class BranchesList extends Controller
     {
         if (!auth()->user()->is_owner)  abort_if(!Gate::any(['list-branch', auth()->user()->is_owner]), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
-        return BranchResource::collection(Branch::search($req->filter)
-        ->orderBy($req->sortBy, $dir)
-        ->paginate($req->rowsPerPage));
+        return BranchResource::collection(
+            Branch::query()
+                ->with(['company', 'company.media'])
+                ->search($req->filter)
+                ->orderBy($req->sortBy, $dir)
+                ->paginate($req->rowsPerPage)
+        );
     }
 }

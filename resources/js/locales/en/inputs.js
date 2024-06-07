@@ -63,7 +63,7 @@ export default {
   unit_id: "Unit",
   operator: "Operator",
   operator_value: "Operator Value",
-  module_name: 'Module',
+  app_name: 'App',
   complete: 'Complete',
   color: 'Color',
   cost: 'Cost',
@@ -105,4 +105,8 @@ export default {
   product_type: "Product Type",
   production_date: "Production Date",
   expired_date: "Expired Date",
+  company_id: "Company",
+  is_main: "Main",
+  is_default: "Default",
+  item_id: "Item",
 }

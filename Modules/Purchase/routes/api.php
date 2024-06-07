@@ -10,7 +10,7 @@ use Modules\Purchase\Http\Controllers\PurchaseUpdate;
 use Modules\Purchase\Http\Controllers\PurchaseFormOptions;
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
-    Route::get('/purchases/options', PurchaseFormOptions::class)->name('purchases.options');
+    Route::get('/purchases/form_options', PurchaseFormOptions::class)->name('purchases.form_options');
     Route::get('/purchases', PurchasesList::class)->name('purchases.index');
     Route::post('/purchases', PurchaseStore::class)->name('purchases.store');
     Route::put('/purchases/{purchase}', PurchaseUpdate::class)->name('purchases.update');

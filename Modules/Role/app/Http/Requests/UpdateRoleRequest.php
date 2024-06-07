@@ -14,7 +14,7 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name'  => ['required', 'string', 'min:4', 'max:100', Rule::unique('roles', 'name')->whereNull('deleted_at')->ignore($this->role)],
-            'is_active'     => ['nullable', 'boolean'],
+            'is_active'     => ['required', 'boolean'],
             'permissions'   => ['required', 'array'],
         ];
     }

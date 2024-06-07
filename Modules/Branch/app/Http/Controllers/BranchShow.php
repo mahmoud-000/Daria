@@ -13,6 +13,6 @@ class BranchShow extends Controller
     public function __invoke(Branch $branch)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-branch'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return BranchResource::make($branch);
+        return BranchResource::make($branch->load('company', 'company.media'));
     }
 }

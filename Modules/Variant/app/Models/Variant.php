@@ -21,10 +21,13 @@ class Variant extends Model
         'cost',
         'price',
         'color',
+        'is_active',
+        'remarks',
         'item_id'
     ];
 
     protected $casts = [
+        'is_active'                         => \App\Enums\ActiveEnum::class,
         'cost'              => 'double',
         'price'             => 'double',
     ];

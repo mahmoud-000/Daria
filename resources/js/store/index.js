@@ -116,7 +116,7 @@ const store = createStore({
                     }
 
                     // Group Organization
-                    if (['company'].includes(moduleName)) {
+                    if (['company', 'branch'].includes(moduleName)) {
                         array['organization'] = `${activeClassForBg} ${getTextClass}`;
                         return array;
                     }

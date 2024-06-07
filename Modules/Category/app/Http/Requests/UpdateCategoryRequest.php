@@ -15,7 +15,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name'         => ['required', 'string', 'min:3', 'max:100', Rule::unique('categories', 'name')->whereNull('deleted_at')->ignore($this->id)],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['required', 'boolean'],
             'category_id'       => ['sometimes', 'integer', 'nullable'],
             'remarks'      => ['string', 'nullable', 'max:255'],
             'logo'         => ['sometimes', 'array', 'nullable'],
@@ -24,7 +24,7 @@ class UpdateCategoryRequest extends FormRequest
 
     public function authorize()
     {
-        return auth()->user()->is_owner || Gate::allows('edit-user');
+        return auth()->user()->is_owner || Gate::allows('edit-category');
     }
 
     protected function prepareForValidation()

@@ -48,6 +48,7 @@ class UpdateItemRequest extends FormRequest
             'variants.*.cost'       => ['required', 'numeric', 'min:0'],
             'variants.*.price'      => ['required', 'numeric', 'min:0'],
             'variants.*.color'      => ['nullable', 'string', new WithOutSpaces],
+            'variants.*.is_active'     => ['required', 'boolean'],
         ];
     }
 

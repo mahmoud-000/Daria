@@ -30,7 +30,7 @@ class CategoryImportCsv extends Controller
             foreach ($categoriesArray as $category) {
                 $validator = Validator::make($category, [
                     'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('categories', 'name')->whereNull('deleted_at')],
-                    'is_active'     => ['nullable', 'boolean'],
+                    'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],
                 ]);
 

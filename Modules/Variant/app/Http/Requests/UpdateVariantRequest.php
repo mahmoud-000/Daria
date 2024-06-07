@@ -19,21 +19,14 @@ class UpdateVariantRequest extends FormRequest
             'cost'       => ['required', 'numeric', 'min:0'],
             'price'      => ['required', 'numeric', 'min:0'],
             'color'      => ['required', 'string', new WithOutSpaces],
+            'is_active'     => ['required', 'boolean'],
             'item_id'       => ['required', 'integer'],
+            'remarks'       => ['string', 'nullable'],
         ];
     }
 
     public function authorize()
     {
         return auth()->user()->is_owner || Gate::allows('edit-variant');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
     }
 }

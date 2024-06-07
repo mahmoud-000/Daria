@@ -31,7 +31,7 @@ class PipelinesTest extends TestCase
     {
         $res = $this->post(route('api.pipelines.store'), [
             'name' => 'testpipelinename',
-            'module_name' => 'Quotation',
+            'app_name' => 'Quotation',
         ])
             ->assertStatus(422)
             ->withExceptions(collect(ValidationException::class))
@@ -50,14 +50,14 @@ class PipelinesTest extends TestCase
 
         $res = $this->post(route('api.pipelines.store'), [
             'name' => 'testpipelinename',
-            'module_name' => 'Quotation',
+            'app_name' => 'Quotation',
             'stages' => $stages
         ])->json();
 
         $this->assertDatabaseCount('pipelines', 2);
         $this->assertDatabaseHas('pipelines', [
             'name' => 'testpipelinename',
-            'module_name' => 'Quotation',
+            'app_name' => 'Quotation',
         ]);
 
         $this->assertDatabaseCount('stages', 3);
@@ -83,7 +83,7 @@ class PipelinesTest extends TestCase
             route('api.pipelines.update', ['pipeline' => $pipelineId]),
             [
                 'name' => 'newpipelinename',
-                'module_name' => 'Adjustment',
+                'app_name' => 'Adjustment',
                 'stages' => $allStages
             ]
         )->json();
@@ -91,7 +91,7 @@ class PipelinesTest extends TestCase
         $this->assertDatabaseCount('pipelines', 1);
         $this->assertDatabaseHas('pipelines', [
             'name' => 'newpipelinename',
-            'module_name' => 'Adjustment',
+            'app_name' => 'Adjustment',
         ]);
 
         $this->assertDatabaseCount('stages', 3);
@@ -125,7 +125,7 @@ class PipelinesTest extends TestCase
             route('api.pipelines.update', ['pipeline' => $pipelineId]),
             [
                 'name' => 'newpipelinename',
-                'module_name' => 'Adjustment',
+                'app_name' => 'Adjustment',
                 'stages' => $allStages
             ]
         )->json();
@@ -133,7 +133,7 @@ class PipelinesTest extends TestCase
         $this->assertDatabaseCount('pipelines', 1);
         $this->assertDatabaseHas('pipelines', [
             'name' => 'newpipelinename',
-            'module_name' => 'Adjustment',
+            'app_name' => 'Adjustment',
         ]);
 
         $this->assertDatabaseCount('stages', 4);

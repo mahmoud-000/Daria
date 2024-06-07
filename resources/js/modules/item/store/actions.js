@@ -45,7 +45,7 @@ export const createItem = async ({ dispatch }, item) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updateItem = async ({ dispatch }, item) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyItem = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,19 @@ export const bulkDestroyItems = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
+                reject(error);
+            });
+    })
+};
+
+export const fetchOptions = ({ commit }, query) => {
+    return new Promise((resolve, reject) => {
+        ItemModel.options(query).then(res => {
+            commit('SET_OPTIONS', res.data)
+            resolve(res);
+        })
+            .catch(error => {
                 reject(error);
             });
     })
@@ -123,15 +135,15 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error)
+                fireErrorNotify(error, error.response.data.payload)
                 reject(error);
             });
     })
 };
 
-export const fetchFormOptions = ({ commit }) => {
+export const fetchFormOptions = ({ commit }, query) => {
     return new Promise((resolve, reject) => {
-        ItemModel.options().then(res => {
+        ItemModel.formOptions(query).then(res => {
             commit('category/SET_OPTIONS', res.categories, { root: true})
             commit('brand/SET_OPTIONS', res.brands, { root: true})
             commit('unit/SET_OPTIONS', res.units, { root: true})

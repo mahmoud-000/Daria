@@ -3,16 +3,19 @@
 namespace Modules\Company\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Modules\Company\Transformers\CompanyResource;
 use Modules\Company\Models\Company;
 
 class CompanyOptions extends Controller
 {
-    public function __invoke($moduleName)
+    public function __invoke(Request $req)
     {
-        return CompanyResource::collection(Company::with('branches')
+        return CompanyResource::collection(
+            Company::query()
+            ->with('media')
             ->where('is_active', true)
-            ->where('module_name', $moduleName)
-            ->get());
+            ->when(!empty($req->search), fn ($query) => $query->where('name', 'LIKE', '%' . $req->search . '%'))
+            ->paginate(10));
     }
 }

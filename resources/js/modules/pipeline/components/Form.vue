@@ -38,7 +38,7 @@ const { formData } = toRefs(props);
 
 const rules = computed(() => ({
     name: { required },
-    module_name: { required },
+    app_name: { required },
     is_active: { required },
     stages: {
         $each: helpers.forEach({
@@ -115,13 +115,13 @@ const sortStages = () => {
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <SelectInput
-                                v-model="formData.module_name"
-                                :label="t('module_name')"
+                                v-model="formData.app_name"
+                                :label="t('app_name')"
                                 :options="moduleNames"
-                                :error="$v.module_name.$error"
-                                :errors="$v.module_name.$errors"
-                                @input="() => $v.module_name.$touch()"
-                                @blur="() => $v.module_name.$touch()"
+                                :error="$v.app_name.$error"
+                                :errors="$v.app_name.$errors"
+                                @input="() => $v.app_name.$touch()"
+                                @blur="() => $v.app_name.$touch()"
                             />
                         </div>
 
@@ -176,13 +176,13 @@ const sortStages = () => {
                                 />
                             </div>
                             <div
-                                class="q-px-md q-pb-sm col-lg-2 col-md-3 col-xs-12"
+                                class="q-px-md q-pb-sm col-lg-2 col-md-2 col-xs-12"
                             >
                                 <BaseInput
                                     v-model.number="stage.complete"
                                     :label="t('complete')"
                                     type="number"
-                                    :disable="stage.default"
+                                    :readonly="stage.is_default"
                                     :errors="
                                         $v.stages.$each.$response.$errors[i]
                                             .complete
@@ -197,7 +197,7 @@ const sortStages = () => {
                                 />
                             </div>
                             <div
-                                class="q-px-md q-pb-sm col-lg-3 col-md-3 col-xs-12"
+                                class="q-px-md q-pb-sm col-lg-2 col-md-2 col-xs-12"
                             >
                                 <BaseInput
                                     :label="t('color')"
@@ -224,6 +224,18 @@ const sortStages = () => {
                                 </BaseInput>
                             </div>
                             <div
+                                class="col-lg-2 col-md-2 col-xs-12 q-px-md q-pb-sm"
+                            >
+                                <q-toggle
+                                    keep-color
+                                    v-model="stage.is_active"
+                                    :trueValue="1"
+                                    :falseValue="0"
+                                    :label="t('is_active')"
+                                    :disable="stage.is_default"
+                                />
+                            </div>
+                            <div
                                 class="col-lg-2 col-md-2 col-xs-12 text-center"
                             >
                                 <RemoveBtn
@@ -231,7 +243,7 @@ const sortStages = () => {
                                         () => removeFrom(formData, 'stages', i)
                                     "
                                     class="q-mb-lg"
-                                    :disabled="stage.default"
+                                    :disabled="stage.is_default"
                                 />
                             </div>
                         </div>

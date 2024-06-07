@@ -13,7 +13,7 @@ class PipelineResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'module_name' => $this->module_name,
+            'app_name' => $this->app_name,
             'is_active' => $this->is_active,
             'remarks' => $this->remarks,
             'stages' => StageResource::collection($this->whenLoaded('stages')),

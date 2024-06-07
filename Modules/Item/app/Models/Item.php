@@ -54,6 +54,7 @@ class Item extends Model implements HasMedia
     ];
 
     protected $casts = [
+        'is_active'                         => \App\Enums\ActiveEnum::class,
         'is_available_for_purchase'         => \App\Enums\ActiveEnum::class,
         'is_available_for_edit_in_sale'          => \App\Enums\ActiveEnum::class,
         'is_available_for_edit_in_purchase'         => \App\Enums\ActiveEnum::class,

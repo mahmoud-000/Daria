@@ -14,7 +14,7 @@ class UpdateDepartmentRequest extends FormRequest
     {
         return [
             'name'         => ['required', 'string', 'min:3', 'max:100', Rule::unique('departments', 'name')->whereNull('deleted_at')->ignore($this->id)],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['required', 'boolean'],
             'department_id'       => ['sometimes', 'integer', 'nullable'],
             'remarks'      => ['string', 'nullable', 'max:255']
         ];
@@ -23,14 +23,5 @@ class UpdateDepartmentRequest extends FormRequest
     public function authorize()
     {
         return auth()->user()->is_owner || Gate::allows('edit-user');
-    }
-
-    protected function prepareForValidation()
-    {
-        if ($this->password == null) {
-            $this->request->remove('password');
-            $this->request->remove('password_confirmation');
-            // dd($this->request);
-        }
     }
 }

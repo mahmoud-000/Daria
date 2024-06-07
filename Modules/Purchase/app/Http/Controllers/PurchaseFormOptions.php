@@ -2,7 +2,6 @@
 
 namespace Modules\Purchase\Http\Controllers;
 
-use App\Enums\InvoiceTypesEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Supplier\Http\Controllers\SupplierOptions;
@@ -22,7 +21,7 @@ class PurchaseFormOptions extends Controller
             'delegates' => (new DelegateOptions)($req),
             'warehouses' => (new WarehouseOptions)(),
             'units' => (new UnitOptions)(),
-            'pipelines' => (new PipelineOptions)(InvoiceTypesEnum::PURCHASE->value),
+            'pipelines' => (new PipelineOptions)($req),
             'settings' => SettingResource::collection(Setting::systemOnly()->get()),
         ];
     }
