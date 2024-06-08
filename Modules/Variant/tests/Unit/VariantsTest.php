@@ -2,6 +2,7 @@
 
 namespace Modules\Variant\Tests\Unit;
 
+use App\Enums\ItemTypesEnum;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\Item\Models\Item;
@@ -31,7 +32,7 @@ class VariantsTest extends TestCase
 
     public function test_can_create_variant_with_required_inputs()
     {
-        $itemId = $this->createItem()->id;
+        $itemId = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value])->id;
 
         $res = $this->post(route('api.variants.store'), [
             'name' => 'testvariantname',
@@ -40,6 +41,7 @@ class VariantsTest extends TestCase
             'cost' => 33,
             'price' => 66,
             'item_id' => $itemId,
+            'is_active' => true
         ])->json();
 
         $this->assertDatabaseCount('variants', 2);
@@ -61,6 +63,7 @@ class VariantsTest extends TestCase
                 'cost' => 33,
                 'price' => 66,
                 'item_id' => $this->variant->item_id,
+                'is_active' => true
             ]
         )->json();
 
@@ -84,5 +87,45 @@ class VariantsTest extends TestCase
     {
         $res = $this->delete(route('api.variants.destroy', ['variant' => $this->variant->id]))->json();
         $this->assertTrue($res['success']);
+    }
+
+    public function test_can_not_create_variant_with_name_already_exists_in_same_variant()
+    {
+        $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
+        $old_variant = Variant::factory()->create(['name' => 'Variant 1', 'item_id' => $item->id]);
+        $new_variant = $this->createVariant(['name' => 'Variant 1', 'item_id' => $item->id])->toArray();
+
+        $res = $this->post(route('api.variants.store'), [
+            ...$new_variant
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_edit_variant_with_name_already_exists_in_same_item()
+    {
+        $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
+
+        $oldVariantInDB = Variant::factory()->create(['name' => 'Old Variant', 'item_id' => $item->id]);
+        $variantInDB = Variant::factory()->create(['name' => 'Variant 1', 'item_id' => $item->id]);
+        $variant = $this->createVariant(['name' => 'Variant 1', 'item_id' => $item->id])->toArray();
+
+        $res = $this->put(
+            route('api.variants.update', ['variant' => $variantInDB]),
+            [
+                'name' => $oldVariantInDB->name,
+                'item_id' => $item->id
+            ]
+        )
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
     }
 }

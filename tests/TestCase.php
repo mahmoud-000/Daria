@@ -89,8 +89,8 @@ abstract class TestCase extends BaseTestCase
     public function createPipeline($args = [])
     {
         return Pipeline::factory()
-            ->has(Stage::factory()->state(['name' => 'New', 'complete' => 0, 'default' => true])->count(1))
-            ->has(Stage::factory()->state(['name' => 'Complete', 'complete' => 100, 'default' => true])->count(1))
+            ->has(Stage::factory()->state(['name' => 'New', 'complete' => 0, 'is_default' => true, 'is_active' => true])->count(1))
+            ->has(Stage::factory()->state(['name' => 'Complete', 'complete' => 100, 'is_default' => true, 'is_active' => true])->count(1))
             ->create($args);
     }
 

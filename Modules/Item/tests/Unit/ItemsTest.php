@@ -6,6 +6,7 @@ use App\Enums\ItemTypesEnum;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Modules\Variant\Models\Variant;
 
 class ItemsTest extends TestCase
 {
@@ -61,6 +62,29 @@ class ItemsTest extends TestCase
             ->assertJsonValidationErrorFor('label', 'payload')
             ->assertJsonValidationErrorFor('category_id', 'payload')
             ->assertJsonValidationErrorFor('tax_type', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_create_variable_item_with_already_exist_variant_code()
+    {
+        $itemInDB = $this->createItem([
+            'type' => ItemTypesEnum::VARIABLE->value
+        ])->toArray();
+
+        Variant::factory()->create(['code' => '123123123', 'item_id' => $itemInDB['id']]);
+
+        $newVariant = $this->createVariant(['name' => 'variant 1', 'code' => '123123123'])->toArray();
+
+        $res = $this->post(route('api.items.store'), [
+            'name' => 'testitemname',
+            'type' => ItemTypesEnum::VARIABLE->value,
+            'variants' => [$newVariant]
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
             ->json();
 
         $this->assertFalse($res['success']);
@@ -140,7 +164,7 @@ class ItemsTest extends TestCase
             'product_type' => 1,
             'type' => ItemTypesEnum::SERVICE->value,
         ])
-        ->json();
+            ->json();
 
         $this->assertDatabaseCount('items', 2);
         $this->assertDatabaseHas('items', [
@@ -160,7 +184,7 @@ class ItemsTest extends TestCase
     public function test_can_create_variable_item()
     {
         $categoryId = $this->createCategory()->id;
-        $variant_1 = $this->createVariant(['name' => 'variant 1'])->toArray();
+        $variant_1 = $this->createVariant(['name' => 'variant 1', 'code' => '23232323'])->toArray();
 
         $res = $this->post(route('api.items.store'), [
             'name' => 'testitemname',
@@ -238,7 +262,7 @@ class ItemsTest extends TestCase
         $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
 
         $itemId = $item->id;
-        $variant_1 = $this->createVariant(['item_id' => $itemId])->toArray();
+        $variant_1 = $this->createVariant(['code' => '12121212', 'item_id' => $itemId])->toArray();
 
         $res = $this->put(
             route('api.items.update', ['item' => $itemId]),
@@ -259,12 +283,49 @@ class ItemsTest extends TestCase
                 'variants' => [$variant_1]
             ]
         )->json();
-
+        
         $this->assertDatabaseCount('items', 2);
         $this->assertDatabaseCount('variants', 1);
         $this->assertTrue($res['success']);
         $this->assertEquals($item['id'], $itemId);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => 'newitemname', 'module' => __('modules.item')]));
+    }
+
+    public function test_can_not_edit_variable_item_if_variants_has_already_taken_code()
+    {
+        $categoryId = $this->createCategory()->id;
+        $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
+        $itemId = $item->id;
+
+        $oldVariant = Variant::factory(['code' => '123123123', 'item_id' => $itemId])->create();
+
+        $newVariant = $this->createVariant(['code' => '123123123'])->toArray();
+
+        $res = $this->put(
+            route('api.items.update', ['item' => $itemId]),
+            [
+                'name' => 'newitemname',
+                'type' => ItemTypesEnum::VARIABLE->value,
+                'label' => 'testitemlabel',
+                'code' => '55667788',
+                'barcode_type' => 1,
+                'category_id' => $categoryId,
+                'tax_type' => 1,
+                'is_active' => 1,
+                'is_available_for_sale' => 1,
+                'is_available_for_purchase' => 0,
+                'is_available_for_edit_in_purchase' => 1,
+                'is_available_for_edit_in_sale' => true,
+                'product_type' => 1,
+                'variants' => [$newVariant]
+            ]
+        )
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
     }
 
     public function test_can_edit_service_item()

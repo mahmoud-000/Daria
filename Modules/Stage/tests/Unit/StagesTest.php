@@ -37,6 +37,7 @@ class StagesTest extends TestCase
             'color' => '#000000',
             'complete' => 33,
             'is_default' => false,
+            'is_active' => true,
             'pipeline_id' => $pipelineId,
         ])->json();
 
@@ -57,6 +58,7 @@ class StagesTest extends TestCase
                 'color' => '#ffffff',
                 'complete' => 66,
                 'is_default' => false,
+                'is_active' => true,
                 'pipeline_id' => $this->stage->pipeline_id,
             ]
         )->json();
@@ -81,5 +83,45 @@ class StagesTest extends TestCase
     {
         $res = $this->delete(route('api.stages.destroy', ['stage' => $this->stage->id]))->json();
         $this->assertTrue($res['success']);
+    }
+
+    public function test_can_not_create_stage_with_name_already_exists_in_same_variant()
+    {
+        $pipeline = $this->createPipeline();
+        $old_stage = Stage::factory()->create(['name' => 'Stage 1', 'pipeline_id' => $pipeline->id]);
+        $new_stage = $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipeline->id])->toArray();
+
+        $res = $this->post(route('api.stages.store'), [
+            ...$new_stage
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_edit_stage_with_name_already_exists_in_same_pipeline()
+    {
+        $pipeline = $this->createPipeline();
+
+        $oldStageInDB = Stage::factory()->create(['name' => 'Old Stage', 'pipeline_id' => $pipeline->id]);
+        $stageInDB = Stage::factory()->create(['name' => 'Stage 1', 'pipeline_id' => $pipeline->id]);
+        $stage = $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipeline->id])->toArray();
+
+        $res = $this->put(
+            route('api.stages.update', ['stage' => $stageInDB]),
+            [
+                'name' => $oldStageInDB->name,
+                'pipeline_id' => $pipeline->id
+            ]
+        )
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
     }
 }

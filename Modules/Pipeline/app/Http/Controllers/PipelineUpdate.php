@@ -8,8 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Modules\Pipeline\Models\Pipeline;
 use Modules\Pipeline\Http\Requests\UpdatePipelineRequest;
-use Modules\Stage\Http\Controllers\StageDestroy;
-use Modules\Stage\Http\Controllers\StageUpdate;
 use Modules\Stage\Models\Stage;
 
 class PipelineUpdate extends Controller

@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Modules\Pipeline\Models\Pipeline;
 use Modules\Pipeline\Http\Requests\StorePipelineRequest;
-use Modules\Stage\Http\Controllers\StageStore;
 
 class PipelineStore extends Controller
 {
@@ -16,6 +15,7 @@ class PipelineStore extends Controller
     {
         try {
             $request = $request->validated();
+            
             $pipeline = DB::transaction(function () use ($request) {
                 $stages = $request['stages'];
                 $pipeline = Pipeline::create(Arr::except($request, ['stages']));

@@ -13,7 +13,7 @@ class StoreBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')],
+            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')->where('company_id', $this->company_id)],
             'is_main'  => ['required', 'boolean'],
             'is_active'  => ['required', 'boolean'],
             'country' => ['sometimes', 'string', 'nullable'],

@@ -14,8 +14,8 @@ class UpdateVariantRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => ['required', 'string', 'min:3', 'max:100'],
-            'code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')->ignore($this->variant)],
+            'name'       => ['required', 'string', 'min:3', 'max:100', Rule::unique('variants', 'name')->whereNull('deleted_at')->where('item_id', $this->item_id)->ignore($this->variant)],
+            'code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')->where('item_id', $this->item_id)->ignore($this->variant)],
             'cost'       => ['required', 'numeric', 'min:0'],
             'price'      => ['required', 'numeric', 'min:0'],
             'color'      => ['required', 'string', new WithOutSpaces],

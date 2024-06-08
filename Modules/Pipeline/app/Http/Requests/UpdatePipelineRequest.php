@@ -20,7 +20,7 @@ class UpdatePipelineRequest extends FormRequest
             'remarks'       => ['string', 'nullable'],
 
             'stages'            => ['required', 'array', 'present'],
-            'stages.*.name'     => ['distinct', 'required', 'string', 'max:100'],
+            'stages.*.name'     => ['distinct', 'required', 'string', 'max:100', Rule::unique('stages', 'name')->whereNull('deleted_at')->ignore($this->pipeline->id, 'pipeline_id')],
             'stages.*.complete' => ['distinct', 'required', 'numeric', 'min:0', 'max:100'],
             'stages.*.color'    => ['required', 'string', new WithOutSpaces],
             'stages.*.is_default'  => ['sometimes', 'boolean'],

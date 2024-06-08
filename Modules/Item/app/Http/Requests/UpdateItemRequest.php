@@ -44,7 +44,7 @@ class UpdateItemRequest extends FormRequest
             'variants'              => [Rule::requiredIf($this->type === ItemTypesEnum::VARIABLE->value), 'array'],
             'variants.*.id'          => ['sometimes', 'integer', 'nullable'],
             'variants.*.name'       => ['distinct', 'required', 'string', 'min:3', 'max:100'],
-            'variants.*.code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')->ignore($this->item->id, 'item_id')],
+            'variants.*.code'       => ['distinct', 'required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')],
             'variants.*.cost'       => ['required', 'numeric', 'min:0'],
             'variants.*.price'      => ['required', 'numeric', 'min:0'],
             'variants.*.color'      => ['nullable', 'string', new WithOutSpaces],

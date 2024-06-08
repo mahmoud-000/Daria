@@ -80,4 +80,44 @@ class BranchesTest extends TestCase
         $res = $this->delete(route('api.branches.destroy', ['branch' => $this->branch->id]))->json();
         $this->assertTrue($res['success']);
     }
+
+    public function test_can_not_create_branch_with_name_already_exists_in_same_company()
+    {
+        $company = $this->createCompany();
+        $old_branch = Branch::factory()->create(['name' => 'Branch 1', 'company_id' => $company->id]);
+        $new_branch = $this->createBranch(['name' => 'Branch 1', 'company_id' => $company->id])->toArray();
+
+        $res = $this->post(route('api.branches.store'), [
+            ...$new_branch
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_edit_branch_with_name_already_exists_in_same_company()
+    {
+        $company = $this->createCompany();
+
+        $oldBranchInDB = Branch::factory()->create(['name' => 'Old Branch', 'company_id' => $company->id]);
+        $branchInDB = Branch::factory()->create(['name' => 'Branch 1', 'company_id' => $company->id]);
+        $branch = $this->createBranch(['name' => 'Branch 1', 'company_id' => $company->id])->toArray();
+
+        $res = $this->put(
+            route('api.branches.update', ['branch' => $branchInDB]),
+            [
+                'name' => $oldBranchInDB->name,
+                'company_id' => $company->id
+            ]
+        )
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
 }
