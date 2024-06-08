@@ -15,6 +15,7 @@ export default {
     organization: "Organization | Organization",
     company: "Company | Companies",
     branch: "Branch | Branches",
+    department: "Department | Departments",
     user: "User | Users",
     customer: "Customer | Customers",
     supplier: "Supplier | Suppliers",

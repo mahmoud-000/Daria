@@ -10,6 +10,7 @@ const organizations = computed(() =>
         [
             "company.list",
             "branch.list",
+            "department.list",
         ].includes(r.name)
     )
 );

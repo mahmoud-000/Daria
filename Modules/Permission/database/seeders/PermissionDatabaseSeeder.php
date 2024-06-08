@@ -13,6 +13,7 @@ class PermissionDatabaseSeeder extends Seeder
         $modules = [
             'company' => 'companies',
             'branch' => 'branches',
+            'department' => 'departments',
             'user' => 'users',
             'supplier' => 'suppliers',
             'customer' => 'customers',

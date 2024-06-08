@@ -8,6 +8,7 @@ import authModule from '../modules/auth'
 import organizationModule from '../modules/organization'
 import companyModule from '../modules/company'
 import branchModule from '../modules/branch'
+import departmentModule from '../modules/department'
 import dashboardModule from '../modules/dashboard'
 import peopleModule from '../modules/people'
 import userModule from '../modules/user'
@@ -35,6 +36,7 @@ const addModules = registerModules({
   organization: organizationModule,
   company: companyModule,
   branch: branchModule,
+  department: departmentModule,
   dashboard: dashboardModule,
   people: peopleModule,
   user: userModule,

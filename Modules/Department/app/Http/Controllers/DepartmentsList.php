@@ -17,7 +17,8 @@ class DepartmentsList extends Controller
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return DepartmentResource::collection(
             Department::query()
-                ->with(['parent'])->search($req->filter)
+                ->with(['parent'])
+                ->search($req->filter)
                 ->orderBy($req->sortBy, $dir)
                 ->paginate($req->rowsPerPage)
         );

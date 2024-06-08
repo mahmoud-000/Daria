@@ -109,4 +109,5 @@ export default {
   is_main: "Main",
   is_default: "Default",
   item_id: "Item",
+  department_id: "Department",
 }

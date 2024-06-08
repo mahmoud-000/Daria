@@ -17,7 +17,10 @@ class CategoryOptions extends Controller
                 ->where('is_active', true)
                 ->when(
                     !empty($req->form_id),
-                    fn ($query) => $query->where('id', '!=', $req->form_id)
+                    fn ($query) => $query
+                        ->where('id', '!=', $req->form_id)
+                        ->whereNull('category_id')
+
                 )
                 ->when(!empty($req->search), fn ($query) => $query->where('name', 'LIKE', '%' . $req->search . '%'))
                 ->paginate(10)
