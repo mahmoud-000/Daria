@@ -9,11 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Item\Models\Item;
 use Modules\Stock\Models\Stock;
 use Modules\Variant\Database\Factories\VariantFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Variant extends Model
+class Variant extends Model implements HasMedia
 {
-    use HasFactory, Searchable, SoftDeletes;
+    use HasFactory, Searchable, SoftDeletes, InteractsWithMedia;
 
+    protected $withCount = ['media'];
+    
     protected $fillable = [
         'name',
         'code',
@@ -44,6 +49,14 @@ class Variant extends Model
     public function stock()
     {
         return $this->hasMany(Stock::class, 'variant_id')->orderBy('warehouse_id');
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('image')
+            ->width(36)
+            ->height(36)
+            ->nonQueued();
     }
 
     protected static function newFactory()

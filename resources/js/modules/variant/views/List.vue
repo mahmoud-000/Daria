@@ -19,6 +19,15 @@ const config = reactive({
     <Suspense>
         <template #default>
             <BaseTable :config="config" :columns="columns">
+                <!-- Image -->
+                <template #body-cell-image="props">
+                    <q-td class="text-center" :props="props">
+                        <q-avatar size="md">
+                            <q-img :src="props.value" />
+                        </q-avatar>
+                    </q-td>
+                </template>
+
                 <template #body-cell-item="props">
                     <q-td class="text-center" :props="props">
                         <q-list dense dark>

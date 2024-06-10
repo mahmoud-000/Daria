@@ -22,6 +22,7 @@ class UpdateVariantRequest extends FormRequest
             'is_active'     => ['required', 'boolean'],
             'item_id'       => ['required', 'integer'],
             'remarks'       => ['string', 'nullable'],
+            'image'         => ['sometimes', 'array', 'nullable'],
         ];
     }
 

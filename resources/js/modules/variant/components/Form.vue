@@ -11,6 +11,7 @@ import {
     CardHeader,
     CardSectionWithHeader,
     CardRemarks,
+    CardUpload,
     BaseInput,
     ItemInput
 } from "../../../components/import";
@@ -179,6 +180,16 @@ const onSubmit = async () => {
                         </div>
                     </div>
                 </CardSectionWithHeader>
+
+                <!-- Logo -->
+                <CardUpload
+                    title="card.image"
+                    :form-data="formData"
+                    :config="{
+                        keyOfImages: 'image',
+                        label: 'choose_your_image',
+                    }"
+                />
 
                 <!-- Remarks -->
                 <CardRemarks :form-data="formData" />

@@ -4,6 +4,7 @@ namespace Modules\Variant\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Item\Transformers\ItemResource;
+use Modules\Upload\Transformers\UploadResource;
 
 class VariantResource extends JsonResource
 {
@@ -20,6 +21,9 @@ class VariantResource extends JsonResource
             'price' => $this->price,
             'is_active' => $this->is_active,
             'remarks' => $this->remarks ?? '',
+            'image' => $this->whenLoaded('media') && $this->media_count
+                ? (new UploadResource($this->getFirstMedia('brands')))->additional(['conversion' => 'image'])
+                : config('upload.default_image')
         ];
     }
 }
