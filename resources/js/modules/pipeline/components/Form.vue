@@ -154,9 +154,8 @@ const sortStages = () => {
                         v-for="(stage, i) in formData?.stages"
                         :key="i"
                         :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
-                        class="q-py-md"
                     >
-                        <div class="row justify-between items-center">
+                        <div class="row justify-between items-center q-py-lg">
                             <div
                                 class="q-px-md q-pb-sm col-lg-4 col-md-4 col-xs-12"
                             >

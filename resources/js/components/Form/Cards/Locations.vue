@@ -49,9 +49,8 @@ const cities = (i) =>
             <div
                 v-for="(location, i) in formData?.locations"
                 :key="i"
-                class="q-py-md"
             >
-                <div class="row items-center">
+                <div class="row items-center q-py-lg">
                     <div class="q-px-md q-pb-sm col-lg-4 col-md-4 col-xs-12">
                         <BaseInput v-model="location.name" :label="t('name')" />
                     </div>

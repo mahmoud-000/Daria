@@ -29,9 +29,12 @@ const { t } = useI18n();
             <AddBtn @click="() => addTo(formData, 'contacts', contact)" />
         </template>
 
-        <div v-if="formData?.contacts.length" :class="!Dark.isActive ? 'bg-white' : 'bg-dark'">
-            <div v-for="(contact, i) in formData?.contacts" :key="i" class="q-py-md">
-                <div class="row justify-between items-center">
+        <div
+            v-if="formData?.contacts.length"
+            :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
+        >
+            <div v-for="(contact, i) in formData?.contacts" :key="i">
+                <div class="row justify-between items-center q-py-lg">
                     <div class="q-px-md q-pb-sm col-lg-2 col-md-6 col-xs-12">
                         <BaseInput v-model="contact.name" :label="t('name')" />
                     </div>

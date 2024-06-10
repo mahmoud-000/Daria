@@ -39,7 +39,7 @@ const { t } = useI18n();
             :key="i"
             :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
         >
-            <div class="row justify-between items-center q-pt-lg">
+            <div class="row justify-between items-center q-py-lg q-px-md">
                 <div class="q-px-sm q-pb-sm col-lg-2 col-md-6 col-xs-12">
                     <BaseInput
                         :label="t('name')"
