@@ -32,7 +32,7 @@ const { formData } = toRefs(props);
 const rules = computed(() => ({
     name: {
         required,
-        minLength: minLength(8),
+        minLength: minLength(3),
         maxLength: maxLength(100),
     },
     is_active: { required },

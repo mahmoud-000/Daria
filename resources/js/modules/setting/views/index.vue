@@ -12,6 +12,7 @@ const settings = computed(() =>
             "setting.appearance",
             "role.list",
             "brand.list",
+            "attribute.list",
             "category.list",
             "unit.list",
             "warehouse.list",

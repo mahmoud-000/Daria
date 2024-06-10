@@ -5,6 +5,7 @@ import localeModule from '../modules/locale'
 import roleModule from '../modules/role'
 import permissionModule from '../modules/permission'
 import authModule from '../modules/auth'
+import attributeModule from '../modules/attribute'
 import organizationModule from '../modules/organization'
 import companyModule from '../modules/company'
 import branchModule from '../modules/branch'
@@ -44,6 +45,7 @@ const addModules = registerModules({
   customer: customerModule,
   delegate: delegateModule,
   category: categoryModule,
+  attribute: attributeModule,
   brand: brandModule,
   warehouse: warehouseModule,
   unit: unitModule,

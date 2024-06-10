@@ -28,7 +28,8 @@ class AttributesTest extends TestCase
     public function test_can_create_attribute_with_required_inputs()
     {
         $res = $this->post(route('api.attributes.store'), [
-            'name' => 'testattributename'
+            'name' => 'testattributename',
+            'is_active' => true
         ])->json();
         
         $this->assertDatabaseCount('attributes', 2);
@@ -44,7 +45,8 @@ class AttributesTest extends TestCase
         $res = $this->put(
             route('api.attributes.update', ['attribute' => $this->attribute]),
             [
-                'name' => 'newattributename'
+                'name' => 'newattributename',
+                'is_active' => true
             ]
         )->json();
 

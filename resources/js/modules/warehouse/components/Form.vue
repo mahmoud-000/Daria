@@ -1,17 +1,25 @@
 <script setup>
 import { computed, toRefs } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, maxLength, email } from "../../../utils/i18n-validators";
+import {
+    required,
+    minLength,
+    maxLength,
+    email,
+} from "../../../utils/i18n-validators";
 import { Dark } from "quasar";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
+import countries from "../../../utils/countries";
 
 import {
     CardHeader,
     CardSectionWithHeader,
     CardRemarks,
     BaseInput,
+    CountryInput,
+    SelectInput
 } from "../../../components/import";
 
 const { t } = useI18n();
@@ -32,7 +40,7 @@ const { formData } = toRefs(props);
 const rules = computed(() => ({
     name: {
         required,
-        minLength: minLength(8),
+        minLength: minLength(3),
         maxLength: maxLength(100),
     },
     email: { email },
@@ -57,6 +65,16 @@ const onSubmit = async () => {
         router.push({ name: "warehouse.list" });
     }
 };
+
+const changeCountry = () => {
+    formData.value.city = null;
+};
+
+const cities = () =>
+    countries.find(
+        (country) =>
+            country?.countryName === formData.value.country
+    )?.regions;
 </script>
 
 <template>
@@ -111,6 +129,81 @@ const onSubmit = async () => {
                         </div>
 
                         <div
+                            class="q-px-md q-pb-sm col-lg-3 col-md-6 col-xs-12"
+                        >
+                            <BaseInput
+                                :label="t('mobile')"
+                                v-model="formData.mobile"
+                            />
+                        </div>
+
+                        <div
+                            class="q-px-md q-pb-sm col-lg-3 col-md-6 col-xs-12"
+                        >
+                            <BaseInput
+                                v-model="formData.phone"
+                                :label="t('phone')"
+                            />
+                        </div>
+
+                        <div
+                            class="col-lg-3 col-md-4 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <CountryInput
+                                v-model="formData.country"
+                                :label="t('country')"
+                                @update:modelValue="changeCountry()"
+                                :location="formData"
+                            />
+                        </div>
+                        <div
+                            class="col-lg-3 col-md-4 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <SelectInput
+                                v-model="formData.city"
+                                :label="t('city')"
+                                :options="
+                                    cities()?.map((opt) => ({
+                                        label: opt.name,
+                                        value: opt.name,
+                                    }))
+                                "
+                            />
+                        </div>
+                        <div
+                            class="col-lg-3 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.first_address"
+                                :label="t('first_address')"
+                            />
+                        </div>
+                        <div
+                            class="col-lg-3 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.second_address"
+                                :label="t('second_address')"
+                            />
+                        </div>
+                        <div
+                            class="col-lg-3 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.state"
+                                :label="t('state')"
+                            />
+                        </div>
+                        <div
+                            class="col-lg-3 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.zip"
+                                :label="t('zip')"
+                            />
+                        </div>
+
+                        <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <q-toggle
@@ -126,7 +219,7 @@ const onSubmit = async () => {
                         </div>
                     </div>
                 </CardSectionWithHeader>
-                
+
                 <!-- Remarks -->
                 <CardRemarks :form-data="formData" />
             </div>

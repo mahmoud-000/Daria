@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\Sanctum;
+use Modules\Attribute\Models\Attribute;
 use Modules\Brand\Models\Brand;
 use Modules\Category\Models\Category;
 use Modules\Contact\Models\Contact;
@@ -141,6 +142,11 @@ abstract class TestCase extends BaseTestCase
     public function createCategory($args = [])
     {
         return Category::factory()->create($args);
+    }
+
+    public function createAttribute($args = [])
+    {
+        return Attribute::factory()->create($args);
     }
 
     public function createBrand($args = [])

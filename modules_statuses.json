@@ -32,5 +32,6 @@
     "Company": true,
     "Branch": true,
     "Patch": true,
-    "Department": true
+    "Department": true,
+    "Attribute": true
 }

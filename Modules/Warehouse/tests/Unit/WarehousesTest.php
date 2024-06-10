@@ -28,7 +28,8 @@ class WarehousesTest extends TestCase
     public function test_can_create_warehouse_with_required_inputs()
     {
         $res = $this->post(route('api.warehouses.store'), [
-            'name' => 'testwarehousename'
+            'name' => 'testwarehousename',
+            'is_active' => true
         ])->json();
         
         $this->assertDatabaseCount('warehouses', 2);
@@ -44,7 +45,8 @@ class WarehousesTest extends TestCase
         $res = $this->put(
             route('api.warehouses.update', ['warehouse' => $this->warehouse]),
             [
-                'name' => 'newwarehousename'
+                'name' => 'newwarehousename',
+                'is_active' => true
             ]
         )->json();
 
