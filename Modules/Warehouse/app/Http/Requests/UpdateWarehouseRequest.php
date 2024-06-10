@@ -6,7 +6,6 @@ use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class UpdateWarehouseRequest extends FormRequest
 {
@@ -25,8 +24,7 @@ class UpdateWarehouseRequest extends FormRequest
             'first_address' => ['string', 'nullable'],
             'second_address' => ['string', 'nullable'],
             'is_active'    => ['required', 'boolean'],
-            'remarks'      => ['string', 'nullable', 'max:255'],
-            'logo'         => ['sometimes', 'array', 'nullable'],
+            'remarks'      => ['string', 'nullable', 'max:255']
         ];
     }
 

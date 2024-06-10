@@ -20,9 +20,14 @@ class Stock extends Model
         'item_id',
         'variant_id',
         'warehouse_id',
-        'quantity',
-        // 'production_date',
-        // 'expired_date',
+        'quantity'
+    ];
+
+    protected $casts = [
+        'quantity'              => 'integer',
+        'warehouse_id' => 'integer',
+        'item_id' => 'integer',
+        'variant_id' => 'integer',
     ];
 
     public function item()

@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('stock', function (Blueprint $table) {
             $table->id();
-            // $table->date('production_date')->nullable();
-            // $table->date('expired_date')->nullable();
             $table->float('quantity', 10, 0)->nullable()->default(0);
-
+            
             $table->foreignId('item_id')->constrained();
             $table->foreignId('variant_id')->nullable()->constrained();
             $table->foreignId('warehouse_id')->constrained();
-
+            
+            $table->json('details')->nullable();
+            
             $table->softDeletes();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

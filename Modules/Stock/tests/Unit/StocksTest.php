@@ -31,7 +31,7 @@ class StocksTest extends TestCase
             'invoice_type' => 'purchase',
             'not_include' => [3]
         ]))->json();
-
+        
         $this->assertDatabaseCount('stock', 6);
         $this->assertDatabaseHas('stock', [
             'warehouse_id' => $warehouse1Id,

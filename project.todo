@@ -1,4 +1,50 @@
-icon_addjustment:contrast_square
+- icon_addjustment:contrast_square
+- floating action button
+- Expansion Item Card
+- Stepper
+- Rating
+- Tags
+- Translation
+- Company Currency
+- Timeline
+- SKU
+- Variant Image
+- warehouse form
+ 
+
+Ex:
+  Category:
+    - {ID: 1, Name: Clothes}
+    - {ID: 2, Name: Shoes}
+     
+  Attribute:
+    - {ID: 1, Name: Size}
+    - {ID: 2, Name: Color}
+
+  AttributeCategory:
+    - { ID: 1, Attribute ID: 1, Category ID: 1, properties: { type: 'select', options: ['sm', 'md', 'lg'] } }
+    - { ID: 2, Attribute ID: 2, Category ID: 1, properties: { type: 'color'] } }
+    - { ID: 3, Attribute ID: 1, Category ID: 2, properties: { type: 'number'] } }
+
+
+Attribute:
+  - ID
+  - Name
+  - Is Active
+
+AttributeCategory:
+  - ID
+  - Attribute ID
+  - Category ID
+  - properties
+
+Item:
+  - - add SKU
+
+Variant:
+  - - add SKU
+
+
 Compqny:
   - ID
   - Name

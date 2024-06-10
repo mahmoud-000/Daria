@@ -19,7 +19,13 @@ class StockByWarehouse extends Controller
     {
         return StockResource::collection(
             Stock::query()
-                ->with(['patches', 'item', 'item.purchaseUnit', 'item.saleUnit', 'item.media', 'variant'])
+                ->with([
+                    'item',
+                    'variant',
+                    'item.purchaseUnit',
+                    'item.saleUnit',
+                    'item.media'
+                ])
                 ->where('warehouse_id', $req->warehouse)
                 ->where(
                     fn ($query) => $query

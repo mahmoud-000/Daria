@@ -138,6 +138,7 @@ const onSubmit = async () => {
                             <BaseInput
                                 :label="t('color')"
                                 v-model="formData.color"
+                                 :rules="['anyColor']"
                                 readonly
                                 :error="$v.color.$error"
                                 @input="() => $v.color.$touch()"

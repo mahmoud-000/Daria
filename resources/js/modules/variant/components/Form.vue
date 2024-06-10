@@ -154,6 +154,7 @@ const onSubmit = async () => {
                                 :label="t('color')"
                                 v-model="formData.color"
                                 readonly
+                                 :rules="['anyColor']"
                                 :error="$v.color.$error"
                                 @input="() => $v.color.$touch()"
                                 @blur="() => $v.color.$touch()"

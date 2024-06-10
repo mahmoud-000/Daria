@@ -201,6 +201,7 @@ const sortStages = () => {
                             >
                                 <BaseInput
                                     :label="t('color')"
+                                     :rules="['anyColor']"
                                     v-model="stage.color"
                                     readonly
                                 >

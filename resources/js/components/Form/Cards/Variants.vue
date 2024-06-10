@@ -85,6 +85,7 @@ const { t } = useI18n();
                         :label="t('color')"
                         v-model="variant.color"
                         readonly
+                         :rules="['anyColor']"
                         :error="
                             Boolean(
                                 v.variants.$each.$response.$errors[i].color

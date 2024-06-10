@@ -11,6 +11,7 @@ class PermissionDatabaseSeeder extends Seeder
     public function run()
     {
         $modules = [
+            'attribute' => 'attributes',
             'company' => 'companies',
             'branch' => 'branches',
             'department' => 'departments',

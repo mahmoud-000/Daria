@@ -3,9 +3,6 @@
 namespace Modules\Warehouse\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Contact\Transformers\ContactResource;
-use Modules\Location\Transformers\LocationResource;
-use Modules\Upload\Transformers\UploadResource;
 
 class WarehouseResource extends JsonResource
 {
