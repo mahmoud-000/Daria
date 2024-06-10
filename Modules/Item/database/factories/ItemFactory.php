@@ -20,6 +20,7 @@ class ItemFactory extends Factory
             'tax' => 0,
             'tax_type' => $this->faker->randomElement([1, 2]),
             'code' => $this->faker->randomNumber(8),
+            'sku' => $this->faker->randomNumber(8),
             'barcode_type' => $this->faker->randomElement([1, 2, 3, 4, 5]),
             'unit_id' => function () {
                 return Unit::where('unit_id', null)->where('is_active', true)->get()->first()->id;

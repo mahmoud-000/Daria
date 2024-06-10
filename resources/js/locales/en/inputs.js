@@ -110,4 +110,5 @@ export default {
   is_default: "Default",
   item_id: "Item",
   department_id: "Department",
+  sku: "SKU",
 }

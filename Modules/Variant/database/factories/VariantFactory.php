@@ -18,7 +18,7 @@ class VariantFactory extends Factory
             'cost' => $this->faker->numberBetween(10, 500),
             'price' => $this->faker->numberBetween(100, 1000),
             'code' => $this->faker->randomNumber(8),
-            'color' => $this->faker->hexColor(),
+            'sku' => $this->faker->randomNumber(8),
             'item_id' => $this->faker->randomElement($itemIds),
             'is_active' => true,
         ];

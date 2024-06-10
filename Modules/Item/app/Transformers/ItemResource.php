@@ -25,6 +25,7 @@ class ItemResource extends JsonResource
             'brand' => $this->whenLoaded('brand')->name ?? null,
             'barcode_type' => $this->barcode_type,
             'code' => $this->code,
+            'sku' => $this->sku,
             'unit_id' => $this->unit_id,
             'sale_unit_id' => $this->sale_unit_id,
             'purchase_unit_id' => $this->purchase_unit_id,

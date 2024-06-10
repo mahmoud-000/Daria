@@ -21,6 +21,7 @@ return new class extends Migration
 
             // $table->char('channel', 1)->nullable();
 
+            $table->string('sku')->nullable();
             $table->string('code')->nullable();
             $table->tinyInteger('barcode_type')->nullable();
 

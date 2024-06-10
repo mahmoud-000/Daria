@@ -61,9 +61,9 @@ export const icTypes = reactive([
 export const variant = reactive({
     name: "",
     code: "",
+    sku: "",
     cost: 0,
     price: 0,
-    color: "#FFFFFF",
     is_active: 0
 });
 

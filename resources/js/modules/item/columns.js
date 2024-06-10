@@ -46,12 +46,22 @@ export const columns = reactive([
     },
 
     {
+        name: "sku",
+        required: false,
+        label: t('sku'),
+        align: "center",
+        field: (row) => row.sku,
+        format: (val) => `${val ?? '- - -'}`,
+        sortable: false,
+    },
+
+    {
         name: "code",
         required: true,
         label: t('code'),
         align: "center",
         field: (row) => row.code,
-        format: (val) => `${val}`,
+        format: (val) => `${val ?? '- - -'}`,
         sortable: true,
     },
 

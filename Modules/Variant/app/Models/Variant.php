@@ -15,12 +15,11 @@ class Variant extends Model
     use HasFactory, Searchable, SoftDeletes;
 
     protected $fillable = [
-        // 'default',
         'name',
         'code',
+        'sku',
         'cost',
         'price',
-        'color',
         'is_active',
         'remarks',
         'item_id'
@@ -34,7 +33,7 @@ class Variant extends Model
 
     public static function searchable()
     {
-        return ['name'];
+        return ['name', 'sku', 'code'];
     }
 
     public function item()

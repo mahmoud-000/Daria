@@ -33,6 +33,7 @@ class Item extends Model implements HasMedia
         'cost',
         'price',
         'active_image',
+        'sku',
         'code',
         'barcode_type',
         'tax',

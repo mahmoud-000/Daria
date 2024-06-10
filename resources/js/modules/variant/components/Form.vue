@@ -36,7 +36,7 @@ const rules = computed(() => ({
     cost: { required, minValue: minValue(0) },
     price: { required, minValue: minValue(0) },
     code: { required, minLength: minLength(8) },
-    color: { required },
+    sku: { required, minLength: minLength(8) },
     is_active: { required },
     item_id: { required },
 }));
@@ -109,6 +109,20 @@ const onSubmit = async () => {
                                 :errors="$v.name.$errors"
                             />
                         </div>
+
+                        <div
+                            class="q-px-md q-pb-sm col-lg-4 col-md-6 col-xs-12"
+                        >
+                            <BaseInput
+                                :label="t('sku')"
+                                v-model="formData.sku"
+                                :error="$v.sku.$error"
+                                @input="() => $v.sku.$touch()"
+                                @blur="() => $v.sku.$touch()"
+                                :errors="$v.sku.$errors"
+                            />
+                        </div>
+
                         <div
                             class="q-px-md q-pb-sm col-lg-4 col-md-6 col-xs-12"
                         >
@@ -147,38 +161,7 @@ const onSubmit = async () => {
                                 :prefix="getSystemCurrencySymbol"
                             />
                         </div>
-                        <div
-                            class="q-px-md q-pb-sm col-lg-4 col-md-6 col-xs-12"
-                        >
-                            <BaseInput
-                                :label="t('color')"
-                                v-model="formData.color"
-                                readonly
-                                 :rules="['anyColor']"
-                                :error="$v.color.$error"
-                                @input="() => $v.color.$touch()"
-                                @blur="() => $v.color.$touch()"
-                                :errors="$v.color.$errors"
-                            >
-                                <template #append>
-                                    <q-icon
-                                        name="colorize"
-                                        class="cursor-pointer"
-                                    >
-                                        <q-popup-proxy
-                                            cover
-                                            transition-show="scale"
-                                            transition-hide="scale"
-                                        >
-                                            <q-color
-                                                :model-value="hex"
-                                                v-model="formData.color"
-                                            />
-                                        </q-popup-proxy>
-                                    </q-icon>
-                                </template>
-                            </BaseInput>
-                        </div>
+                        
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >

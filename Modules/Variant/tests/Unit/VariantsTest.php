@@ -36,7 +36,7 @@ class VariantsTest extends TestCase
 
         $res = $this->post(route('api.variants.store'), [
             'name' => 'testvariantname',
-            'color' => '#000000',
+            'sku' => 'ite-red-111',
             'code' => '12345678',
             'cost' => 33,
             'price' => 66,
@@ -58,7 +58,7 @@ class VariantsTest extends TestCase
             route('api.variants.update', ['variant' => $this->variant]),
             [
                 'name' => 'newvariantname',
-                'color' => '#ffffff',
+                'sku' => 'ite-red-111',
                 'code' => '99999999',
                 'cost' => 33,
                 'price' => 66,

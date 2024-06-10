@@ -3,7 +3,6 @@
 namespace Modules\Item\Http\Requests;
 
 use App\Enums\ItemTypesEnum;
-use App\Rules\WithOutSpaces;
 use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +19,7 @@ class StoreItemRequest extends FormRequest
             'item_desc'  => ['sometimes', 'max:255', 'nullable', 'string'],
             'category_id'   => ['required', 'integer', 'nullable'],
             'brand_id'      => ['sometimes', 'integer', 'nullable'],
+            'sku'          => ['required', 'min:8', 'string', Rule::unique('items', 'sku')->whereNull('deleted_at')->ignore($this->item)],
             'code'          => ['required', 'min:8', 'string', Rule::unique('items', 'code')->whereNull('deleted_at')->ignore($this->item)],
             'barcode_type'  => ['required', 'integer'],
             'cost'          => [Rule::requiredIf(!$this->type || $this->type === ItemTypesEnum::STANDARD->value), 'numeric', 'min:0'],
@@ -44,9 +44,9 @@ class StoreItemRequest extends FormRequest
             'variants'              => [Rule::requiredIf($this->type === ItemTypesEnum::VARIABLE->value), 'array'],
             'variants.*.name'       => ['distinct', 'required', 'string', 'min:3', 'max:100'],
             'variants.*.code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')],
+            'variants.*.sku'       => ['required', 'min:8', 'string', Rule::unique('variants', 'sku')->whereNull('deleted_at')],
             'variants.*.cost'       => ['required', 'numeric', 'min:0'],
             'variants.*.price'      => ['required', 'numeric', 'min:0'],
-            'variants.*.color'      => ['required', 'string', new WithOutSpaces],
             'variants.*.is_active'     => ['required', 'boolean'],
         ];
     }

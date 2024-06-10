@@ -9,6 +9,7 @@ const formData = reactive({
     item_desc: '',
     cost: 0,
     price: 0,
+    sku: '',
     code: '',
     barcode_type: 1,
     tax: 0,

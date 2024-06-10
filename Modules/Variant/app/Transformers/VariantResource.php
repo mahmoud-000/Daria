@@ -15,9 +15,9 @@ class VariantResource extends JsonResource
             'item' => $this->whenLoaded('item') ? ItemResource::make($this->whenLoaded('item')) : null,
             'name' => $this->name,
             'code' => $this->code,
+            'sku' => $this->sku,
             'cost' => $this->cost,
             'price' => $this->price,
-            'color' => $this->color,
             'is_active' => $this->is_active,
             'remarks' => $this->remarks ?? '',
         ];

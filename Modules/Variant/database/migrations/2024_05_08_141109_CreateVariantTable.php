@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('code')->nullable();
+            $table->string('sku')->nullable();
             $table->float('cost', 10, 0)->nullable()->default(0);
             $table->float('price', 10, 0)->nullable()->default(0);
-            $table->string('color')->nullable();
             $table->boolean('is_active')->nullable()->default(0);
             $table->text('remarks')->nullable();
             $table->foreignId('item_id')->constrained();

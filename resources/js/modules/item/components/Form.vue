@@ -72,6 +72,7 @@ const rules = computed(() => ({
     },
     price: { required, minValue: minValue(0) },
     barcode_type: { required },
+    sku: { required, minLength: minLength(8) },
     code: { required, minLength: minLength(8) },
     tax_type: { required },
     tax: {
@@ -107,7 +108,7 @@ const rules = computed(() => ({
             cost: { required, minValue: minValue(0) },
             price: { required, minValue: minValue(0) },
             code: { required, minLength: minLength(8) },
-            color: { required },
+            sku: { required, minLength: minLength(8) },
             is_active: { required },
         }),
     },
@@ -182,7 +183,7 @@ watch(
                         :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
                     >
                         <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                            class="col-lg-4 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <BaseInput
                                 v-model="formData.name"
@@ -193,8 +194,22 @@ watch(
                                 :errors="$v.name.$errors"
                             />
                         </div>
+
                         <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                            class="col-lg-4 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.sku"
+                                :label="t('sku')"
+                                :error="$v.sku.$error"
+                                @input="() => $v.sku.$touch()"
+                                @blur="() => $v.sku.$touch()"
+                                :errors="$v.sku.$errors"
+                            />
+                        </div>
+
+                        <div
+                            class="col-lg-4 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <BaseInput
                                 v-model="formData.label"

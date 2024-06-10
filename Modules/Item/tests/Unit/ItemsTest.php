@@ -75,7 +75,7 @@ class ItemsTest extends TestCase
 
         Variant::factory()->create(['code' => '123123123', 'item_id' => $itemInDB['id']]);
 
-        $newVariant = $this->createVariant(['name' => 'variant 1', 'code' => '123123123'])->toArray();
+        $newVariant = $this->createVariant(['name' => 'variant 1', 'code' => '123123123', 'sku' => 'it-23223'])->toArray();
 
         $res = $this->post(route('api.items.store'), [
             'name' => 'testitemname',
@@ -116,6 +116,7 @@ class ItemsTest extends TestCase
             'label' => 'testitemlabel',
             'barcode_type' => 1,
             'code' => '123123123',
+            'sku' => 'it-23223',
             'cost' => 10,
             'price' => 20,
             'category_id' => $categoryId,
@@ -153,6 +154,7 @@ class ItemsTest extends TestCase
             'label' => 'testitemlabel',
             'barcode_type' => 1,
             'code' => '13313322',
+            'sku' => 'it-23223',
             'price' => 20,
             'category_id' => $categoryId,
             'tax_type' => 1,
@@ -184,7 +186,7 @@ class ItemsTest extends TestCase
     public function test_can_create_variable_item()
     {
         $categoryId = $this->createCategory()->id;
-        $variant_1 = $this->createVariant(['name' => 'variant 1', 'code' => '23232323'])->toArray();
+        $variant_1 = $this->createVariant(['name' => 'variant 1', 'code' => '23232323', 'sku' => 'it-23223'])->toArray();
 
         $res = $this->post(route('api.items.store'), [
             'name' => 'testitemname',
@@ -192,6 +194,7 @@ class ItemsTest extends TestCase
             'label' => 'testitemlabel',
             'barcode_type' => 1,
             'code' => '1122331122',
+            'sku' => '1122331122',
             'category_id' => $categoryId,
             'tax_type' => 1,
             'is_active' => 1,
@@ -235,6 +238,7 @@ class ItemsTest extends TestCase
                 'name' => 'newitemname',
                 'label' => 'testitemlabel',
                 'code' => '99889988',
+                'sku' => '99889988',
                 'barcode_type' => 3,
                 'category_id' => $categoryId,
                 'tax_type' => 1,
@@ -262,7 +266,7 @@ class ItemsTest extends TestCase
         $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
 
         $itemId = $item->id;
-        $variant_1 = $this->createVariant(['code' => '12121212', 'item_id' => $itemId])->toArray();
+        $variant_1 = $this->createVariant(['code' => '12121212', 'sku' => 'it-23223', 'item_id' => $itemId])->toArray();
 
         $res = $this->put(
             route('api.items.update', ['item' => $itemId]),
@@ -270,6 +274,7 @@ class ItemsTest extends TestCase
                 'name' => 'newitemname',
                 'label' => 'testitemlabel',
                 'code' => '55667788',
+                'sku' => 'it-23223',
                 'barcode_type' => 1,
                 'category_id' => $categoryId,
                 'tax_type' => 1,
@@ -283,7 +288,7 @@ class ItemsTest extends TestCase
                 'variants' => [$variant_1]
             ]
         )->json();
-        
+
         $this->assertDatabaseCount('items', 2);
         $this->assertDatabaseCount('variants', 1);
         $this->assertTrue($res['success']);
@@ -340,6 +345,7 @@ class ItemsTest extends TestCase
             [
                 'name' => 'newitemname',
                 'label' => 'testitemlabel',
+                'sku' => 'test-1222',
                 'code' => '55666781',
                 'barcode_type' => 1,
                 'category_id' => $categoryId,

@@ -17,7 +17,7 @@ class ItemsList extends Controller
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return ItemsCollectionResource::collection(
             Item::query()
-                ->select(['id', 'code', 'cost', 'price', 'unit_id',  'name', 'type', 'category_id', 'brand_id', 'is_active', 'is_available_for_purchase', 'is_available_for_sale', 'created_at', 'updated_at'])
+                ->select(['id', 'code', 'sku', 'cost', 'price', 'unit_id',  'name', 'type', 'category_id', 'brand_id', 'is_active', 'is_available_for_purchase', 'is_available_for_sale', 'created_at', 'updated_at'])
                 ->with(['media', 'category:id,name', 'brand:id,name', 'unit:id,short_name', 'variants:item_id,name,cost,price', 'stock:item_id,quantity'])
                 ->withCount(['media'])
                 ->search($req->filter)

@@ -15,6 +15,7 @@ class ItemsCollectionResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
+            'sku' => $this->sku,
             'cost' => $this->cost,
             'price' => $this->price,
             'unit' => $this->unit?->short_name,

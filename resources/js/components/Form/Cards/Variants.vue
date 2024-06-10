@@ -54,7 +54,28 @@ const { t } = useI18n();
                     />
                 </div>
                 <div class="q-px-sm q-pb-sm col-lg-2 col-md-6 col-xs-12">
-                    <BaseInput :label="t('code')" v-model="variant.code" />
+                    <BaseInput
+                        :label="t('sku')"
+                        v-model="variant.sku"
+                        :errors="v.variants.$each.$response.$errors[i].sku"
+                        :error="
+                            Boolean(
+                                v.variants.$each.$response.$errors[i].sku.length
+                            )
+                        "
+                    />
+                </div>
+                <div class="q-px-sm q-pb-sm col-lg-2 col-md-6 col-xs-12">
+                    <BaseInput
+                        :label="t('code')"
+                        v-model="variant.code"
+                        :errors="v.variants.$each.$response.$errors[i].code"
+                        :error="
+                            Boolean(
+                                v.variants.$each.$response.$errors[i].code.length
+                            )
+                        "
+                    />
                 </div>
                 <div class="q-px-sm q-pb-sm col-lg-1 col-md-6 col-xs-12">
                     <BaseInput
@@ -80,35 +101,7 @@ const { t } = useI18n();
                         "
                     />
                 </div>
-                <div class="q-px-sm q-pb-sm col-lg-2 col-md-4 col-xs-12">
-                    <BaseInput
-                        :label="t('color')"
-                        v-model="variant.color"
-                        readonly
-                         :rules="['anyColor']"
-                        :error="
-                            Boolean(
-                                v.variants.$each.$response.$errors[i].color
-                                    .length
-                            )
-                        "
-                    >
-                        <template #append>
-                            <q-icon name="colorize" class="cursor-pointer">
-                                <q-popup-proxy
-                                    cover
-                                    transition-show="scale"
-                                    transition-hide="scale"
-                                >
-                                    <q-color
-                                        :model-value="hex"
-                                        v-model="variant.color"
-                                    />
-                                </q-popup-proxy>
-                            </q-icon>
-                        </template>
-                    </BaseInput>
-                </div>
+                
                 <div class="col-lg-2 col-md-6 col-xs-12 q-px-sm q-pb-sm">
                     <q-toggle
                         keep-color
