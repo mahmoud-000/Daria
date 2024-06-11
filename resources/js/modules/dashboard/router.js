@@ -12,6 +12,7 @@ const moduleRoutes = {
       meta: {
         layout: 'content',
         title: 'dashboard',
+        icon: 'dashboard',
         auth: true,
         breadcrumbs: [
           { label: 'links.home'}

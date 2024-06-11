@@ -101,7 +101,7 @@ const SYSTEM_NAME = computed(() => store.getters["setting/getSystemName"]);
                     </BaseInput>
 
                     <div class="row items-center justify-between">
-                        <q-checkbox
+                        <q-toggle
                             dense
                             v-model="formData.remember"
                             :label="$t('auth.remember')"

@@ -8,11 +8,11 @@ const { t } = useI18n();
 <template>
     <BaseBtn
         dark
-        glossy
         dense
+        flat
         round
         unelevated
-        color="primary"
+        :color="$q.dark.isActive ? 'white' : 'dark'"
         @click="AppFullscreen.toggle()"
         :icon="AppFullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
         :toolbar="t('fullscreen')"

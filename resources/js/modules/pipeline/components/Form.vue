@@ -133,6 +133,8 @@ const sortStages = () => {
                                 v-model="formData.is_active"
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"

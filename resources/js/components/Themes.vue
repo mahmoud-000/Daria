@@ -61,6 +61,8 @@ watch(
                 color="primary"
                 true-value="dark"
                 false-value="light"
+                checked-icon="check"
+                unchecked-icon="clear"
             />
         </h5>
 
@@ -72,6 +74,9 @@ watch(
                     v-model="themeToggle"
                     color="primary"
                     :true-value="theme.name"
+                    :false-value="themeToggle"
+                    checked-icon="check"
+                    unchecked-icon="clear"
                 />
             </q-card-section>
 
@@ -128,4 +133,3 @@ watch(
         </q-card>
     </q-card>
 </template>
-

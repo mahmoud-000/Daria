@@ -39,6 +39,7 @@ const store = createStore({
             if (theme) {
                 state.theme = theme;
             }
+            
             Cookies.set("theme", state.theme, {
                 path: "/",
             });

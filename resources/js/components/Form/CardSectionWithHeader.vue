@@ -26,7 +26,7 @@ const getTextClass = computed(() => store.getters["getTextClass"]);
             class="shadow-1 overflow-hidden"
             style="border-radius: 30px"
             icon="explore"
-            header-class="bg-primary text-white"
+            :header-class="`bg-primary ${getTextClass}`"
             :expand-icon-class="getTextClass"
             default-opened
             expand-icon-toggle

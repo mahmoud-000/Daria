@@ -315,12 +315,14 @@ watch(
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
-                            <q-checkbox
+                            <q-toggle
                                 dense
                                 color="primary"
                                 v-model="formData.is_active"
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"
@@ -334,12 +336,14 @@ watch(
                                 formData.is_active && formData.type !== SERVICE
                             "
                         >
-                            <q-checkbox
+                            <q-toggle
                                 dense
                                 color="primary"
                                 v-model="formData.is_available_for_purchase"
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_available_for_purchase')"
                             />
                         </div>
@@ -348,12 +352,14 @@ watch(
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                             v-if="formData.is_active"
                         >
-                            <q-checkbox
+                            <q-toggle
                                 dense
                                 color="primary"
                                 v-model="formData.is_available_for_sale"
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_available_for_sale')"
                             />
                         </div>
@@ -364,7 +370,7 @@ watch(
                                 formData.is_active && formData.type !== SERVICE
                             "
                         >
-                            <q-checkbox
+                            <q-toggle
                                 dense
                                 color="primary"
                                 v-model="
@@ -372,6 +378,8 @@ watch(
                                 "
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_available_for_edit_in_purchase')"
                             />
                         </div>
@@ -380,12 +388,14 @@ watch(
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                             v-if="formData.is_active"
                         >
-                            <q-checkbox
+                            <q-toggle
                                 dense
                                 color="primary"
                                 v-model="formData.is_available_for_edit_in_sale"
                                 :trueValue="1"
                                 :falseValue="0"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                                 :label="t('is_available_for_edit_in_sale')"
                             />
                         </div>

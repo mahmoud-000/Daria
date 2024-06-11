@@ -8,6 +8,7 @@ const { t } = useI18n();
 const route = useRoute();
 const breadcrumbs = ref([]);
 const moduleName = ref("");
+const moduleIcon = ref("");
 
 watch(
     () => route.meta.breadcrumbs,
@@ -18,9 +19,16 @@ watch(
 );
 
 watch(
-    () => route.name,
-    (name) => {
-        moduleName.value = name.split('.')[0];
+    [() => route.name, () => route.meta.icon],
+    ([newRouteName, newRouteIcon]) => {
+        let routeFullName = newRouteName.split(".");
+        moduleName.value = routeFullName[0];
+        moduleIcon.value =
+            routeFullName[1] === "create"
+                ? "add"
+                : routeFullName[1] === "edit"
+                ? "edit"
+                : newRouteIcon;
     },
     { immediate: true }
 );
@@ -36,7 +44,7 @@ watch(
         flat
     >
         <q-toolbar>
-            <q-btn flat round dense icon="assignment_ind" />
+            <q-btn flat round dense :icon="moduleIcon" />
 
             <q-toolbar-title>
                 {{
@@ -44,8 +52,8 @@ watch(
                 }}</q-toolbar-title
             >
 
-            <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-            <q-btn flat round dense icon="gamepad" />
+            <!-- <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
+            <q-btn flat round dense icon="gamepad" /> -->
         </q-toolbar>
         <q-toolbar inset>
             <q-breadcrumbs active-color="secondary" style="font-size: 16px">
