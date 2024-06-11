@@ -17,7 +17,7 @@ class VariantsList extends Controller
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return VariantResource::collection(
             Variant::query()
-                ->with(['item', 'item.media'])
+                ->with(['media', 'item', 'item.media'])
                 ->search($req->filter)
                 ->orderBy($req->sortBy, $dir)
                 ->paginate($req->rowsPerPage)

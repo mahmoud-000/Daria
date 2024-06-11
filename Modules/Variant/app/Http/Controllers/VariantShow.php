@@ -13,6 +13,6 @@ class VariantShow extends Controller
     public function __invoke(Variant $variant)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-variant'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return VariantResource::make($variant->load(['item', 'item.media']));
+        return VariantResource::make($variant->load(['media', 'item', 'item.media']));
     }
 }

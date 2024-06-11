@@ -22,6 +22,8 @@ class VariantUpdate extends Controller
                 if (isset($request['image']) && !is_null($request['image']) && !array_key_exists('fake', $request['image'])) {
                     (new FilesAssign)($request['image'], $variant, 'variants', 'image');
                 }
+
+                return $variant;
             });
             return $this->success(__('status.updated', ['name' => $variant['name'], 'module' => __('modules.variant')]));
         } catch (\Illuminate\Database\QueryException $e) {

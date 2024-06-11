@@ -22,7 +22,7 @@ class VariantResource extends JsonResource
             'is_active' => $this->is_active,
             'remarks' => $this->remarks ?? '',
             'image' => $this->whenLoaded('media') && $this->media_count
-                ? (new UploadResource($this->getFirstMedia('brands')))->additional(['conversion' => 'image'])
+                ? (new UploadResource($this->getFirstMedia('variants')))->additional(['conversion' => 'image'])
                 : config('upload.default_image')
         ];
     }

@@ -43,6 +43,11 @@ class LoginAction extends Controller
 
     $token = $user->createToken($request->device)->plainTextToken;
 
-    return $this->success(['message' => trans('auth::auth.login', ['user' => $user->username]), 'token' => $token, 'user' => AuthResource::make($user), 'permissions' => $user->getAllPermissions()]);
+    return $this->success([
+        'message' => trans('auth::auth.login', ['user' => $user->username]), 
+        'token' => $token, 
+        'user' => AuthResource::make($user), 
+        'permissions' => $user->getAllPermissions()
+    ]);
   }
 }
