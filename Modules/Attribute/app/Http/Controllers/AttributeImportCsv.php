@@ -39,8 +39,8 @@ class AttributeImportCsv extends Controller
             $errors = [];
             foreach ($attributesArray as $attribute) {
                 $validator = Validator::make($attribute, [
-                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('attributes', 'name')->whereNull('deleted_at')],
-                    'email'     => ['sometimes', 'nullable', 'email', Rule::unique('attributes', 'email')->whereNull('deleted_at')],
+                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('attributes', 'name')->withoutTrashed()],
+                    'email'     => ['sometimes', 'nullable', 'email', Rule::unique('attributes', 'email')->withoutTrashed()],
                     'phone' => ['sometimes', 'nullable', 'string'],
                     'mobile' => ['sometimes', 'nullable', 'string'],
                     'country' => ['string', 'nullable'],

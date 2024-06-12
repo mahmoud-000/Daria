@@ -13,7 +13,7 @@ class StoreRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'  => ['required', 'string', 'min:4', 'max:100', Rule::unique('roles', 'name')->whereNull('deleted_at')->ignore($this->role)],
+            'name'  => ['required', 'string', 'min:4', 'max:100', Rule::unique('roles', 'name')->withoutTrashed()->ignore($this->role)],
             'is_active'     => ['required', 'boolean'],
             'permissions'   => ['required', 'array'],
         ];

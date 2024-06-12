@@ -37,13 +37,13 @@ class SupplierImportCsv extends Controller
             $errors = [];
             foreach ($suppliersArray as $supplier) {
                 $validator = Validator::make($supplier, [
-                    'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('suppliers', 'username')->whereNull('deleted_at')],
+                    'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('suppliers', 'username')->withoutTrashed()],
                     'password'  => ['required', Password::min(8)
                         ->mixedCase()
                         ->letters()
                         ->numbers()
                         ->symbols()],
-                    'email'     => ['nullable', 'email', Rule::unique('suppliers', 'email')->whereNull('deleted_at')],
+                    'email'     => ['nullable', 'email', Rule::unique('suppliers', 'email')->withoutTrashed()],
                     'firstname' => ['nullable', 'string', 'min:3', 'max:50'],
                     'lastname'  => ['nullable', 'string', 'min:3', 'max:50'],
 

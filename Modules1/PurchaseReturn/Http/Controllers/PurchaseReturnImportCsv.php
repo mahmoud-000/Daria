@@ -62,8 +62,8 @@ class PurchaseReturnImportCsv extends Controller
             $errors = [];
             foreach ($purchase_returnsArray as $purchase_return) {
                 $validator = Validator::make($purchase_return, [
-                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('purchase_returns', 'name')->whereNull('deleted_at')],
-                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('purchase_returns', 'label')->whereNull('deleted_at')],
+                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('purchase_returns', 'name')->withoutTrashed()],
+                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('purchase_returns', 'label')->withoutTrashed()],
                     'purchase_return_desc'  => ['sometimes', 'max:255', 'nullable', 'string'],
                     'category_id'   => ['sometimes', 'integer', 'nullable'],
                     'brand_id'      => ['sometimes', 'integer', 'nullable'],

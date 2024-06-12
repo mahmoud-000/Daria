@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('variant_id')->nullable()->constrained();
             $table->foreignId('warehouse_id')->constrained();
             
-            $table->json('details')->nullable();
+            $table->string('sku')->nullable();
             
             $table->softDeletes();
             $table->timestamp('created_at')->useCurrent();

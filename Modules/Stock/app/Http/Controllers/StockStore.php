@@ -24,13 +24,15 @@ class StockStore extends Controller
                             $stock[] = [
                                 'item_id' => $item->id,
                                 'warehouse_id' => $warehouse,
-                                'variant_id' => $variant->id
+                                'variant_id' => $variant->id,
+                                'sku' => $variant-sku
                             ];
                         }
                     } else {
                         $stock[] = [
                             'item_id' => $item->id,
                             'warehouse_id' => $warehouse,
+                            'sku' => $item->sku,
                             'variant_id' => null
                         ];
                     }

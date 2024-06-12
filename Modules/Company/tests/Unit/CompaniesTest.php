@@ -27,39 +27,6 @@ class CompaniesTest extends TestCase
         $this->assertEquals(1, $res['meta']['total']);
     }
 
-    public function test_can_not_create_company_without_branches()
-    {
-        $res = $this->post(route('api.companies.store'), [
-            'name' => 'testcompanyname',
-            'is_active' => 0,
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('branches', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_company_with_duuplicate_branches()
-    {
-        $branch_1 = $this->createBranch(['name' => 'Branch 1'])->toArray();
-        $dupbranch_1 = $this->createBranch(['name' => 'Branch 1'])->toArray();
-
-        $res = $this->post(route('api.companies.store'), [
-            'name' => 'testcompanyname',
-            'is_active' => 0,
-            'branches' => [$branch_1, $dupbranch_1]
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('branches.0.name', 'payload')
-            ->assertJsonValidationErrorFor('branches.1.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
     public function test_can_create_company_with_branches()
     {
         $companyId = $this->company->id;
@@ -85,28 +52,6 @@ class CompaniesTest extends TestCase
         $this->assertDatabaseHas('companies', ['name' => 'testcompanyname']);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.created', ['name' => 'testcompanyname', 'module' => __('modules.company')]));
-    }
-
-    public function test_can_not_edit_company_with_duuplicate_branches()
-    {
-        $companyId = $this->company->id;
-        $branches = [
-            $this->createBranch(['name' => 'Branch 1', 'company_id' => $companyId])->toArray(),
-            $this->createBranch(['name' => 'Branch 1', 'company_id' => $companyId])->toArray()
-        ];
-
-        $res = $this->post(route('api.companies.store'), [
-            'name' => 'testpipelinename',
-            'is_active' => true,
-            'branches' => $branches
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('branches.0.name', 'payload')
-            ->assertJsonValidationErrorFor('branches.1.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
     }
 
     public function test_can_edit_company_and_branches()
@@ -205,4 +150,96 @@ class CompaniesTest extends TestCase
         $res = $this->delete(route('api.companies.destroy', ['company' => $this->company->id]))->json();
         $this->assertTrue($res['success']);
     }
+
+    public function test_can_not_create_company_without_branches()
+    {
+        $res = $this->post(route('api.companies.store'), [
+            'name' => 'testcompanyname',
+            'is_active' => 0,
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('branches', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_create_company_with_duuplicate_branches()
+    {
+        $branch_1 = $this->createBranch(['name' => 'Branch 1'])->toArray();
+        $dupbranch_1 = $this->createBranch(['name' => 'Branch 1'])->toArray();
+
+        $res = $this->post(route('api.companies.store'), [
+            'name' => 'testcompanyname',
+            'is_active' => true,
+            'branches' => [$branch_1, $dupbranch_1]
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('branches.0.name', 'payload')
+            ->assertJsonValidationErrorFor('branches.1.name', 'payload')
+            ->json();
+        
+        $this->assertFalse($res['success']);
+    }
+    public function test_can_create_company_has_branch_name_already_exists_with_another_company()
+    {
+        $company2ID = $this->createCompany()->id;
+        $old_branch = $this->storeBranch(['name' => 'Branch 1', 'company_id' => $company2ID]);
+        $branch_1 = $this->createBranch(['name' => 'Branch 1'])->toArray();
+
+        $res = $this->post(route('api.companies.store'), [
+            'name' => 'testcompanyname',
+            'is_active' => true,
+            'branches' => [$branch_1]
+        ])
+            ->assertStatus(200)
+            ->json();
+
+        $this->assertTrue($res['success']);
+    }
+
+    public function test_can_not_edit_company_with_duuplicate_branches()
+    {
+        $companyId = $this->company->id;
+        $branches = [
+            $this->createBranch(['name' => 'Branch 1', 'company_id' => $companyId])->toArray(),
+            $this->createBranch(['name' => 'Branch 1', 'company_id' => $companyId])->toArray()
+        ];
+
+        $res = $this->post(route('api.companies.store'), [
+            'name' => 'testcompanyname',
+            'is_active' => true,
+            'branches' => $branches
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('branches.0.name', 'payload')
+            ->assertJsonValidationErrorFor('branches.1.name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_edit_company_has_branch_name_already_exists_with_another_company()
+    {
+        $companyId = $this->company->id;
+        $company2Id = $this->createCompany()->id;
+        $this->storeBranch(['name' => 'Branch 1', 'company_id' => $company2Id]);
+        $branches = [
+            $this->createBranch(['name' => 'Branch 1', 'company_id' => $companyId])->toArray()
+        ];
+
+        $res = $this->post(route('api.companies.store'), [
+            'name' => 'testcompanyname',
+            'is_active' => true,
+            'branches' => $branches
+        ])
+            ->assertStatus(200)
+            ->json();
+
+        $this->assertTrue($res['success']);
+    }
+
 }

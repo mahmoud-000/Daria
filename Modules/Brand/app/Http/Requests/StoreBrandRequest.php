@@ -14,7 +14,7 @@ class StoreBrandRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('brands', 'name')->whereNull('deleted_at')->ignore($this->brand)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('brands', 'name')->withoutTrashed()->ignore($this->brand)],
             'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
             'logo'          => ['sometimes', 'array', 'nullable'],

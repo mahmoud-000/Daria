@@ -13,8 +13,8 @@ class StoreUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('units', 'name')->whereNull('deleted_at')->ignore($this->unit)],
-            'short_name'    => ['required', 'min:1', 'max:50', Rule::unique('units', 'short_name')->whereNull('deleted_at')->ignore($this->unit)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('units', 'name')->withoutTrashed()->ignore($this->unit)],
+            'short_name'    => ['required', 'min:1', 'max:50', Rule::unique('units', 'short_name')->withoutTrashed()->ignore($this->unit)],
             'unit_id'       => ['sometimes', 'integer', 'nullable'],
             'operator'      => [
                 'sometimes', 'nullable',

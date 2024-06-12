@@ -13,9 +13,9 @@ class StoreVariantRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => ['required', 'string', 'min:3', 'max:100', Rule::unique('variants', 'name')->whereNull('deleted_at')->where('item_id', $this->item_id)],
-            'code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')->where('item_id', $this->item_id)],
-            'sku'       => ['required', 'min:8', 'string', Rule::unique('variants', 'sku')->whereNull('deleted_at')->where('item_id', $this->item_id)],
+            'name'       => ['required', 'string', 'min:3', 'max:100', Rule::unique('variants', 'name')->withoutTrashed()->where('item_id', $this->item_id)],
+            'code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->withoutTrashed()->where('item_id', $this->item_id)],
+            'sku'       => ['required', 'min:8', 'string', Rule::unique('variants', 'sku')->withoutTrashed()->where('item_id', $this->item_id)],
             'cost'       => ['required', 'numeric', 'min:0'],
             'price'      => ['required', 'numeric', 'min:0'],
             'is_active'     => ['required', 'boolean'],

@@ -39,8 +39,8 @@ class WarehouseImportCsv extends Controller
             $errors = [];
             foreach ($warehousesArray as $warehouse) {
                 $validator = Validator::make($warehouse, [
-                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('warehouses', 'name')->whereNull('deleted_at')],
-                    'email'     => ['sometimes', 'nullable', 'email', Rule::unique('warehouses', 'email')->whereNull('deleted_at')],
+                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('warehouses', 'name')->withoutTrashed()],
+                    'email'     => ['sometimes', 'nullable', 'email', Rule::unique('warehouses', 'email')->withoutTrashed()],
                     'phone' => ['sometimes', 'nullable', 'string'],
                     'mobile' => ['sometimes', 'nullable', 'string'],
                     'country' => ['string', 'nullable'],

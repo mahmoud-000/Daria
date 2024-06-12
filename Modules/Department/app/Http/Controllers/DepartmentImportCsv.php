@@ -29,7 +29,7 @@ class DepartmentImportCsv extends Controller
             $errors = [];
             foreach ($departmentsArray as $department) {
                 $validator = Validator::make($department, [
-                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('departments', 'name')->whereNull('deleted_at')],
+                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('departments', 'name')->withoutTrashed()],
                     'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],
                 ]);

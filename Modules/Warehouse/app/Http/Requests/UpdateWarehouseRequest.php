@@ -13,8 +13,8 @@ class UpdateWarehouseRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => ['required', 'string', 'min:3', 'max:100', Rule::unique('warehouses', 'name')->whereNull('deleted_at')->ignore($this->warehouse)],
-            'email'     => ['sometimes', 'nullable', 'email', Rule::unique('warehouses', 'email')->whereNull('deleted_at')->ignore($this->warehouse)],
+            'name'         => ['required', 'string', 'min:3', 'max:100', Rule::unique('warehouses', 'name')->withoutTrashed()->ignore($this->warehouse)],
+            'email'     => ['sometimes', 'nullable', 'email', Rule::unique('warehouses', 'email')->withoutTrashed()->ignore($this->warehouse)],
             'phone' => ['sometimes', 'nullable', 'string'],
             'mobile' => ['sometimes', 'nullable', 'string'],
             'country' => ['string', 'nullable'],

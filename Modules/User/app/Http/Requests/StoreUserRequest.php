@@ -14,14 +14,14 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($this->user)],
+            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->withoutTrashed()->ignore($this->user)],
             'password'  => ['required', 'confirmed', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()],
 
-            'email'     => [Rule::requiredIf($this->send_notify), 'nullable', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($this->user)],
+            'email'     => [Rule::requiredIf($this->send_notify), 'nullable', 'email', Rule::unique('users', 'email')->withoutTrashed()->ignore($this->user)],
             'firstname' => ['nullable', 'string', 'min:3', 'max:50'],
             'lastname'  => ['nullable', 'string', 'min:3', 'max:50'],
 
@@ -37,7 +37,7 @@ class StoreUserRequest extends FormRequest
             'permissions'   => ['sometimes', 'array'],
 
             'locations'     => ['sometimes', 'array', 'present'],
-            'locations.*.name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('locations', 'name')->where('locationable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'locationable_id')],
+            'locations.*.name' => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('locations', 'name')->where('locationable_type', 'User')->whereNull('locationable_id')],
             'locations.*.country' => ['string', 'nullable'],
             'locations.*.city' => ['string', 'nullable'],
             'locations.*.state' => ['string', 'nullable'],
@@ -46,10 +46,10 @@ class StoreUserRequest extends FormRequest
             'locations.*.second_address' => ['string', 'nullable'],
 
             'contacts' => ['sometimes', 'array', 'present'],
-            'contacts.*.name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('contacts', 'name')->where('contactable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
-            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
-            'contacts.*.phone' => ['sometimes', 'nullable', 'string'],
-            'contacts.*.mobile' => ['sometimes', 'nullable', 'string'],
+            'contacts.*.name' => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('contacts', 'name')->where('contactable_type', 'User')->whereNull('contactable_id')],
+            'contacts.*.email' => ['distinct', 'sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'User')],
+            'contacts.*.phone' => ['distinct', 'sometimes', 'nullable', 'string', Rule::unique('contacts', 'phone')->where('contactable_type', 'User')],
+            'contacts.*.mobile' => ['distinct', 'sometimes', 'nullable', 'string', Rule::unique('contacts', 'mobile')->where('contactable_type', 'User')],
 
             'avatar' => ['sometimes', 'array', 'nullable'],
         ];

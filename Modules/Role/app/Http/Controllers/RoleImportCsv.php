@@ -37,13 +37,13 @@ class RoleImportCsv extends Controller
             $errors = [];
             foreach ($rolesArray as $role) {
                 $validator = Validator::make($role, [
-                    'name'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('roles', 'name')->whereNull('deleted_at')],
+                    'name'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('roles', 'name')->withoutTrashed()],
                     'password'  => ['required', Password::min(8)
                         ->mixedCase()
                         ->letters()
                         ->numbers()
                         ->symbols()],
-                    'email'     => ['nullable', 'email', Rule::unique('roles', 'email')->whereNull('deleted_at')],
+                    'email'     => ['nullable', 'email', Rule::unique('roles', 'email')->withoutTrashed()],
                     'firstname' => ['nullable', 'string', 'min:3', 'max:50'],
                     'lastname'  => ['nullable', 'string', 'min:3', 'max:50'],
 

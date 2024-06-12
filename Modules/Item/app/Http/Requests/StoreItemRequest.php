@@ -14,13 +14,13 @@ class StoreItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'min:3', 'max:100', Rule::unique('items', 'name')->whereNull('deleted_at')->ignore($this->item)],
-            'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('items', 'label')->whereNull('deleted_at')->ignore($this->item)],
+            'name'          => ['required', 'min:3', 'max:100', Rule::unique('items', 'name')->withoutTrashed()->ignore($this->item)],
+            'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('items', 'label')->withoutTrashed()->ignore($this->item)],
             'item_desc'  => ['sometimes', 'max:255', 'nullable', 'string'],
             'category_id'   => ['required', 'integer', 'nullable'],
             'brand_id'      => ['sometimes', 'integer', 'nullable'],
-            'sku'          => ['required', 'min:8', 'string', Rule::unique('items', 'sku')->whereNull('deleted_at')->ignore($this->item)],
-            'code'          => ['required', 'min:8', 'string', Rule::unique('items', 'code')->whereNull('deleted_at')->ignore($this->item)],
+            'sku'          => ['required', 'min:8', 'string', Rule::unique('items', 'sku')->withoutTrashed()->ignore($this->item)],
+            'code'          => ['required', 'min:8', 'string', Rule::unique('items', 'code')->withoutTrashed()->ignore($this->item)],
             'barcode_type'  => ['required', 'integer'],
             'cost'          => [Rule::requiredIf(!$this->type || $this->type === ItemTypesEnum::STANDARD->value), 'numeric', 'min:0'],
             'price'         => [Rule::requiredIf(!$this->type || $this->type !== ItemTypesEnum::VARIABLE->value), 'numeric', 'min:0'],
@@ -42,9 +42,9 @@ class StoreItemRequest extends FormRequest
             'item_images' => ['sometimes', 'array', 'nullable'],
 
             'variants'              => [Rule::requiredIf($this->type === ItemTypesEnum::VARIABLE->value), 'array'],
-            'variants.*.name'       => ['distinct', 'required', 'string', 'min:3', 'max:100'],
-            'variants.*.code'       => ['required', 'min:8', 'string', Rule::unique('variants', 'code')->whereNull('deleted_at')],
-            'variants.*.sku'       => ['required', 'min:8', 'string', Rule::unique('variants', 'sku')->whereNull('deleted_at')],
+            'variants.*.name'       => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('variants', 'name')->withoutTrashed()->whereNull('item_id')],
+            'variants.*.code'       => ['distinct', 'required', 'min:8', 'string', Rule::unique('variants', 'code')->withoutTrashed()],
+            'variants.*.sku'       => ['distinct', 'required', 'min:8', 'string', Rule::unique('variants', 'sku')->withoutTrashed()],
             'variants.*.cost'       => ['required', 'numeric', 'min:0'],
             'variants.*.price'      => ['required', 'numeric', 'min:0'],
             'variants.*.is_active'     => ['required', 'boolean'],

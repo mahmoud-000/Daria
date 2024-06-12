@@ -11,6 +11,7 @@ use Modules\Item\Models\Item;
 use Modules\Item\Http\Requests\UpdateItemRequest;
 use Modules\Stock\Http\Controllers\StockDestroy;
 use Modules\Stock\Http\Controllers\StockStore;
+use Modules\Stock\Models\Stock;
 use Modules\Upload\Http\Controllers\FilesAssign;
 use Modules\Variant\Models\Variant;
 
@@ -22,6 +23,11 @@ class ItemUpdate extends Controller
             $request = $request->validated();
             $item = DB::transaction(function () use ($item, $request) {
                 $item->update(Arr::except($request, ['item_images', 'variants']));
+
+                if ($item->type !== ItemTypesEnum::VARIABLE) {
+                    Stock::where('item_id', $item->id)->update(['sku' => $item->sku]);
+                }
+
 
                 if (isset($request['item_images']) && !is_null($request['item_images']) && !array_key_exists('fake', $request['item_images'])) {
                     (new FilesAssign)($request['item_images'], $item, 'items', 'item_images', true);
@@ -61,7 +67,6 @@ class ItemUpdate extends Controller
                 $newVariantsArray[] = $variant;
             }
         }
-
         // If has variants to update
         if (count($existingVariantsIds)) {
             // Get the ids of the not existing variants
@@ -74,6 +79,17 @@ class ItemUpdate extends Controller
             // Delete the not existing variants
             Variant::whereIn('id', $variantsDeletedIds)
                 ->delete();
+
+            // Update SKU inStock Table
+            $variantsWithSku = collect($existingVariants)
+                ->map(function ($variant) {
+                    return [
+                        'variant_id' => $variant['id'],
+                        'sku' => $variant['sku'],
+                    ];
+                })->all();
+
+            Stock::upsert($variantsWithSku, ['sku']);
             // Delete the stock for the not existing variants
             (new StockDestroy)($item, $variantsDeletedIds);
         }

@@ -37,13 +37,13 @@ class UserImportCsv extends Controller
             $errors = [];
             foreach ($usersArray as $user) {
                 $validator = Validator::make($user, [
-                    'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->whereNull('deleted_at')],
+                    'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->withoutTrashed()],
                     'password'  => ['required', Password::min(8)
                         ->mixedCase()
                         ->letters()
                         ->numbers()
                         ->symbols()],
-                    'email'     => ['nullable', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')],
+                    'email'     => ['nullable', 'email', Rule::unique('users', 'email')->withoutTrashed()],
                     'firstname' => ['nullable', 'string', 'min:3', 'max:50'],
                     'lastname'  => ['nullable', 'string', 'min:3', 'max:50'],
 

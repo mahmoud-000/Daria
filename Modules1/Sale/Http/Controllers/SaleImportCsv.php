@@ -62,8 +62,8 @@ class SaleImportCsv extends Controller
             $errors = [];
             foreach ($salesArray as $sale) {
                 $validator = Validator::make($sale, [
-                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('sales', 'name')->whereNull('deleted_at')],
-                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('sales', 'label')->whereNull('deleted_at')],
+                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('sales', 'name')->withoutTrashed()],
+                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('sales', 'label')->withoutTrashed()],
                     'sale_desc'  => ['sometimes', 'max:255', 'nullable', 'string'],
                     'category_id'   => ['sometimes', 'integer', 'nullable'],
                     'brand_id'      => ['sometimes', 'integer', 'nullable'],

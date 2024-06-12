@@ -31,6 +31,7 @@ class UnitsTest extends TestCase
         $res = $this->post(route('api.units.store'), [
             'name' => 'testunitname',
             'short_name' => 'testunitshortname',
+            'is_active' => true,
         ])->json();
 
         $this->assertDatabaseCount('units', 2);
@@ -49,6 +50,7 @@ class UnitsTest extends TestCase
             [
                 'name' => 'newunitname',
                 'short_name' => 'newunitshortname',
+                'is_active' => true,
             ]
         )->json();
 

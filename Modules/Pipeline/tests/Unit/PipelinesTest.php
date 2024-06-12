@@ -26,60 +26,6 @@ class PipelinesTest extends TestCase
         $this->assertEquals(1, count($res['data']));
         $this->assertEquals(1, $res['meta']['total']);
     }
-
-    public function test_can_not_create_pipeline_without_stages()
-    {
-        $res = $this->post(route('api.pipelines.store'), [
-            'name' => 'testpipelinename',
-            'app_name' => 'Quotation',
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('stages', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_pipeline_with_duuplicate_stages()
-    {
-        $stage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
-        $dupstage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
-
-        $res = $this->post(route('api.pipelines.store'), [
-            'name' => 'testpipelinename',
-            'app_name' => 'Purchase',
-            'is_active' => true,
-            'stages' => [$stage_1, $dupstage_1]
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
-            ->assertJsonValidationErrorFor('stages.1.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_pipeline_has_stage_name_already_exists()
-    {
-        $old_stage = $this->storeStage(['name' => 'Stage 1', 'pipeline_id' => $this->pipeline->id]);
-        $stage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
-
-        $res = $this->post(route('api.pipelines.store'), [
-            'name' => 'testpipelinename',
-            'app_name' => 'Purchase',
-            'is_active' => true,
-            'stages' => [$stage_1]
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
     public function test_can_create_pipeline_with_stages()
     {
         $pipelineId = $this->pipeline->id;
@@ -108,52 +54,6 @@ class PipelinesTest extends TestCase
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.created', ['name' => 'testpipelinename', 'module' => __('modules.pipeline')]));
     }
-
-    public function test_can_not_edit_pipeline_with_duuplicate_stages()
-    {
-        $pipelineId = $this->pipeline->id;
-        $stages = [
-            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray(),
-            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray()
-        ];
-
-        $res = $this->post(route('api.pipelines.store'), [
-            'name' => 'testpipelinename',
-            'app_name' => 'Purchase',
-            'is_active' => true,
-            'stages' => $stages
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
-            ->assertJsonValidationErrorFor('stages.1.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_edit_pipeline_has_stage_name_already_exists()
-    {
-        $pipelineId = $this->pipeline->id;
-        $this->storeStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId]);
-        $stages = [
-            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray()
-        ];
-
-        $res = $this->post(route('api.pipelines.store'), [
-            'name' => 'testpipelinename',
-            'app_name' => 'Purchase',
-            'is_active' => true,
-            'stages' => $stages
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
     public function test_can_edit_pipeline_and_stages()
     {
         $pipeline = $this->pipeline;
@@ -245,6 +145,99 @@ class PipelinesTest extends TestCase
     public function test_can_delete_pipeline()
     {
         $res = $this->delete(route('api.pipelines.destroy', ['pipeline' => $this->pipeline->id]))->json();
+        $this->assertTrue($res['success']);
+    }
+    public function test_can_not_create_pipeline_without_stages()
+    {
+        $res = $this->post(route('api.pipelines.store'), [
+            'name' => 'testpipelinename',
+            'app_name' => 'Quotation',
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('stages', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+    public function test_can_not_create_pipeline_with_duuplicate_stages()
+    {
+        $stage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
+        $dupstage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
+
+        $res = $this->post(route('api.pipelines.store'), [
+            'name' => 'testpipelinename',
+            'app_name' => 'Purchase',
+            'is_active' => true,
+            'stages' => [$stage_1, $dupstage_1]
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
+            ->assertJsonValidationErrorFor('stages.1.name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+    public function test_can_create_pipeline_has_stage_name_already_exists_with_another_pipeline()
+    {
+        $pipeline2ID = $this->createPipeline()->id;
+        $old_stage = $this->storeStage(['name' => 'Stage 1', 'pipeline_id' => $pipeline2ID]);
+        $stage_1 = $this->createStage(['name' => 'Stage 1'])->toArray();
+
+        $res = $this->post(route('api.pipelines.store'), [
+            'name' => 'testpipelinename',
+            'app_name' => 'Purchase',
+            'is_active' => true,
+            'stages' => [$stage_1]
+        ])
+            ->assertStatus(200)
+            ->json();
+
+        $this->assertTrue($res['success']);
+    }
+
+    public function test_can_not_edit_pipeline_with_duuplicate_stages()
+    {
+        $pipelineId = $this->pipeline->id;
+        $stages = [
+            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray(),
+            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray()
+        ];
+
+        $res = $this->post(route('api.pipelines.store'), [
+            'name' => 'testpipelinename',
+            'app_name' => 'Purchase',
+            'is_active' => true,
+            'stages' => $stages
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('stages.0.name', 'payload')
+            ->assertJsonValidationErrorFor('stages.1.name', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_edit_pipeline_has_stage_name_already_exists_with_another_pipeline()
+    {
+        $pipelineId = $this->pipeline->id;
+        $pipeline2Id = $this->createPipeline()->id;
+        $this->storeStage(['name' => 'Stage 1', 'pipeline_id' => $pipeline2Id]);
+        $stages = [
+            $this->createStage(['name' => 'Stage 1', 'pipeline_id' => $pipelineId])->toArray()
+        ];
+
+        $res = $this->post(route('api.pipelines.store'), [
+            'name' => 'testpipelinename',
+            'app_name' => 'Purchase',
+            'is_active' => true,
+            'stages' => $stages
+        ])
+            ->assertStatus(200)
+            ->json();
+
         $this->assertTrue($res['success']);
     }
 }

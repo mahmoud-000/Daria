@@ -13,7 +13,7 @@ class StoreBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')->where('company_id', $this->company_id)],
+            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->withoutTrashed()->where('company_id', $this->company_id)],
             'is_main'  => ['required', 'boolean'],
             'is_active'  => ['required', 'boolean'],
             'country' => ['sometimes', 'string', 'nullable'],
@@ -21,9 +21,9 @@ class StoreBranchRequest extends FormRequest
             'state' => ['sometimes', 'string', 'nullable'],
             'zip' => ['sometimes', 'string', 'nullable'],
             'address' => ['sometimes', 'string', 'nullable'],
-            'email' => ['sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->whereNull('deleted_at')],
-            'phone' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'phone')->whereNull('deleted_at')],
-            'mobile' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'mobile')->whereNull('deleted_at')],
+            'email' => ['sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->withoutTrashed()],
+            'phone' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'phone')->withoutTrashed()],
+            'mobile' => ['sometimes', 'nullable', 'string', Rule::unique('branches', 'mobile')->withoutTrashed()],
             'company_id'       => ['required', 'integer'],
         ];
     }

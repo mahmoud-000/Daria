@@ -133,6 +133,34 @@ return [
         ],
         'stages' => [
             'required' => 'The stages array is required.',
+            'distinct' => 'The stages array is required.',
+        ],
+        'stages.*.name' => [
+            'distinct' => 'The stage name number :position is duplicate.',
+        ],
+        'contacts.*.name' => [
+            'distinct' => 'The contact name number :position is duplicate.',
+        ],
+        'contacts.*.email' => [
+            'distinct' => 'The contact email number :position is duplicate.',
+        ],
+        'contacts.*.phone' => [
+            'distinct' => 'The contact phone number :position is duplicate.',
+        ],
+        'contacts.*.mobile' => [
+            'distinct' => 'The contact mobile number :position is duplicate.',
+        ],
+        'locations.*.name' => [
+            'distinct' => 'The location name number :position is duplicate.',
+        ],
+        'variants.*.name' => [
+            'distinct' => 'The variant name number :position is duplicate.',
+        ],
+        'variants.*.code' => [
+            'distinct' => 'The variant code number :position is duplicate.',
+        ],
+        'variants.*.sku' => [
+            'distinct' => 'The variant sku number :position is duplicate.',
         ],
     ],
 
@@ -166,10 +194,14 @@ return [
         'variants' => 'Variants array',
         'variants.*.name' => 'Variant name',
         'variants.*.color' => 'Variant color',
+        'variants.*.sku' => 'Variant SKU',
         'variants.*.code' => 'Variant code',
         'variants.*.price' => 'Variant price',
         'variants.*.cosy' => 'Variant cosy',
 
+        'company_id' => 'Company',
+        'branch_id' => 'Branch',
+        'department_id' => 'Department',
         'category_id' => 'Category',
         'brand_id' => 'Brand',
         'unit_id' => 'Unit',

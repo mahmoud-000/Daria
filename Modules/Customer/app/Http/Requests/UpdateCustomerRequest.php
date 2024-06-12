@@ -14,15 +14,15 @@ class UpdateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'fullname'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'fullname')->whereNull('deleted_at')->ignore($this->customer)],
-            'email'     => ['nullable', 'email', Rule::unique('customers', 'email')->whereNull('deleted_at')->ignore($this->customer)],
+            'fullname'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'fullname')->withoutTrashed()->ignore($this->customer)],
+            'email'     => ['nullable', 'email', Rule::unique('customers', 'email')->withoutTrashed()->ignore($this->customer)],
             'remarks'       => ['string', 'nullable'],
             'is_active'      => ['sometimes', 'boolean'],
             'type'      => ['required', 'integer'],
-            'company_name'  => [Rule::requiredIf(!$this->type || $this->type === ICTypesEnum::COMPANY->value), 'nullable', 'string', 'min:8', 'max:100', Rule::unique('customers', 'company_name')->whereNull('deleted_at')->ignore($this->customer)],
+            'company_name'  => [Rule::requiredIf(!$this->type || $this->type === ICTypesEnum::COMPANY->value), 'nullable', 'string', 'min:8', 'max:100', Rule::unique('customers', 'company_name')->withoutTrashed()->ignore($this->customer)],
 
             'locations'     => ['sometimes', 'array', 'present'],
-            'locations.*.name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('locations', 'name')->where('locationable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'locationable_id')],
+            'locations.*.name' => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('locations', 'name')->where('locationable_type', 'Customer')->ignore($this->customer->id, 'locationable_id')],
             'locations.*.country' => ['string', 'nullable'],
             'locations.*.city' => ['string', 'nullable'],
             'locations.*.state' => ['string', 'nullable'],
@@ -31,10 +31,10 @@ class UpdateCustomerRequest extends FormRequest
             'locations.*.second_address' => ['string', 'nullable'],
 
             'contacts' => ['sometimes', 'array', 'present'],
-            'contacts.*.name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('contacts', 'name')->where('contactable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
-            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
-            'contacts.*.phone' => ['sometimes', 'nullable', 'string'],
-            'contacts.*.mobile' => ['sometimes', 'nullable', 'string'],
+            'contacts.*.name' => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('contacts', 'name')->where('contactable_type', 'Customer')->ignore($this->customer->id, 'contactable_id')],
+            'contacts.*.email' => ['distinct', 'sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'Customer')->ignore($this->customer->id, 'contactable_id')],
+            'contacts.*.phone' => ['distinct', 'sometimes', 'nullable', 'string', Rule::unique('contacts', 'phone')->where('contactable_type', 'Customer')->ignore($this->customer->id, 'contactable_id')],
+            'contacts.*.mobile' => ['distinct', 'sometimes', 'nullable', 'string', Rule::unique('contacts', 'mobile')->where('contactable_type', 'Customer')->ignore($this->customer->id, 'contactable_id')],
 
             'avatar' => ['sometimes', 'array', 'nullable'],
         ];

@@ -3,7 +3,8 @@
 namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Permission\Models\Permission;
+use Modules\Contact\Models\Contact;
+use Modules\Location\Models\Location;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
 
@@ -11,7 +12,7 @@ class UserDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $owner= User::create([
+        $owner = User::create([
             'username'      => 'owner',
             'firstname'     => 'Owner',
             'lastname'      => 'Owner',
@@ -40,6 +41,9 @@ class UserDatabaseSeeder extends Seeder
         // $user->permissions()->attach($permissions);
         $role = Role::where('slug', 'admin')->first();
         $admin->roles()->attach($role);
-        User::factory(3)->create();
+        User::factory(3)
+            ->has(Contact::factory()->count(2))
+            ->has(Location::factory()->count(3))
+            ->create();
     }
 }

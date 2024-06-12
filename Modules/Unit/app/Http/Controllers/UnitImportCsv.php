@@ -33,8 +33,8 @@ class UnitImportCsv extends Controller
             $errors = [];
             foreach ($unitsArray as $unit) {
                 $validator = Validator::make($unit, [
-                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('units', 'name')->whereNull('deleted_at')],
-                    'short_name'    => ['required', 'min:1', 'max:50', Rule::unique('units', 'short_name')->whereNull('deleted_at')],
+                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('units', 'name')->withoutTrashed()],
+                    'short_name'    => ['required', 'min:1', 'max:50', Rule::unique('units', 'short_name')->withoutTrashed()],
                     'unit_id'       => ['sometimes', 'integer', 'nullable'],
                     'operator'      => [
                         'sometimes', 'nullable',

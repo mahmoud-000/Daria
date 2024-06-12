@@ -62,8 +62,8 @@ class QuotationImportCsv extends Controller
             $errors = [];
             foreach ($quotationsArray as $quotation) {
                 $validator = Validator::make($quotation, [
-                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('quotations', 'name')->whereNull('deleted_at')],
-                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('quotations', 'label')->whereNull('deleted_at')],
+                    'name'          => ['required', 'min:3', 'max:100', Rule::unique('quotations', 'name')->withoutTrashed()],
+                    'label'         => ['required', 'min:3', 'max:100', 'string', Rule::unique('quotations', 'label')->withoutTrashed()],
                     'quotation_desc'  => ['sometimes', 'max:255', 'nullable', 'string'],
                     'category_id'   => ['sometimes', 'integer', 'nullable'],
                     'brand_id'      => ['sometimes', 'integer', 'nullable'],

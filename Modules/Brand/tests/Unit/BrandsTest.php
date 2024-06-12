@@ -29,6 +29,7 @@ class BrandsTest extends TestCase
     {
         $res = $this->post(route('api.brands.store'), [
             'name' => 'testbrandname',
+            'is_active' => true,
         ])->json();
 
         
@@ -46,6 +47,7 @@ class BrandsTest extends TestCase
             route('api.brands.update', ['brand' => $this->brand]),
             [
                 'name' => 'newbrandname',
+                'is_active' => true,
             ]
         )->json();
 

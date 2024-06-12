@@ -14,14 +14,14 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->whereNull('deleted_at')->ignore($this->id)],
+            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('users', 'username')->withoutTrashed()->ignore($this->id)],
             'password'  => ['sometimes', 'nullable', 'confirmed', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()],
 
-            'email'     => [Rule::requiredIf($this->send_notify), 'nullable', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')->ignore($this->id)],
+            'email'     => [Rule::requiredIf($this->send_notify), 'nullable', 'email', Rule::unique('users', 'email')->withoutTrashed()->ignore($this->id)],
             'firstname' => ['nullable', 'string', 'min:3', 'max:50'],
             'lastname'  => ['nullable', 'string', 'min:3', 'max:50'],
 
@@ -40,7 +40,7 @@ class UpdateProfileRequest extends FormRequest
             'locations.*.second_address' => ['string', 'nullable'],
 
             'contacts' => ['sometimes', 'array', 'present'],
-            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'User')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
+            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'User')->withoutTrashed()->ignore($this->id, 'contactable_id')],
             'contacts.*.firstname' => ['sometimes', 'nullable', 'string'],
             'contacts.*.lastname' => ['sometimes', 'nullable', 'string'],
             'contacts.*.phone' => ['sometimes', 'nullable', 'string'],

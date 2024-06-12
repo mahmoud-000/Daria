@@ -32,82 +32,6 @@ class ItemsTest extends TestCase
         $this->assertEquals(1, $res['meta']['total']);
     }
 
-    public function test_can_not_create_standard_item_without_required_inputs()
-    {
-        $res = $this->post(route('api.items.store'), [
-            'name' => 'testitemname',
-            ItemTypesEnum::STANDARD->value,
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('label', 'payload')
-            ->assertJsonValidationErrorFor('category_id', 'payload')
-            ->assertJsonValidationErrorFor('tax_type', 'payload')
-            ->assertJsonValidationErrorFor('cost', 'payload')
-            ->assertJsonValidationErrorFor('price', 'payload')
-            ->json();
-
-        $this->assertEquals($res['payload']['price'][0], __('validation.required', ['attribute' => 'price']));
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_variable_item_without_required_inputs()
-    {
-        $res = $this->post(route('api.items.store'), [
-            'name' => 'testitemname',
-            'type' => ItemTypesEnum::VARIABLE->value,
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('label', 'payload')
-            ->assertJsonValidationErrorFor('category_id', 'payload')
-            ->assertJsonValidationErrorFor('tax_type', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_variable_item_with_already_exist_variant_code()
-    {
-        $itemInDB = $this->createItem([
-            'type' => ItemTypesEnum::VARIABLE->value
-        ])->toArray();
-
-        Variant::factory()->create(['code' => '123123123', 'item_id' => $itemInDB['id']]);
-
-        $newVariant = $this->createVariant(['name' => 'variant 1', 'code' => '123123123', 'sku' => 'it-23223'])->toArray();
-
-        $res = $this->post(route('api.items.store'), [
-            'name' => 'testitemname',
-            'type' => ItemTypesEnum::VARIABLE->value,
-            'variants' => [$newVariant]
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
-    }
-
-    public function test_can_not_create_service_item_without_required_inputs()
-    {
-        $res = $this->post(route('api.items.store'), [
-            'name' => 'testitemname',
-            ItemTypesEnum::SERVICE->value,
-        ])
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('label', 'payload')
-            ->assertJsonValidationErrorFor('category_id', 'payload')
-            ->assertJsonValidationErrorFor('price', 'payload')
-            ->assertJsonValidationErrorFor('tax_type', 'payload')
-            ->json();
-
-        $this->assertEquals($res['payload']['price'][0], __('validation.required', ['attribute' => 'price']));
-        $this->assertFalse($res['success']);
-    }
-
     public function test_can_create_standard_item()
     {
         $categoryId = $this->createCategory()->id;
@@ -182,7 +106,6 @@ class ItemsTest extends TestCase
         $this->assertEquals($res['payload'], __('status.created', ['name' => 'testitemname', 'module' => __('modules.item')]));
     }
 
-
     public function test_can_create_variable_item()
     {
         $categoryId = $this->createCategory()->id;
@@ -253,7 +176,7 @@ class ItemsTest extends TestCase
                 'type' => ItemTypesEnum::STANDARD->value,
             ]
         )->json();
-
+     
         $this->assertDatabaseCount('items', 2);
         $this->assertTrue($res['success']);
         $this->assertEquals($item['id'], $itemId);
@@ -266,6 +189,7 @@ class ItemsTest extends TestCase
         $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
 
         $itemId = $item->id;
+
         $variant_1 = $this->createVariant(['code' => '12121212', 'sku' => 'it-23223', 'item_id' => $itemId])->toArray();
 
         $res = $this->put(
@@ -288,49 +212,12 @@ class ItemsTest extends TestCase
                 'variants' => [$variant_1]
             ]
         )->json();
-
+        
         $this->assertDatabaseCount('items', 2);
         $this->assertDatabaseCount('variants', 1);
         $this->assertTrue($res['success']);
         $this->assertEquals($item['id'], $itemId);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => 'newitemname', 'module' => __('modules.item')]));
-    }
-
-    public function test_can_not_edit_variable_item_if_variants_has_already_taken_code()
-    {
-        $categoryId = $this->createCategory()->id;
-        $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
-        $itemId = $item->id;
-
-        $oldVariant = Variant::factory(['code' => '123123123', 'item_id' => $itemId])->create();
-
-        $newVariant = $this->createVariant(['code' => '123123123'])->toArray();
-
-        $res = $this->put(
-            route('api.items.update', ['item' => $itemId]),
-            [
-                'name' => 'newitemname',
-                'type' => ItemTypesEnum::VARIABLE->value,
-                'label' => 'testitemlabel',
-                'code' => '55667788',
-                'barcode_type' => 1,
-                'category_id' => $categoryId,
-                'tax_type' => 1,
-                'is_active' => 1,
-                'is_available_for_sale' => 1,
-                'is_available_for_purchase' => 0,
-                'is_available_for_edit_in_purchase' => 1,
-                'is_available_for_edit_in_sale' => true,
-                'product_type' => 1,
-                'variants' => [$newVariant]
-            ]
-        )
-            ->assertStatus(422)
-            ->withExceptions(collect(ValidationException::class))
-            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
-            ->json();
-
-        $this->assertFalse($res['success']);
     }
 
     public function test_can_edit_service_item()
@@ -379,5 +266,120 @@ class ItemsTest extends TestCase
     {
         $res = $this->delete(route('api.items.destroy', ['item' => $this->item->id]))->json();
         $this->assertTrue($res['success']);
+    }
+
+    public function test_can_not_create_standard_item_without_required_inputs()
+    {
+        $res = $this->post(route('api.items.store'), [
+            'name' => 'testitemname',
+            ItemTypesEnum::STANDARD->value,
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('label', 'payload')
+            ->assertJsonValidationErrorFor('category_id', 'payload')
+            ->assertJsonValidationErrorFor('tax_type', 'payload')
+            ->assertJsonValidationErrorFor('cost', 'payload')
+            ->assertJsonValidationErrorFor('price', 'payload')
+            ->json();
+
+        $this->assertEquals($res['payload']['price'][0], __('validation.required', ['attribute' => 'price']));
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_create_service_item_without_required_inputs()
+    {
+        $res = $this->post(route('api.items.store'), [
+            'name' => 'testitemname',
+            ItemTypesEnum::SERVICE->value,
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('label', 'payload')
+            ->assertJsonValidationErrorFor('category_id', 'payload')
+            ->assertJsonValidationErrorFor('price', 'payload')
+            ->assertJsonValidationErrorFor('tax_type', 'payload')
+            ->json();
+
+        $this->assertEquals($res['payload']['price'][0], __('validation.required', ['attribute' => 'price']));
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_create_variable_item_without_required_inputs()
+    {
+        $res = $this->post(route('api.items.store'), [
+            'name' => 'testitemname',
+            'type' => ItemTypesEnum::VARIABLE->value,
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('label', 'payload')
+            ->assertJsonValidationErrorFor('category_id', 'payload')
+            ->assertJsonValidationErrorFor('tax_type', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_create_variable_item_with_already_exist_variant_code()
+    {
+        $itemInDB = $this->createItem([
+            'type' => ItemTypesEnum::VARIABLE->value
+        ])->toArray();
+
+        Variant::factory()->create(['code' => '123123123', 'item_id' => $itemInDB['id']]);
+
+        $newVariant = $this->createVariant(['name' => 'variant 1', 'code' => '123123123', 'sku' => 'it-23223'])->toArray();
+
+        $res = $this->post(route('api.items.store'), [
+            'name' => 'testitemname',
+            'type' => ItemTypesEnum::VARIABLE->value,
+            'variants' => [$newVariant]
+        ])
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
+            ->json();
+
+        $this->assertFalse($res['success']);
+    }
+
+    public function test_can_not_edit_variable_item_if_variants_has_already_taken_code()
+    {
+        $categoryId = $this->createCategory()->id;
+        $item = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
+        $item2 = $this->createItem(['type' => ItemTypesEnum::VARIABLE->value]);
+        $itemId = $item->id;
+
+        $oldVariant = Variant::factory(['code' => '123123123', 'item_id' => $item2->id, 'sku' => 'var1-788',])->create();
+
+        $newVariant = $this->createVariant(['code' => '123123123', 'sku' => 'sku-3123'])->toArray();
+
+        $res = $this->put(
+            route('api.items.update', ['item' => $itemId]),
+            [
+                'name' => 'newitemname',
+                'type' => ItemTypesEnum::VARIABLE->value,
+                'label' => 'testitemlabel',
+                'code' => '55667788',
+                'sku' => 'item-788',
+                'barcode_type' => 1,
+                'category_id' => $categoryId,
+                'tax_type' => 1,
+                'is_active' => 1,
+                'is_available_for_sale' => 1,
+                'is_available_for_purchase' => 0,
+                'is_available_for_edit_in_purchase' => 1,
+                'is_available_for_edit_in_sale' => true,
+                'product_type' => 1,
+                'variants' => [$newVariant]
+            ]
+        )
+            ->assertStatus(422)
+            ->withExceptions(collect(ValidationException::class))
+            ->assertJsonValidationErrorFor('variants.0.code', 'payload')
+            ->json();
+    
+        $this->assertFalse($res['success']);
     }
 }

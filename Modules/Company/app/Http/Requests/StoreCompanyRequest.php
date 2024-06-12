@@ -13,12 +13,12 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->whereNull('deleted_at')->ignore($this->company)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->withoutTrashed()->ignore($this->company)],
             'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
 
             'branches'            => ['required', 'array', 'present'],
-            'branches.*.name'     => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->whereNull('deleted_at')->ignore($this->company, 'company_id')],
+            'branches.*.name'     => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('branches', 'name')->withoutTrashed()->whereNull('company_id')],
             'branches.*.is_main'  => ['sometimes', 'boolean'],
             'branches.*.is_active'  => ['required', 'boolean'],
             'branches.*.country' => ['string', 'nullable'],
@@ -26,7 +26,7 @@ class StoreCompanyRequest extends FormRequest
             'branches.*.state' => ['string', 'nullable'],
             'branches.*.zip' => ['string', 'nullable'],
             'branches.*.address' => ['string', 'nullable'],
-            'branches.*.email' => ['distinct', 'sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->whereNull('deleted_at')->ignore($this->company, 'company_id')],
+            'branches.*.email' => ['distinct', 'sometimes', 'nullable', 'email', Rule::unique('branches', 'email')->withoutTrashed()->ignore($this->company, 'company_id')],
             'branches.*.phone' => ['distinct', 'sometimes', 'nullable', 'string'],
             'branches.*.mobile' => ['distinct', 'sometimes', 'nullable', 'string'],
 

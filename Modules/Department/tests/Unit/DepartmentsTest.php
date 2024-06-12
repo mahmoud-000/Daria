@@ -29,6 +29,7 @@ class DepartmentsTest extends TestCase
     {
         $res = $this->post(route('api.departments.store'), [
             'name' => 'testdepartmentname',
+            'is_active' => true,
         ])->json();
 
         $this->assertDatabaseCount('departments', 2);
@@ -45,6 +46,7 @@ class DepartmentsTest extends TestCase
             route('api.departments.update', ['department' => $this->department]),
             [
                 'name' => 'newdepartmentname',
+                'is_active' => true,
             ]
         )->json();
 

@@ -14,6 +14,7 @@ class StockResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'sku' => $this->sku,
             'production_date' => $this->item->product_type === ProductTypesEnum::CONSUMER_ITEM ? date('Y-m-d') : null,
             'expired_date' => $this->item->product_type === ProductTypesEnum::CONSUMER_ITEM ? date('Y-m-d') : null,
 

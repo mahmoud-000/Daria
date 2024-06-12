@@ -14,7 +14,7 @@ class UpdateStageRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('stages', 'name')->whereNull('deleted_at')->where('pipeline_id', $this->pipeline_id)->ignore($this->stage)],
+            'name'     => ['required', 'string', 'min:3', 'max:100', Rule::unique('stages', 'name')->withoutTrashed()->where('pipeline_id', $this->pipeline_id)->ignore($this->stage)],
             'complete' => ['required', 'numeric', 'min:0', 'max:100'],
             'color'    => ['required', 'string', new WithOutSpaces],
             'is_default'  => ['sometimes', 'boolean'],

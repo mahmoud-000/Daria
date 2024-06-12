@@ -20,7 +20,8 @@ class Stock extends Model
         'item_id',
         'variant_id',
         'warehouse_id',
-        'quantity'
+        'quantity',
+        'sku',
     ];
 
     protected $casts = [

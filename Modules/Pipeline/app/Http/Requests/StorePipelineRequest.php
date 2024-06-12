@@ -14,13 +14,13 @@ class StorePipelineRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('pipelines', 'name')->whereNull('deleted_at')->ignore($this->pipeline)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('pipelines', 'name')->withoutTrashed()->ignore($this->pipeline)],
             'app_name'          => ['required', 'string'],
             'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable'],
 
             'stages'            => ['required', 'array', 'present'],
-            'stages.*.name'     => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('stages', 'name')->whereNull('deleted_at')->ignore($this->pipeline, 'pipeline_id')],
+            'stages.*.name'     => ['distinct', 'required', 'string', 'min:3', 'max:100', Rule::unique('stages', 'name')->withoutTrashed()->whereNull('pipeline_id')],
             'stages.*.complete' => ['distinct', 'required', 'numeric', 'min:0', 'max:100'],
             'stages.*.color'    => ['required', 'string', new WithOutSpaces],
             'stages.*.is_default'  => ['sometimes', 'boolean'],

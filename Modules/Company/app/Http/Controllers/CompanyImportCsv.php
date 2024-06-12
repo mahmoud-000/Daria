@@ -30,7 +30,7 @@ class CompanyImportCsv extends Controller
             $errors = [];
             foreach ($companiesArray as $company) {
                 $validator = Validator::make($company, [
-                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->whereNull('deleted_at')],
+                    'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->withoutTrashed()],
                     'color'         => ['required', 'string', new WithOutSpaces],
                     'is_active'     => ['required', 'boolean'],
                     'remarks'       => ['string', 'nullable'],

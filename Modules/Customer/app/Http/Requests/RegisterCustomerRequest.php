@@ -13,15 +13,15 @@ class RegisterCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'username')->whereNull('deleted_at')->ignore($this->customer)],
+            'username'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'username')->withoutTrashed()->ignore($this->customer)],
             'password'  => ['required', 'confirmed', Password::min(8)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()],
 
-            'email'     => ['required', 'email', Rule::unique('customers', 'email')->whereNull('deleted_at')->ignore($this->customer)],
-            'company_name'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'company_name')->whereNull('deleted_at')->ignore($this->customer)],
+            'email'     => ['required', 'email', Rule::unique('customers', 'email')->withoutTrashed()->ignore($this->customer)],
+            'company_name'  => ['required', 'string', 'min:8', 'max:100', Rule::unique('customers', 'company_name')->withoutTrashed()->ignore($this->customer)],
             'remarks'       => ['string', 'nullable'],
 
             'locations'     => ['sometimes', 'array', 'present'],
@@ -33,7 +33,7 @@ class RegisterCustomerRequest extends FormRequest
             'locations.*.second_address' => ['string', 'nullable'],
 
             'contacts' => ['sometimes', 'array', 'present'],
-            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'Customer')->whereNull('deleted_at')->ignore($this->id, 'contactable_id')],
+            'contacts.*.email' => ['sometimes', 'nullable', 'email', Rule::unique('contacts', 'email')->where('contactable_type', 'Customer')->withoutTrashed()->ignore($this->id, 'contactable_id')],
             'contacts.*.phone' => ['sometimes', 'nullable', 'string'],
             'contacts.*.mobile' => ['sometimes', 'nullable', 'string'],
 

@@ -128,7 +128,7 @@ trait InvoiceTrait
       ->whereNull('id')->all();
     if (count($new_invoice_details)) {
       $createdDetails = $this->createDetails($invoice, $new_invoice_details);
-      $createdDetails->map(function ($detail) use ($invoice, $isComplete) {
+      $createdDetails->each(function ($detail) use ($invoice, $isComplete) {
         $stock = $this->updateStockInDB(
           $invoice,
           $detail,

@@ -13,7 +13,7 @@ class StoreCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('categories', 'name')->whereNull('deleted_at')->ignore($this->id)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('categories', 'name')->withoutTrashed()->ignore($this->id)],
             'is_active'     => ['required', 'boolean'],
             'category_id'       => ['sometimes', 'integer', 'nullable'],
             'remarks'       => ['string', 'nullable'],

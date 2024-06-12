@@ -13,7 +13,7 @@ class StorePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'doc_invoice_number'  => ['sometimes', 'nullable', Rule::unique('purchases', 'doc_invoice_number')->whereNull('deleted_at')->ignore($this->purchase)],
+            'doc_invoice_number'  => ['sometimes', 'nullable', Rule::unique('purchases', 'doc_invoice_number')->withoutTrashed()->ignore($this->purchase)],
             'supplier_id' => ['required', 'integer'],
             'warehouse_id' => ['required', 'integer'],
             'remarks'       => ['string', 'nullable'],

@@ -13,7 +13,7 @@ class StoreAttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('attributes', 'name')->whereNull('deleted_at')->ignore($this->attribute)],
+            'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('attributes', 'name')->withoutTrashed()->ignore($this->attribute)],
             'is_active'     => ['required', 'boolean'],
             'remarks'       => ['string', 'nullable']
         ];

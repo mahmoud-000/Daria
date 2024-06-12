@@ -29,6 +29,7 @@ class CategoriesTest extends TestCase
     {
         $res = $this->post(route('api.categories.store'), [
             'name' => 'testcategoryname',
+            'is_active' => true,
         ])->json();
 
         $this->assertDatabaseCount('categories', 2);
@@ -45,6 +46,7 @@ class CategoriesTest extends TestCase
             route('api.categories.update', ['category' => $this->category]),
             [
                 'name' => 'newcategoryname',
+                'is_active' => true,
             ]
         )->json();
 
