@@ -45,7 +45,7 @@ export const createWarehouse = async ({ dispatch }, warehouse) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updateWarehouse = async ({ dispatch }, warehouse) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyWarehouse = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyWarehouses = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -101,7 +101,7 @@ export const importCsv = async ({ commit }, warehouses) => {
             resolve(res);
         })
             .catch(error => {
-                commit('SET_ERROR', error.response.data.payload.errors, { root: true })
+                commit('SET_ERROR', error.response?.data?.payload.errors, { root: true })
                 Loading.hide();
                 reject(error);
             });
@@ -135,7 +135,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })

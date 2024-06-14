@@ -4,12 +4,12 @@ import store from '../store';
 import { getLoginUser } from './auth';
 import { formatNumber } from '../filters'
 
-export const getSystemCurrencySymbol = computed(
-    () => store && store.getters["setting/getSystemCurrencySymbol"]
+export const getDefaultCurrencySymbol = computed(
+    () => store && store.getters["setting/getDefaultCurrencySymbol"]
 );
 
 export const numberFormatWithCurrency = (number = 0, dec = 2) => {
-    return getSystemCurrencySymbol.value + ' ' + formatNumber(number, dec)
+    return getDefaultCurrencySymbol.value + ' ' + formatNumber(number, dec)
 }
 
 export const addTo = (array, key, value) => {

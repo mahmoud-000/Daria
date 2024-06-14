@@ -24,6 +24,7 @@ export const loginAction = ({ commit }, userInfo) => {
           commit("SET_LOGIN_USER", response.payload.user);
           commit("SET_TOKEN", response.payload.token);
           commit("SET_PERMISSIONS", response.payload.permissions);
+          commit('company/SET_CURRENCY', response.payload.currency, { root: true })
           fireSuccessNotify(response, response.payload?.message)
           router.push(
             urlParams.get("redirect") || { name: "dashboard" }
@@ -33,7 +34,7 @@ export const loginAction = ({ commit }, userInfo) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload.message)
+        fireErrorNotify(error, error.response?.data?.payload.message)
         commit("REMOVE_AUTH_DETAILS");
         reject(error);
       });
@@ -52,7 +53,7 @@ export const logoutAction = ({ commit }) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload?.message)
+        fireErrorNotify(error, error.response?.data?.payload?.message)
         commit("REMOVE_AUTH_DETAILS");
         router.push({ name: "login" });
         reject(error);
@@ -69,7 +70,7 @@ export const changePasswordAction = ({ commit }, data) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload.message)
+        fireErrorNotify(error, error.response?.data?.payload.message)
         reject(error);
       });
   });
@@ -84,7 +85,7 @@ export const forgetPasswordAction = ({ commit }, data) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload.message)
+        fireErrorNotify(error, error.response?.data?.payload.message)
         reject(error);
       });
   });
@@ -99,7 +100,7 @@ export const resetPasswordAction = ({ commit }, data) => {
         resolve(response);
       })
       .catch((error) => {
-        fireErrorNotify(error, error.response?.data.payload.message)
+        fireErrorNotify(error, error.response?.data?.payload.message)
         reject(error);
       });
   });
@@ -138,7 +139,7 @@ export const updateProfileUser = ({ commit }, profile) => {
       resolve(res);
     })
       .catch(error => {
-        fireErrorNotify(error, error.response.data.payload)
+        fireErrorNotify(error, error.response?.data?.payload)
         reject(error);
       });
   })
@@ -153,7 +154,7 @@ export const updateProfileCustomer = ({ commit }, profile) => {
       resolve(res);
     })
       .catch(error => {
-        fireErrorNotify(error, error.response.data.payload)
+        fireErrorNotify(error, error.response?.data?.payload)
         reject(error);
       });
   })

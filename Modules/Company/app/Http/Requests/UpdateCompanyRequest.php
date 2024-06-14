@@ -15,6 +15,7 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'name'          => ['required', 'string', 'min:3', 'max:100', Rule::unique('companies', 'name')->withoutTrashed()->ignore($this->company)],
             'is_active'     => ['required', 'boolean'],
+            'currency'     => ['required', 'string', 'min:3', 'max:3'],
             'remarks'       => ['string', 'nullable'],
 
             'branches'            => ['required', 'array', 'present'],

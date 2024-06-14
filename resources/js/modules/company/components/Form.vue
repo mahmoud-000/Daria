@@ -16,6 +16,7 @@ import {
     SelectInput,
     CountryInput,
     CardUpload,
+    CurrencyInput,
     AddBtn,
     RemoveBtn,
 } from "../../../components/import";
@@ -41,6 +42,7 @@ const { formData } = toRefs(props);
 const rules = computed(() => ({
     name: { required },
     is_active: { required },
+    currency: { required },
     branches: {
         $each: helpers.forEach({
             name: { required },
@@ -112,6 +114,28 @@ const cities = (i) =>
                                 @input="() => $v.name.$touch()"
                                 @blur="() => $v.name.$touch()"
                                 :errors="$v.name.$errors"
+                            />
+                        </div>
+
+                        <div
+                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <CurrencyInput
+                                v-model="formData.currency"
+                                :label="t('currency')"
+                                :error="$v.currency.$error"
+                                :errors="$v.currency.$errors"
+                                @input="() => $v.currency.$touch()"
+                                @blur="() => $v.currency.$touch()"
+                            />
+                        </div>
+
+                        <div
+                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.vat_registration_number"
+                                :label="t('vat_registration_number')"
                             />
                         </div>
 
@@ -250,7 +274,7 @@ const cities = (i) =>
                                     :trueValue="1"
                                     :falseValue="0"
                                     :label="t('is_active')"
-                                    :disable="branch.is_main"
+                                    :disable="Boolean(branch.is_main)"
                                 />
                             </div>
 
@@ -263,7 +287,7 @@ const cities = (i) =>
                                             removeFrom(formData, 'branches', i)
                                     "
                                     class="q-mb-lg"
-                                    :disabled="branch.is_main"
+                                    :disabled="Boolean(branch.is_main)"
                                 />
                             </div>
                         </div>

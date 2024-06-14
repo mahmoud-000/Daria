@@ -33,7 +33,7 @@ import {
     taxTypes,
     barcodeTypes,
 } from "../../../utils/constraints";
-import { getSystemCurrencySymbol } from "../../../utils/helpers";
+import { getDefaultCurrencySymbol } from "../../../utils/helpers";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -506,7 +506,7 @@ watch(
                                 @blur="() => $v.cost.$touch()"
                                 :errors="$v.cost.$errors"
                                 min="0"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                             <!-- mask="#.##"
                                 fill-mask="0"
@@ -525,7 +525,7 @@ watch(
                                 @blur="() => $v.price.$touch()"
                                 :errors="$v.price.$errors"
                                 min="0"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                             <!-- mask="#.##"
                                 fill-mask="0"

@@ -6,6 +6,7 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 const formData = reactive({
     name: "",
     is_active: 0,
+    currency: null,
     branches: [
         {
             name: "",

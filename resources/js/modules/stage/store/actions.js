@@ -45,7 +45,7 @@ export const createStage = async ({ dispatch }, stage) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updateStage = async ({ dispatch }, stage) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyStage = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyStages = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -101,7 +101,7 @@ export const importCsv = async ({ commit }, stages) => {
             resolve(res);
         })
             .catch(error => {
-                commit('SET_ERROR', error.response.data.payload.errors, { root: true })
+                commit('SET_ERROR', error.response?.data?.payload.errors, { root: true })
                 Loading.hide();
                 reject(error);
             });
@@ -136,7 +136,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })

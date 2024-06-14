@@ -15,7 +15,7 @@ import {
     BaseInput,
     ItemInput
 } from "../../../components/import";
-import { getSystemCurrencySymbol } from "../../../utils/helpers";
+import { getDefaultCurrencySymbol } from "../../../utils/helpers";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -146,7 +146,7 @@ const onSubmit = async () => {
                                 @input="() => $v.cost.$touch()"
                                 @blur="() => $v.cost.$touch()"
                                 :errors="$v.cost.$errors"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                         </div>
                         <div
@@ -159,7 +159,7 @@ const onSubmit = async () => {
                                 @input="() => $v.price.$touch()"
                                 @blur="() => $v.price.$touch()"
                                 :errors="$v.price.$errors"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                         </div>
                         

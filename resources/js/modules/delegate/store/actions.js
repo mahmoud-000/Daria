@@ -41,7 +41,7 @@ export const createDelegate = async (_, delegate) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -55,7 +55,7 @@ export const updateDelegate = async (_, delegate) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -69,7 +69,7 @@ export const destroyDelegate = (_, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -83,7 +83,7 @@ export const bulkDestroyDelegates = (_, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -97,7 +97,7 @@ export const importCsv = async ({ commit }, delegates) => {
             resolve(res);
         })
             .catch(error => {
-                commit('SET_ERROR', error.response.data.payload.errors, { root: true })
+                commit('SET_ERROR', error.response?.data?.payload.errors, { root: true })
                 Loading.hide();
                 reject(error);
             });
@@ -112,7 +112,7 @@ export const register = async (_, delegate) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })

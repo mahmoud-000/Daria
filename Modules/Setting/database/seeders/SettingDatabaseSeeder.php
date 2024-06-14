@@ -48,27 +48,16 @@ class SettingDatabaseSeeder extends Seeder
                     'value' => 'support@mail.com'
                 ],
                 [
-                    'key' => 'email',
+                    'key' => 'system_email',
                     'value' => 'company@company.com'
                 ],
                 [
                     'key' => 'system_name',
                     'value' => 'Ticket System'
                 ],
+                
                 [
-                    'key' => 'company_name',
-                    'value' => 'Ticket System'
-                ],
-                [
-                    'key' => 'company_phone',
-                    'value' => '0123456789'
-                ],
-                [
-                    'key' => 'company_address',
-                    'value' => 'address test'
-                ],
-                [
-                    'key' => 'currency',
+                    'key' => 'default_currency',
                     'value' => 'USD'
                 ],
             ]

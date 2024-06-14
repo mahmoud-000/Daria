@@ -25,8 +25,8 @@ export const fireSuccessNotify = (res, msg = null) => {
 export const fireErrorNotify = (error, msg = null) => {
     Loading.hide();
     let [key, messages] = [];
-    if (error.response.status === 422) {
-        [key, messages] = Object.entries(error.response.data.payload)[0];
+    if (error.response && error.response.status === 422) {
+        [key, messages] = Object.entries(error.response?.data?.payload)[0];
     }
 
     Notify.create({
@@ -35,7 +35,7 @@ export const fireErrorNotify = (error, msg = null) => {
         message: msg && error.response.status !== 422
             ? msg
             : error.response.status === 403
-                ? error.response.data.message
+                ? error.response?.data?.message
                 : messages[0],
     });
 }

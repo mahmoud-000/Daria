@@ -6,7 +6,7 @@ import { useStore } from "vuex";
 import { taxTypes, fpTypes } from "../../utils/constraints";
 import { required, requiredIf, minValue } from "../../utils/i18n-validators";
 import { BaseInput, BaseBtn, SelectInput, DateInput } from "../import";
-import { getSystemCurrencySymbol } from "../../utils/helpers";
+import { getDefaultCurrencySymbol } from "../../utils/helpers";
 
 const props = defineProps({
     dialogForm: {
@@ -209,7 +209,7 @@ onMounted(() => {
                             @blur="() => $v.amount.$touch()"
                             :errors="$v.amount.$errors"
                             min="0"
-                            :prefix="getSystemCurrencySymbol"
+                            :prefix="getDefaultCurrencySymbol"
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
@@ -221,7 +221,7 @@ onMounted(() => {
                             @blur="() => $v.tax.$touch()"
                             :errors="$v.tax.$errors"
                             min="0"
-                            :prefix="getSystemCurrencySymbol"
+                            :prefix="getDefaultCurrencySymbol"
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
@@ -245,7 +245,7 @@ onMounted(() => {
                             @blur="() => $v.discount.$touch()"
                             :errors="$v.discount.$errors"
                             min="0"
-                            :prefix="getSystemCurrencySymbol"
+                            :prefix="getDefaultCurrencySymbol"
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">

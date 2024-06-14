@@ -11,7 +11,7 @@ export const fetchSystemSettings = ({ commit }) => {
         SettingModel.list().then(res => {
             commit('SET_SYSTEM_SETTINGS', res.data)
             commit('SET_SYSTEM_NAME')
-            commit('SET_SYSTEM_CURRENCY')
+            commit('SET_DEFAULT_CURRENCY')
             commit('SET_LOADING', false, { root: true })
             resolve(res);
         })
@@ -30,7 +30,7 @@ export const createOrUpdate = ({ commit }, setting) => {
             fireSuccessNotify(res, t('messages.settings_updated'))
             commit('SET_SYSTEM_SETTINGS', res.payload)
             commit('SET_SYSTEM_NAME')
-            commit('SET_SYSTEM_CURRENCY')
+            commit('SET_DEFAULT_CURRENCY')
             commit('SET_SYSTEM_LOGO')
             resolve(res);
         })

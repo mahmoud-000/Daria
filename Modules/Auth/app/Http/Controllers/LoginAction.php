@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Modules\Auth\Http\Requests\AuthRequest;
 use Modules\Auth\Transformers\AuthResource;
+use Modules\Setting\Models\Setting;
 use Modules\User\Models\User;
 
 class LoginAction extends Controller
@@ -45,6 +46,7 @@ class LoginAction extends Controller
 
     return $this->success([
         'message' => trans('auth::auth.login', ['user' => $user->username]), 
+        'currency' => Setting::systemOnly()->where('key', 'default_currency')->first()?->value ?? 'USD', 
         'token' => $token, 
         'user' => AuthResource::make($user), 
         'permissions' => $user->getAllPermissions()

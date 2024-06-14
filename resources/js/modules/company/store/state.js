@@ -1,4 +1,5 @@
 export default () => ({
+    currency: null,
     companies: [],
     company: {},
     options: [],

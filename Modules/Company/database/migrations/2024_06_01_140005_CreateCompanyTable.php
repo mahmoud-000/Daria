@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
+            $table->char('currency', 3);
             $table->boolean('is_active')->nullable()->default(0);
             $table->text('remarks')->nullable();
 

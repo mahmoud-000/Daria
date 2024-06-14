@@ -6,7 +6,6 @@ import {
     minLength,
     maxLength,
     requiredIf,
-    url,
     required,
 } from "../../../utils/i18n-validators";
 import { helpers } from "@vuelidate/validators";
@@ -25,19 +24,16 @@ import {
     CardSectionWithHeader,
     CardUpload,
     SelectInput,
-    CurrencyInput,
+    CurrencyInput
 } from "../../../components/import";
 
 const { t } = useI18n();
 const isPwd = ref(true);
 
 const formData = reactive({
-    email: "",
+    default_currency: null,
+    system_email: "",
     system_name: "",
-    company_name: "",
-    company_phone: "",
-    company_address: "",
-    currency: null,
     driver: "",
     host: "",
     port: null,
@@ -46,14 +42,12 @@ const formData = reactive({
     password: "",
     sender_name: "",
     sender_email: "",
-    vat_registration_number: "",
     system_logo: undefined,
-    facebook_url: "",
-    twitter_url: "",
 });
 
 const rules = computed(() => ({
-    email: { email },
+    default_currency: { required },
+    system_email: { email },
     host: { requiredIfRef: requiredIf(formData.driver) },
     port: { requiredIfRef: requiredIf(formData.driver) },
     encryption: { requiredIfRef: requiredIf(formData.driver) },
@@ -81,9 +75,6 @@ const rules = computed(() => ({
     },
     sender_name: { requiredIfRef: requiredIf(formData.driver) },
     sender_email: { requiredIfRef: requiredIf(formData.driver), email },
-    facebook_url: { url },
-    twitter_url: { url },
-    currency: { required },
 }));
 
 const $v = useVuelidate(rules, formData);
@@ -210,98 +201,25 @@ const clearDriver = () => {
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <BaseInput
-                                v-model="formData.email"
-                                :label="t('email')"
+                                v-model="formData.system_email"
+                                :label="t('system_email')"
                                 type="email"
-                                :error="$v.email.$error"
-                                @input="() => $v.email.$touch()"
-                                @blur="() => $v.email.$touch()"
-                                :errors="$v.email.$errors"
+                                :error="$v.system_email.$error"
+                                @input="() => $v.system_email.$touch()"
+                                @blur="() => $v.system_email.$touch()"
+                                :errors="$v.system_email.$errors"
                             />
                         </div>
-                        <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        >
-                            <BaseInput
-                                v-model="formData.company_name"
-                                :label="t('company_name')"
-                            />
-                        </div>
-                        <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        >
-                            <BaseInput
-                                v-model="formData.company_phone"
-                                :label="t('company_phone')"
-                            />
-                        </div>
-                        <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        >
-                            <BaseInput
-                                v-model="formData.company_address"
-                                :label="t('company_address')"
-                            />
-                        </div>
-                        <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        >
-                            <BaseInput
-                                v-model="formData.vat_registration_number"
-                                :label="t('vat_registration_number')"
-                            />
-                        </div>
-
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <CurrencyInput
-                                v-model="formData.currency"
-                                :label="t('currency')"
-                                :error="$v.currency.$error"
-                                :errors="$v.currency.$errors"
-                                @input="() => $v.currency.$touch()"
-                                @blur="() => $v.currency.$touch()"
-                            />
-                        </div>
-                    </div>
-                </CardSectionWithHeader>
-
-                <!-- Links -->
-                <CardSectionWithHeader title="card.related_links">
-                    <div
-                        class="row justify-between items-center q-py-lg"
-                        :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
-                    >
-                        <div class="q-px-md q-pb-sm col-lg-3 col-md-3 col-xs-3">
-                            {{ t(`facebook_url`) }}
-                        </div>
-                        <div class="q-px-md q-pb-sm col-lg-7 col-md-7 col-xs-7">
-                            <BaseInput
-                                v-model="formData.facebook_url"
-                                :label="t(`facebook_url`)"
-                                :error="$v.facebook_url.$error"
-                                @input="() => $v.facebook_url.$touch()"
-                                @blur="() => $v.facebook_url.$touch()"
-                                :errors="$v.facebook_url.$errors"
-                            />
-                        </div>
-                    </div>
-                    <div
-                        class="row justify-between items-center q-py-lg"
-                        :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
-                    >
-                        <div class="q-px-md q-pb-sm col-lg-3 col-md-3 col-xs-3">
-                            {{ t(`twitter_url`) }}
-                        </div>
-                        <div class="q-px-md q-pb-sm col-lg-7 col-md-7 col-xs-7">
-                            <BaseInput
-                                v-model="formData.twitter_url"
-                                :label="t(`twitter_url`)"
-                                :error="$v.twitter_url.$error"
-                                @input="() => $v.twitter_url.$touch()"
-                                @blur="() => $v.twitter_url.$touch()"
-                                :errors="$v.twitter_url.$errors"
+                                v-model="formData.default_currency"
+                                :label="t('default_currency')"
+                                :error="$v.default_currency.$error"
+                                :errors="$v.default_currency.$errors"
+                                @input="() => $v.default_currency.$touch()"
+                                @blur="() => $v.default_currency.$touch()"
                             />
                         </div>
                     </div>
@@ -358,6 +276,8 @@ const clearDriver = () => {
                                 :error="$v.encryption.$error"
                                 @input="() => $v.encryption.$touch()"
                                 @blur="() => $v.encryption.$touch()"
+                                checked-icon="check"
+                                unchecked-icon="clear"
                             />
                         </div>
                         <div

@@ -106,6 +106,8 @@ const SYSTEM_NAME = computed(() => store.getters["setting/getSystemName"]);
                             v-model="formData.remember"
                             :label="$t('auth.remember')"
                             color="primary"
+                            checked-icon="check"
+                                unchecked-icon="clear"
                         />
 
                         <router-link

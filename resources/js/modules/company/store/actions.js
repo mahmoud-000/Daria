@@ -37,29 +37,32 @@ export const fetchCompany = ({ commit }, id) => {
     })
 };
 
-export const createCompany = async ({ dispatch }, company) => {
+export const createCompany = async ({ commit }, company) => {
     fireLoadingSpinner('creating_module')
+
     return new Promise((resolve, reject) => {
         CompanyModel.store(company).then(res => {
+            commit('SET_CURRENCY', company.currency)
             fireSuccessNotify(res)
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
 };
 
-export const updateCompany = async ({ dispatch }, company) => {
+export const updateCompany = async ({ commit }, company) => {
     fireLoadingSpinner('updating_module')
     return new Promise((resolve, reject) => {
         CompanyModel.update(company.id, company).then(res => {
+            commit('SET_CURRENCY', company.currency)
             fireSuccessNotify(res)
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -73,7 +76,7 @@ export const destroyCompany = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -87,7 +90,7 @@ export const bulkDestroyCompanies = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -101,7 +104,7 @@ export const importCsv = async ({ commit }, companies) => {
             resolve(res);
         })
             .catch(error => {
-                commit('SET_ERROR', error.response.data.payload.errors, { root: true })
+                commit('SET_ERROR', error.response?.data?.payload.errors, { root: true })
                 Loading.hide();
                 reject(error);
             });
@@ -135,7 +138,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })

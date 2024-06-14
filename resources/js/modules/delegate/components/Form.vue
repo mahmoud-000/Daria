@@ -25,7 +25,7 @@ import {
     CardLocations,
     CardRemarks,
 } from "../../../components/import";
-import { getSystemCurrencySymbol } from "../../../utils/helpers";
+import { getDefaultCurrencySymbol } from "../../../utils/helpers";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -191,7 +191,7 @@ const clearCompanyName = () => {
                                 @blur="() => $v.commission.$touch()"
                                 :errors="$v.commission.$errors"
                                 min="0"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                             <!-- mask="#.##"
                                 fill-mask="0"

@@ -14,11 +14,11 @@ export const SET_SYSTEM_NAME = (state) => {
   }
 }
 
-export const SET_SYSTEM_CURRENCY = (state) => {
-  state.system_currency = state.system_settings.find((setting) => setting.key === 'currency')?.value;
+export const SET_DEFAULT_CURRENCY = (state) => {
+  state.default_currency = state.system_settings.find((setting) => setting.key === 'default_currency')?.value;
 
-  if (state.system_currency) {
-    Cookies.set('system_currency', state.system_currency, {
+  if (state.default_currency) {
+    Cookies.set('default_currency', state.default_currency, {
       path: '/'
     })
   }

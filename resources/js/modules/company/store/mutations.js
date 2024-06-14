@@ -1,3 +1,5 @@
+import { Cookies } from 'quasar'
+
 export const SET_PIPELINES = (state, companies) => {
   state.companies = companies
 }
@@ -16,4 +18,14 @@ export const SET_PAGINATION = (state, { meta, options }) => {
 
 export const SET_OPTIONS = (state, options) => {
   state.options = options
+}
+
+export const SET_CURRENCY = (state, currency) => {
+  state.currency = currency;
+
+  if (state.currency) {
+    Cookies.set('currency', state.currency, {
+      path: '/'
+    })
+  }
 }

@@ -45,7 +45,7 @@ export const createPurchase = async ({ dispatch }, purchase) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -59,7 +59,7 @@ export const updatePurchase = async ({ dispatch }, purchase) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -73,7 +73,7 @@ export const destroyPurchase = ({ commit }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -87,7 +87,7 @@ export const bulkDestroyPurchases = ({ commit }, ids) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -101,7 +101,7 @@ export const importCsv = async ({ commit }, purchases) => {
             resolve(res);
         })
             .catch(error => {
-                commit('SET_ERROR', error.response.data.payload.errors, { root: true })
+                commit('SET_ERROR', error.response?.data?.payload.errors, { root: true })
                 Loading.hide();
                 reject(error);
             });
@@ -123,7 +123,7 @@ export const exportPdf = ({ commit, state }, id) => {
             resolve(res);
         })
             .catch(error => {
-                fireErrorNotify(error, error.response.data.payload)
+                fireErrorNotify(error, error.response?.data?.payload)
                 reject(error);
             });
     })
@@ -137,8 +137,6 @@ export const fetchFormOptions = ({ commit }, query) => {
             commit('warehouse/SET_OPTIONS', res.warehouses, { root: true})
             commit('unit/SET_OPTIONS', res.units, { root: true})
             commit('pipeline/SET_OPTIONS', res.pipelines, { root: true})
-            commit('setting/SET_SYSTEM_SETTINGS', res.settings, { root: true})
-            commit('setting/SET_SYSTEM_CURRENCY', null, { root: true})
             resolve(res);
         })
             .catch(error => {

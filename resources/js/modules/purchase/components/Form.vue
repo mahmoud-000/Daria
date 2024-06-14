@@ -27,7 +27,7 @@ import {
     DelegateInput,
 } from "../../../components/import";
 import { fpTypes } from "../../../utils/constraints";
-import { getSystemCurrencySymbol } from "../../../utils/helpers";
+import { getDefaultCurrencySymbol } from "../../../utils/helpers";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -279,7 +279,7 @@ watch(
                                 @blur="() => $v.discount.$touch()"
                                 :errors="$v.discount.$errors"
                                 min="0"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                         </div>
 
@@ -294,7 +294,7 @@ watch(
                                 @blur="() => $v.other_expenses.$touch()"
                                 :errors="$v.other_expenses.$errors"
                                 min="0"
-                                :prefix="getSystemCurrencySymbol"
+                                :prefix="getDefaultCurrencySymbol"
                             />
                         </div>
 
@@ -317,7 +317,7 @@ watch(
                                 min="0"
                                 :prefix="
                                     formData.commission_type === 1
-                                        ? getSystemCurrencySymbol
+                                        ? getDefaultCurrencySymbol
                                         : '%'
                                 "
                             />
