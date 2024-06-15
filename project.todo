@@ -1,0 +1,210 @@
+- icon_addjustment:contrast_square
+- floating action button
+- Stepper
+- Rating
+- Tags
+- Translation
+- Company Currency
+- Timeline
+- Department Managers
+- Department Id in User Table
+- Experiences User - Job History
+- Regions
+- Attribute Category With Options
+- Add Attributes To Items and Variants
+
+Regions:
+  - ID
+  - Name
+
+
+Employee:
+  - Department ID
+  - Manager ID
+  - Job ID
+  - Region ID
+  - Salary
+  - Hire Date
+  - Certificates - Military Certificate
+  - National ID card
+  - marital status [single - married -  divorced - widowed]
+
+Department:
+  - Manager ID
+
+JobHistory:
+  - ID
+  - Job ID
+  - Department ID
+  - Employee ID
+  - Start Date
+  - End Date
+
+Ex:
+  Category:
+    - {ID: 1, Name: Clothes}
+    - {ID: 2, Name: Shoes}
+     
+  Attribute:
+    - {ID: 1, Name: Size}
+    - {ID: 2, Name: Color}
+
+  AttributeCategory:
+    - { ID: 1, Attribute ID: 1, Category ID: 1, properties: { type: 'select', options: ['sm', 'md', 'lg'] } }
+    - { ID: 2, Attribute ID: 2, Category ID: 1, properties: { type: 'color'] } }
+    - { ID: 3, Attribute ID: 1, Category ID: 2, properties: { type: 'number'] } }
+
+
+Attribute:
+  - ID
+  - Name
+  - Is Active
+
+AttributeCategory:
+  - ID
+  - Attribute ID
+  - Category ID
+  - properties
+
+Item:
+  - - add SKU
+
+Variant:
+  - - add SKU
+
+
+Compqny:
+  - ID
+  - Name
+  - Is Active
+  - Remarks
+  - Logo
+
+Branch:
+  - ID
+  - Name
+  - Email
+  - Country
+  - City
+  - State
+  - Zip
+  - Address
+  - Mobile
+  - Phone
+  - Is Active
+  - Is Main
+  - Company ID
+
+Department:
+  - ID
+  - Name
+  - Company ID
+  - Branch ID
+  - Department ID - Department Head
+
+Designation[تعيين]:
+  - ID
+  - Name
+  - Company ID
+  - Branch ID
+  - Department ID
+
+OfficeShift[وردية المكتب]:
+  - ID
+  - Name
+  - Company ID
+  - Branch ID
+  - Saturday in
+  - Saturday out
+  - Sunday in
+  - Sunday out
+  - etc .....
+
+Attendances[الحضور]:
+  - ID
+  - Date
+  - Time in
+  - Time out
+  - Company ID
+  - Branch ID
+  - Employee ID
+
+LeaveType:
+  - ID
+  - Name
+
+LeaveRequests:
+  - ID
+  - Leave Type
+  - Start Date
+  - Finish Date
+  - Status [Pending - Rejected]
+  - Attachment
+  - Leave Reason [Textarea]
+  - Company ID
+  - Branch ID
+  - Department ID
+  - Employee ID
+
+Holidays:
+  - ID
+  - Name
+  - Details
+  - Start Date
+  - Finish Date
+  - Company ID
+  - Branch ID
+
+Payroll:
+  - ID
+  - Date
+  - Amount
+  - Employee ID
+  - Account ID [Bank - Treasure]
+  - Service ID [Credit Card - Cheque - Bank Transfer - Fawry ...etc]
+  - Company ID
+  - Branch ID
+
+
+* Manufacturing - manufacture
+Plant:
+  - ID
+  - Name
+  - Company ID
+  - Branch ID
+
+Section:
+  - ID
+  - Name
+  - Pkant ID
+
+Machine:
+  - ID
+  - Name
+  - Company ID
+  - Branch ID
+  - Department ID
+  - Plant ID
+
+Planning:
+  - ID
+  - Date
+  - Taregt Quantity
+  - Company ID
+  - Branch ID
+  - Department ID
+  - Plant ID
+  - Machine ID
+  
+
+Paymanet Ways:
+  - ID
+  - Name
+  - Discount Type
+  - Discount
+
+Parteners:
+  - ID
+  - Name
+  - Amount
+  - Percent

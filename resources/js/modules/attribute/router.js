@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'attribute.list',
-        icon: 'attribute',
+        icon: 'account-settings',
         permissions: ['list-attribute'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

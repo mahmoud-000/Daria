@@ -32,6 +32,7 @@ const navigation = computed(() =>
         [
             "people.list",
             "organization.list",
+            "hrm.list",
             "item.list",
             "variant.list",
             "invoice.list",
