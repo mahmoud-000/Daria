@@ -28,7 +28,8 @@ class UserResource extends JsonResource
             'contacts' => ContactResource::collection($this->whenLoaded('contacts')),
             'avatar' => $this->whenLoaded('media') && $this->media_count ? (new UploadResource($this->getFirstMedia('users')))->additional(['conversion' => 'avatar'])
                 : config('upload.default_image'),
-            'roles' => ($this->relationLoaded('roles') && count($this->whenLoaded('roles'))) ? $this->roles->pluck('id') : [],
+            'role_ids' => ($this->relationLoaded('roles') && count($this->whenLoaded('roles'))) ? $this->roles->pluck('id') : [],
+            'roles' => ($this->relationLoaded('roles') && count($this->whenLoaded('roles'))) ? $this->roles : [],
             'permissions' => $this->relationLoaded('permissions') ? $this->permissions->pluck('name') : [],
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),

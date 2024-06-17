@@ -14,7 +14,7 @@ trait HasPermissions
 
   public function roles()
   {
-    return $this->morphToMany(Role::class, 'model', 'model_has_roles');
+    return $this->morphToMany(Role::class, 'model', 'model_has_roles')->withTrashed();
   }
 
   public function hasRole(...$roles)

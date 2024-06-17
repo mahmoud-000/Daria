@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { TheSpinner } from "../../../components/import";
 import { useInvoiceDetail } from "../../../composables/invoiceDetail";
-import { addOptiondTo } from "../../../utils/helpers";
+import { addOptionTo } from "../../../utils/helpers";
 const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const store = useStore();
@@ -22,11 +22,11 @@ onMounted(() => {
     formData.value.deletedPayments = ref([])
    
     if (formData.value.supplier_id) {
-        addOptiondTo("supplier", formData.value);
+        addOptionTo("supplier", formData.value);
     }
 
     if (formData.value.delegate_id) {
-        addOptiondTo("delegate", formData.value);
+        addOptionTo("delegate", formData.value);
     }
 
     formData.value?.details.forEach((detail) => {

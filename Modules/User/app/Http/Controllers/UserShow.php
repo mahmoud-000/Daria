@@ -13,6 +13,6 @@ class UserShow extends Controller
     public function __invoke(User $user)
     {
         if (!auth()->user()->is_owner)  abort_if(!Gate::any(['show-user', 'edit-user']), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return UserResource::make($user->load(['roles:id', 'permissions:id,name', 'contacts', 'locations', 'media']));
+        return UserResource::make($user->load(['roles:id,name', 'roles.permissions:id,name', 'permissions:id,name', 'contacts', 'locations', 'media']));
     }
 }

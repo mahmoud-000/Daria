@@ -12,6 +12,23 @@
 - Regions
 - Attribute Category With Options
 - Add Attributes To Items and Variants
+- Add Bulk Edit [Choose Column With Updated]
+
+SystemSettings:
+  - Country
+  - Show Currency Symbol or Code
+  - 3.002 or 3.00 [التقريب]
+
+Company:
+  - Start Date
+  - Date of Establishment
+  - Default Date Format
+  - Default Time Format
+  - Start Working Time
+  - Partners
+  - Website
+  - Social Links
+  - Timezone
 
 Regions:
   - ID

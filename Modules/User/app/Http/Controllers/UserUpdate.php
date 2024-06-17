@@ -24,14 +24,14 @@ class UserUpdate extends Controller
             $request = $request->validated();
 
             $user = DB::transaction(function () use ($user, $request) {
-                $user->update(Arr::except($request, ['contacts', 'locations', 'avatar', 'roles', 'permissions']));
-                if (isset($request['roles'])) {
-                    $permissionsInRole = Role::with('permissions')->whereIn('id', $request['roles'])->get()->pluck('permissions')->flatten()->pluck('name')->toArray();;
+                $user->update(Arr::except($request, ['contacts', 'locations', 'avatar', 'role_ids', 'permissions']));
+                if (isset($request['role_ids'])) {
+                    $permissionsInRole = Role::with('permissions')->whereIn('id', $request['role_ids'])->get()->pluck('permissions')->flatten()->pluck('name')->toArray();;
                     $extraPermissions = array_diff($request['permissions'], $permissionsInRole);
 
                     $user->setPermissions($extraPermissions);
 
-                    $user->roles()->sync($request['roles']);
+                    $user->roles()->sync($request['role_ids']);
                 } else {
                     $user->roles()->detach();
                     

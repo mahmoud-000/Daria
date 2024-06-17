@@ -76,7 +76,7 @@ export const floatify = (number) => {
     return parseFloat((number).toFixed(10));
 }
 
-export const addOptiondTo = (moduleName, formData) => {
+export const addOptionTo = (moduleName, formData) => {
     const getOptions = computed(() => store.getters[`${moduleName}/getOptions`]);
     const findOption = getOptions.value.find(
         (opt) => opt.id === formData[`${moduleName}_id`]
@@ -86,3 +86,49 @@ export const addOptiondTo = (moduleName, formData) => {
         getOptions.value.unshift(formData[`${moduleName}`]);
     }
 }
+
+export const addOptionsTo = (moduleName, arrayKey, pluck_key, formData) => {
+    const getOptions = computed(() => store.getters[`${moduleName}/getOptions`]);
+    const pluckKey = pluck(getOptions.value, pluck_key);
+
+    const deletedValues = difference(formData[`${moduleName}_ids`], pluckKey)
+
+    if (deletedValues.length) {
+        const deletedObjects = formData[`${arrayKey}`].filter((obj) =>
+            deletedValues.includes(obj.id)
+        );
+
+        if(moduleName === 'role') {
+            const result = deletedObjects.map(role => ({ id: role.id, name: role.name, permissions: pluck(role.permissions, 'name') }));
+            getOptions.value.unshift(...result);
+            return;
+        }
+
+        getOptions.value.unshift(...deletedObjects);
+
+    }
+}
+
+export const pluck = (arr, key) => arr.map(i => i[key]);
+
+// pluckKeys(simpsons, ['name', 'age']);
+const pluckKeys = (arr, keys) => arr.map(i => keys.map(k => i[k]));
+
+
+// pluckOnly(simpsons, 'age');
+// [8, 36, 34, 10]
+
+// pluckOnly(simpsons, 'name', 'age');
+// [['Lisa', 8], ['Homer', 36], ['Marge', 34], ['Bart', 10]]
+const pluckOnly = (arr, ...keys) =>
+    keys.length > 1 ?
+        arr.map(i => keys.map(k => i[k])) :
+        arr.map(i => i[keys[0]]);
+
+
+export const intersection = (arr1, arr2) => arr1.filter(x => arr2.includes(x));
+
+export const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
+
+export const symDifference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x))
+    .concat(arr2.filter(x => !arr1.includes(x)));

@@ -3,7 +3,7 @@ import { defineAsyncComponent, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { TheSpinner } from "../../../components/import";
-import { addOptiondTo } from "../../../utils/helpers";
+import { addOptionTo } from "../../../utils/helpers";
 const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const store = useStore();
@@ -15,7 +15,7 @@ await store.dispatch("department/fetchOptions", { form_id: formData.value.id });
 
 onMounted(async () => {
     if (formData.value.department_id) {
-        addOptiondTo('department', formData.value)
+        addOptionTo('department', formData.value)
     }
 });
 </script>

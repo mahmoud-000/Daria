@@ -13,11 +13,6 @@ class RoleDestroy extends Controller
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('delete-role'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         try {
-            // $role->permissions()->detach();
-            // $role->roles()->detach();
-            // $role->contacts()->delete();
-            // $role->locations()->delete();
-            // $role->media()->delete();
             $role->delete();
             return $this->success(__('status.deleted', ['name' => $role->name, 'module' => __('modules.role')]));
         } catch (\Illuminate\Database\QueryException $e) {

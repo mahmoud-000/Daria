@@ -21,15 +21,15 @@ class UserStore extends Controller
         try {
             $request = $request->validated();
             $user = DB::transaction(function () use ($request) {
-                $user = User::create(Arr::except($request, ['contacts', 'locations', 'avatar', 'permissions', 'roles']));
+                $user = User::create(Arr::except($request, ['contacts', 'locations', 'avatar', 'permissions', 'role_ids']));
                 
-                if (isset($request['roles'])) {
-                    $permissionsInRole = Role::with('permissions')->whereIn('id', $request['roles'])->get()->pluck('permissions')->flatten()->pluck('name')->toArray();;
+                if (isset($request['role_ids'])) {
+                    $permissionsInRole = Role::with('permissions')->whereIn('id', $request['role_ids'])->get()->pluck('permissions')->flatten()->pluck('name')->toArray();;
                     $extraPermissions = array_diff($request['permissions'], $permissionsInRole);
                     
                     $user->givePermissionsTo($extraPermissions);
     
-                    $user->roles()->attach($request['roles']);
+                    $user->roles()->attach($request['role_ids']);
                 } else {
                     $user->roles()->detach();
                     if (isset($request['permissions'])) {

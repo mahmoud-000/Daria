@@ -33,7 +33,7 @@ class StoreUserRequest extends FormRequest
 
             'send_notify'    => ['sometimes', 'boolean'],
 
-            'roles'         => ['nullable', 'array'],
+            'role_ids'         => ['nullable', 'array'],
             'permissions'   => ['sometimes', 'array'],
 
             'locations'     => ['sometimes', 'array', 'present'],

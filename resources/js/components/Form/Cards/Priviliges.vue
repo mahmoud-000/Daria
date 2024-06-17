@@ -4,6 +4,7 @@ import { Dark } from "quasar";
 import { CardSectionWithHeader, SelectInput } from "../../import";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
+import { difference, pluck } from "../../../utils/helpers";
 
 const props = defineProps({
     title: {
@@ -22,11 +23,6 @@ const { title, formData } = toRefs(props);
 const { t } = useI18n();
 const store = useStore();
 
-Promise.all([
-    store.dispatch("role/fetchOptions"),
-    store.dispatch("permission/fetchOptions"),
-]);
-
 const roles = computed(() => store.getters["role/getOptions"]);
 const permissions = computed(() => store.getters["permission/getOptions"]);
 
@@ -34,36 +30,40 @@ const perOptions = ref(permissions.value);
 const extraPers = Object.assign([], [...formData.value.permissions]);
 
 watch(
-    () => formData.value.roles,
+    () => formData.value.role_ids,
     (val) => {
-        if (val.length) {
-            formData.value.permissions = [...extraPers];
-            const permissionsInRole = roles.value.find((role) =>
-                val.includes(role.id)
-            )?.permissions;
+        formData.value.permissions = [...extraPers];
 
-            perOptions.value = permissions.value
-                .map((per) => ({
-                    ...per,
+        const choosedRoles = roles.value.filter((role) =>
+            val.includes(role.id)
+        );
+
+        const permissionsInRole = pluck(
+            choosedRoles,
+            "permissions"
+        ).flat();
+
+        perOptions.value = permissions.value
+            .map((per) => ({
+                ...per,
+                disabled: false,
+                children: per.children.map((child) => ({
+                    ...child,
                     disabled: false,
-                    children: per.children.map((child) => ({
-                        ...child,
-                        disabled: false,
-                    })),
-                }))
-                .filter((pe) => {
-                    pe.children.filter((p) => {
-                        if (
-                            permissionsInRole &&
-                            permissionsInRole.includes(p.name)
-                        ) {
-                            p.disabled = true;
-                            formData.value.permissions.push(p.name);
-                        }
-                    });
-                    return pe;
+                })),
+            }))
+            .filter((pe) => {
+                pe.children.filter((p) => {
+                    if (
+                        permissionsInRole.length &&
+                        permissionsInRole.includes(p.name)
+                    ) {
+                        p.disabled = true;
+                        formData.value.permissions.push(p.name);
+                    }
                 });
-        }
+                return pe;
+            });
     },
     { immediate: true }
 );
@@ -98,7 +98,7 @@ const filterFn = (val, update) => {
         >
             <div class="col-lg-12 col-md-12 col-xs-12 q-px-md q-pb-md">
                 <SelectInput
-                    v-model="formData.roles"
+                    v-model="formData.role_ids"
                     clearable
                     :label="t('roles')"
                     :options="

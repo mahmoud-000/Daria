@@ -1,0 +1,11 @@
+{
+    "name": "ِAccountType",
+    "alias": "ِaccountType",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ِAccountType\\Providers\\ِAccountTypeServiceProvider"
+    ],
+    "files": []
+}
