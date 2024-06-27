@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('label', 100)->nullable();
             $table->string('item_desc', 255)->nullable();
-            $table->unsignedBigInteger('cost')->nullable()->default(0);
-            $table->unsignedBigInteger('price')->nullable()->default(0);
+            $table->float('cost', 10, 4)->nullable()->default(0);
+            $table->float('price', 10, 4)->nullable()->default(0);
 
             // $table->char('channel', 1)->nullable();
 
@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->text('remarks')->nullable();
 
-            $table->float('tax', 10, 0)->nullable()->default(0);
+            $table->float('tax', 10, 4)->nullable()->default(0);
             $table->tinyInteger('tax_type')->nullable();
             $table->tinyInteger('stock_alert')->nullable()->default(0);
 

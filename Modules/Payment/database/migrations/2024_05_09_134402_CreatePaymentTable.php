@@ -13,8 +13,8 @@ return new class extends Migration
             $table->morphs('paymentable');
             $table->date('date');
             $table->tinyInteger('type');
-            $table->float('received_amount', 10, 0);
-            $table->float('amount', 10, 0);
+            $table->float('received_amount', 10, 4);
+            $table->float('amount', 10, 4);
             $table->text('note')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained();

@@ -33,7 +33,6 @@
     "Branch": true,
     "Patch": true,
     "Department": true,
-    "Attribute": true,
     "Job": true,
     "Region": true
 }

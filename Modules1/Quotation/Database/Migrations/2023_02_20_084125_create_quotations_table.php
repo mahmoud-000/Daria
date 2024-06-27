@@ -13,13 +13,13 @@ return new class extends Migration
             $table->boolean('effected')->default(0);
             $table->date('date');
             $table->string('ref')->nullable();
-            $table->float('tax', 10, 0)->default(0);
-            $table->float('tax_net', 10, 0)->default(0);
-            $table->float('paid_amount', 10, 0)->default(0);
-            $table->float('grand_total', 10, 0);
-            $table->float('discount', 10, 0)->default(0);
+            $table->float('tax', 10, 4)->default(0);
+            $table->float('tax_net', 10, 4)->default(0);
+            $table->float('paid_amount', 10, 4)->default(0);
+            $table->float('grand_total', 10, 4);
+            $table->float('discount', 10, 4)->default(0);
             $table->tinyInteger('shipping_type');
-            $table->float('shipping', 10, 0)->nullable()->default(0);
+            $table->float('shipping', 10, 4)->nullable()->default(0);
 
             $table->text('remarks')->nullable();
             $table->boolean('is_active')->nullable()->default(0);

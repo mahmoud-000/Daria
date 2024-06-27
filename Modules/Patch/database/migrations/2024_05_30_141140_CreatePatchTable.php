@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->date('production_date')->nullable();
             $table->date('expired_date')->nullable();
-            $table->float('quantity', 10, 0)->nullable()->default(0);
-            $table->float('amount', 10, 0)->nullable()->default(0);
+            $table->float('quantity', 10, 4)->nullable()->default(0);
+            $table->float('amount', 10, 4)->nullable()->default(0);
 
             $table->foreignId('stock_id')->constrained('stock');
             $table->foreignId('item_id')->constrained();

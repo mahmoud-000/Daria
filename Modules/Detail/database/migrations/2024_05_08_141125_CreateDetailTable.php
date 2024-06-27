@@ -14,13 +14,13 @@ return new class extends Migration
             $table->unsignedInteger('product_type')->default(1);
             $table->date('production_date')->nullable();
             $table->date('expired_date')->nullable();
-            $table->float('amount', 10, 0);
-            $table->float('tax', 10, 0)->default(0);
+            $table->float('amount', 10, 4);
+            $table->float('tax', 10, 4)->default(0);
             $table->tinyInteger('tax_type')->default(1);
-            $table->float('discount', 10, 0)->default(0);
+            $table->float('discount', 10, 4)->default(0);
             $table->unsignedInteger('discount_type')->default(1);
-            $table->float('total', 10, 0)->default(0);
-            $table->float('quantity', 10, 0)->default(1);
+            $table->float('total', 10, 4)->default(0);
+            $table->float('quantity', 10, 4)->default(1);
 
             $table->foreignId('unit_id')->constrained();
             $table->foreignId('item_id')->constrained();

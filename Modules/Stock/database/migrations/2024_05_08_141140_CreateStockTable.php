@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('stock', function (Blueprint $table) {
             $table->id();
-            $table->float('quantity', 10, 0)->nullable()->default(0);
+            $table->float('quantity', 10, 4)->nullable()->default(0);
             
             $table->foreignId('item_id')->constrained();
             $table->foreignId('variant_id')->nullable()->constrained();
