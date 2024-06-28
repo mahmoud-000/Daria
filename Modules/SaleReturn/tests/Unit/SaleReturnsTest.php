@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\PurchaseReturn\Tests\Unit;
+namespace Modules\SaleReturn\Tests\Unit;
 
 use App\Enums\ItemTypesEnum;
 use App\Enums\ProductTypesEnum;
@@ -10,12 +10,12 @@ use Illuminate\Validation\ValidationException;
 use Modules\Item\Models\Item;
 use Modules\Warehouse\Models\Warehouse;
 
-class PurchaseReturnsTest extends TestCase
+class SaleReturnsTest extends TestCase
 {
     use RefreshDatabase;
     public $standardItem;
     public $variantItem;
-    public $purchaseReturn;
+    public $saleReturn;
 
     public function setup(): void
     {
@@ -25,25 +25,25 @@ class PurchaseReturnsTest extends TestCase
 
         $this->standardItem = $this->createInitItem();
         $this->variantItem = $this->createInitItem(ItemTypesEnum::VARIABLE, 'kg', 60, 90);
-        $this->purchaseReturn = $this->createPurchaseReturn();
+        $this->saleReturn = $this->createSaleReturn();
         $this->createOwner();
     }
 
-    public function test_can_list_purchaseReturns()
+    public function test_can_list_saleReturns()
     {
-        $res = $this->get(route('api.purchaseReturns.index'))->json();
+        $res = $this->get(route('api.saleReturns.index'))->json();
         $this->assertEquals(1, count($res['data']));
         $this->assertEquals(1, $res['meta']['total']);
     }
 
     public function test_can_not_create_purchasse_without_required_inputs()
     {
-        $res = $this->post(route('api.purchaseReturns.store'), [])
+        $res = $this->post(route('api.saleReturns.store'), [])
             ->assertStatus(422)
             ->withExceptions(collect(ValidationException::class))
             ->assertJsonValidationErrorFor('date', 'payload')
             ->assertJsonValidationErrorFor('warehouse_id', 'payload')
-            ->assertJsonValidationErrorFor('supplier_id', 'payload')
+            ->assertJsonValidationErrorFor('customer_id', 'payload')
             ->assertJsonValidationErrorFor('details', 'payload')
             ->json();
 
@@ -51,7 +51,7 @@ class PurchaseReturnsTest extends TestCase
         $this->assertFalse($res['success']);
     }
 
-    public function test_can_create_purchaseReturn_with_standard_item()
+    public function test_can_create_saleReturn_with_standard_item()
     {
         $tax_details = Item::getTaxDetails($this->standardItem);
 
@@ -78,10 +78,10 @@ class PurchaseReturnsTest extends TestCase
             'amount' => 50,
         ])->toArray();
 
-        $res = $this->post(route('api.purchaseReturns.store'), [
+        $res = $this->post(route('api.saleReturns.store'), [
             'date' => date('Y-m-d'),
             'warehouse_id' => 1,
-            'supplier_id' => $this->createSupplier()->id,
+            'customer_id' => $this->createCustomer()->id,
             'delegate_id' => $this->createDelegate()->id,
             'discount_type' => 1,
             'discount' => 0,
@@ -98,8 +98,8 @@ class PurchaseReturnsTest extends TestCase
             'payments' => [$payment_1]
         ])->json();
         
-        $this->assertDatabaseCount('purchaseReturns', 2);
-        $this->assertDatabaseHas('purchaseReturns', [
+        $this->assertDatabaseCount('saleReturns', 2);
+        $this->assertDatabaseHas('saleReturns', [
             'warehouse_id' => 1,
         ]);
 
@@ -112,7 +112,7 @@ class PurchaseReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->standardItem->id,
             'variant_id' => null,
-            'quantity' => 0
+            'quantity' => 35
         ]);
 
         $this->assertDatabaseCount('payments', 1);
@@ -122,10 +122,10 @@ class PurchaseReturnsTest extends TestCase
             'amount' => 50,
         ]);
         $this->assertTrue($res['success']);
-        $this->assertEquals($res['payload'], __('status.created', ['name' => sprintf('%07d', 2), 'module' => __('modules.purchaseReturn')]));
+        $this->assertEquals($res['payload'], __('status.created', ['name' => sprintf('%07d', 2), 'module' => __('modules.saleReturn')]));
     }
 
-    public function test_can_create_purchaseReturn_with_variant_item()
+    public function test_can_create_saleReturn_with_variant_item()
     {
         $tax_details = Item::getTaxDetails($this->variantItem, $this->variantItem->variants->first());
 
@@ -143,10 +143,10 @@ class PurchaseReturnsTest extends TestCase
         ])->toArray();
 
         $pipelineId = $this->createPipeline()->id;
-        $res = $this->post(route('api.purchaseReturns.store'), [
+        $res = $this->post(route('api.saleReturns.store'), [
             'date' => date('Y-m-d'),
             'warehouse_id' => 4,
-            'supplier_id' => $this->createSupplier()->id,
+            'customer_id' => $this->createCustomer()->id,
             'delegate_id' => $this->createDelegate()->id,
             'discount_type' => 1,
             'discount' => 0,
@@ -162,8 +162,8 @@ class PurchaseReturnsTest extends TestCase
             'details' => [$detail_1]
         ])->json();
             
-        $this->assertDatabaseCount('purchaseReturns', 2);
-        $this->assertDatabaseHas('purchaseReturns', [
+        $this->assertDatabaseCount('saleReturns', 2);
+        $this->assertDatabaseHas('saleReturns', [
             'warehouse_id' => 4,
         ]);
 
@@ -176,16 +176,16 @@ class PurchaseReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 0
+            'quantity' => 22
         ]);
         $this->assertTrue($res['success']);
-        $this->assertEquals($res['payload'], __('status.created', ['name' => sprintf('%07d', 2), 'module' => __('modules.purchaseReturn')]));
+        $this->assertEquals($res['payload'], __('status.created', ['name' => sprintf('%07d', 2), 'module' => __('modules.saleReturn')]));
     }
 
-    public function test_can_edit_purchaseReturn_and_add_a_new_details()
+    public function test_can_edit_saleReturn_and_add_a_new_details()
     {
-        $purchaseReturn = $this->purchaseReturn;
-        $purchaseReturnId = $purchaseReturn->id;
+        $saleReturn = $this->saleReturn;
+        $saleReturnId = $saleReturn->id;
         $detail_1 = $this->createDetail([
             'detailable_id' => null,
             'detailable_type' => null,
@@ -202,11 +202,11 @@ class PurchaseReturnsTest extends TestCase
         $pipelineId = $this->createPipeline()->id;
 
         $res = $this->put(
-            route('api.purchaseReturns.update', ['purchaseReturn' => $purchaseReturnId]),
+            route('api.saleReturns.update', ['saleReturn' => $saleReturnId]),
             [
                 'date' => date('Y-m-d'),
                 'warehouse_id' => 4,
-                'supplier_id' => $this->createSupplier()->id,
+                'customer_id' => $this->createCustomer()->id,
                 'delegate_id' => $this->createDelegate()->id,
                 'discount_type' => 1,
                 'discount' => 0,
@@ -224,8 +224,8 @@ class PurchaseReturnsTest extends TestCase
             ]
         )->json();
 
-        $this->assertDatabaseCount('purchaseReturns', 1);
-        $this->assertDatabaseHas('purchaseReturns', [
+        $this->assertDatabaseCount('saleReturns', 1);
+        $this->assertDatabaseHas('saleReturns', [
             'warehouse_id' => 4,
         ]);
 
@@ -238,13 +238,13 @@ class PurchaseReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 0
+            'quantity' => 22
         ]);
         $this->assertTrue($res['success']);
-        $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $purchaseReturnId), 'module' => __('modules.purchaseReturn')]));
+        $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $saleReturnId), 'module' => __('modules.saleReturn')]));
     }
 
-    public function test_can_edit_purchaseReturn_and_remove_a_old_detail()
+    public function test_can_edit_saleReturn_and_remove_a_old_detail()
     {
         $warehouseId = $this->createWarehouse()->id;
         
@@ -264,7 +264,7 @@ class PurchaseReturnsTest extends TestCase
         $pipelineId = $this->createPipeline()->id;
         $stageId = $this->storeStage(['pipeline_id' => $pipelineId, 'complete' => 100])->id;
 
-        $purchaseReturn = $this->createPurchaseReturn(['warehouse_id' => $warehouseId, 'pipeline_id' => $pipelineId, 'stage_id' => $stageId,]);
+        $saleReturn = $this->createSaleReturn(['warehouse_id' => $warehouseId, 'pipeline_id' => $pipelineId, 'stage_id' => $stageId,]);
 
         $this->createStock([
             'warehouse_id' => $warehouseId,
@@ -273,9 +273,9 @@ class PurchaseReturnsTest extends TestCase
             'quantity' => 55,
         ]);
 
-        $purchaseReturn->details()->create($old_detail);
+        $saleReturn->details()->create($old_detail);
 
-        $purchaseReturnId = $purchaseReturn->id;
+        $saleReturnId = $saleReturn->id;
         $detail_1 = $this->createDetail([
             'detailable_id' => null,
             'detailable_type' => null,
@@ -291,11 +291,11 @@ class PurchaseReturnsTest extends TestCase
         $pipelineId = $this->createPipeline()->id;
 
         $res = $this->put(
-            route('api.purchaseReturns.update', ['purchaseReturn' => $purchaseReturnId]),
+            route('api.saleReturns.update', ['saleReturn' => $saleReturnId]),
             [
                 'date' => date('Y-m-d'),
                 'warehouse_id' => $warehouseId,
-                'supplier_id' => $this->createSupplier()->id,
+                'customer_id' => $this->createCustomer()->id,
                 'delegate_id' => $this->createDelegate()->id,
                 'discount' => 0,
                 'discount_type' => 1,
@@ -309,12 +309,12 @@ class PurchaseReturnsTest extends TestCase
                 'tax_net' => 0,
                 'paid_amount' => 0,
                 'details' => [$detail_1],
-                'deletedDetails' => [$purchaseReturn->details->first()->toArray()]
+                'deletedDetails' => [$saleReturn->details->first()->toArray()]
             ]
         )->json();
         
-        $this->assertDatabaseCount('purchaseReturns', 2);
-        $this->assertDatabaseHas('purchaseReturns', [
+        $this->assertDatabaseCount('saleReturns', 2);
+        $this->assertDatabaseHas('saleReturns', [
             'warehouse_id' => $warehouseId,
         ]);
 
@@ -327,25 +327,25 @@ class PurchaseReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 44
+            'quantity' => 66
         ]);
         $this->assertTrue($res['success']);
-        $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $purchaseReturnId), 'module' => __('modules.purchaseReturn')]));
+        $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $saleReturnId), 'module' => __('modules.saleReturn')]));
     }
 
-    public function test_can_show_purchaseReturn()
+    public function test_can_show_saleReturn()
     {
-        $purchaseReturnId = $this->purchaseReturn->id;
-        $res = $this->get(route('api.purchaseReturns.show', ['purchaseReturn' => $purchaseReturnId]))->json();
+        $saleReturnId = $this->saleReturn->id;
+        $res = $this->get(route('api.saleReturns.show', ['saleReturn' => $saleReturnId]))->json();
         $this->assertEquals(1, count($res));
-        $this->assertEquals($purchaseReturnId, $res['data']['id']);
+        $this->assertEquals($saleReturnId, $res['data']['id']);
     }
 
-    public function test_can_delete_purchaseReturn()
+    public function test_can_delete_saleReturn()
     {
-        $purchaseReturnId = $this->purchaseReturn->id;
-        $res = $this->delete(route('api.purchaseReturns.destroy', ['purchaseReturn' => $purchaseReturnId]))->json();
+        $saleReturnId = $this->saleReturn->id;
+        $res = $this->delete(route('api.saleReturns.destroy', ['saleReturn' => $saleReturnId]))->json();
         $this->assertTrue($res['success']);
-        $this->assertEquals($res['payload'], __('status.deleted', ['name' => sprintf('%07d', $purchaseReturnId), 'module' => __('modules.purchaseReturn')]));
+        $this->assertEquals($res['payload'], __('status.deleted', ['name' => sprintf('%07d', $saleReturnId), 'module' => __('modules.saleReturn')]));
     }
 }

@@ -1,37 +1,37 @@
 <?php
 
-namespace Modules\PurchaseReturn\Models;
+namespace Modules\SaleReturn\Models;
 
 use App\Enums\PaymentStatusEnum;
 use App\Traits\BaseInvoiceRelationsTrait;
 use App\Traits\InvoiceQrCodeTrait;
-use App\Traits\InvoiceSupplierTrait;
+use App\Traits\InvoiceCustomerTrait;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Delegate\Models\Delegate;
-use Modules\PurchaseReturn\Database\Factories\PurchaseReturnFactory;
+use Modules\SaleReturn\Database\Factories\SaleReturnFactory;
 use Modules\User\Models\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class PurchaseReturn extends Model implements HasMedia
+class SaleReturn extends Model implements HasMedia
 {
     use HasFactory,
         Searchable,
         SoftDeletes,
         InteractsWithMedia,
         BaseInvoiceRelationsTrait,
-        InvoiceSupplierTrait,
+        InvoiceCustomerTrait,
         InvoiceQrCodeTrait;
 
-        protected $table = 'purchaseReturns';
+    protected $table = 'saleReturns';
     protected $withCount = ['media'];
 
         protected $fillable = [
         'user_id',
-        'supplier_id',
+        'customer_id',
         'warehouse_id',
         'pipeline_id',
         'stage_id',
@@ -112,6 +112,6 @@ class PurchaseReturn extends Model implements HasMedia
 
     protected static function newFactory()
     {
-        return PurchaseReturnFactory::new();
+        return SaleReturnFactory::new();
     }
 }
