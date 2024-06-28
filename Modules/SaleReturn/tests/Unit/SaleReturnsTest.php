@@ -327,7 +327,7 @@ class SaleReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 66
+            'quantity' => 44
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $saleReturnId), 'module' => __('modules.saleReturn')]));

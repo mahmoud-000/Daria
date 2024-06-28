@@ -3,8 +3,11 @@ MVP:
   Purchase:
     - Add Paymanet
   PurchaseReturn:
+    - Add Paymanet
   Sale:
+    - Add Paymanet
   SaleReturn:
+    - Add Paymanet
   Quotation:
   Transfer:
   Transfer:

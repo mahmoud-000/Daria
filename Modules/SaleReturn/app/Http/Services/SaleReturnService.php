@@ -79,7 +79,7 @@ class SaleReturnService
                         $quantity = self::qteStockInDB(
                             $invoice,
                             $deletedDetail
-                        ) + $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
+                        ) - $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
 
                         $stock = $this->updateStockInDB($invoice, $deletedDetail, $quantity);
 
@@ -87,7 +87,7 @@ class SaleReturnService
                             $quantityInPatch = self::qtePatchInDB(
                                 $invoice,
                                 $deletedDetail
-                            ) + $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
+                            ) - $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
 
                             $this->updateOrCreatePatchInDB($invoice, $deletedDetail, $quantityInPatch, $stock);
                         }
