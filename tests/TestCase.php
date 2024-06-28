@@ -20,6 +20,7 @@ use Modules\Permission\Models\Permission;
 use Modules\Pipeline\Models\Pipeline;
 use Modules\Item\Models\Item;
 use Modules\Purchase\Models\Purchase;
+use Modules\Sale\Models\Sale;
 use Modules\Role\Models\Role;
 use Modules\Setting\Models\Setting;
 use Modules\Stage\Models\Stage;
@@ -108,6 +109,11 @@ abstract class TestCase extends BaseTestCase
     public function createPurchase($args = [])
     {
         return Purchase::factory()->create($args);
+    }
+
+    public function createSale($args = [])
+    {
+        return Sale::factory()->create($args);
     }
 
     public function createDetail($args = [])

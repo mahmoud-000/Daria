@@ -238,7 +238,6 @@ trait InvoiceTrait
       ]);
     }
     // Find A Patch If Not Exist Create It
-    // stock_id, warehouse_id, item_id, variant_id, quantity, cost (amount), unit_id, production_date, expired_date
     if (!$patch) {
       $isComplete = $this->isComplete($invoice['pipeline_id'], $invoice['stage_id']);
       $quantity = $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice, $detail));

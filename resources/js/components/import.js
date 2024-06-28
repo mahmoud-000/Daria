@@ -103,6 +103,10 @@ export const SupplierInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/SupplierInput.vue")
 );
 
+export const CustomerInput = defineAsyncComponent(() =>
+    import("../components/Form/Inputs/CustomerInput.vue")
+);
+
 export const DelegateInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/DelegateInput.vue")
 );

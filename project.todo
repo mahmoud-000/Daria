@@ -1,4 +1,13 @@
 MVP:
+  PaymentMethod:
+  Purchase:
+    - Add Paymanet
+  PurchaseReturn:
+  Sale:
+  SaleReturn:
+  Quotation:
+  Transfer:
+  Transfer:
   SystemSettings:
     - Country
     - Show Currency Symbol or Code
@@ -19,14 +28,6 @@ MVP:
     - Add Job Title
     - Add Salary
     - Add Personal Informations
-  Purchase:
-    - Add Paymanet
-  PurchaseReturn:
-  Sale:
-  SaleReturn:
-  Quotation:
-  Transfer:
-  Transfer:
 
 
 - icon_addjustment:contrast_square
@@ -101,12 +102,6 @@ AttributeCategory:
   - Attribute ID
   - Category ID
   - properties
-
-Item:
-  - - add SKU
-
-Variant:
-  - - add SKU
 
 
 Compqny:
