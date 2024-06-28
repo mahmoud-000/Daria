@@ -1,0 +1,11 @@
+{
+    "name": "PurchaseReturn",
+    "alias": "purchaseReturn",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PurchaseReturn\\Providers\\PurchaseReturnServiceProvider"
+    ],
+    "files": []
+}
