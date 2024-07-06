@@ -247,6 +247,9 @@ abstract class TestCase extends BaseTestCase
     public function mockPermissionsWithGates($user)
     {
         $modules = [
+            'company' => 'companies',
+            'branch' => 'branches',
+            'department' => 'departments',
             'user' => 'users',
             'supplier' => 'suppliers',
             'customer' => 'customers',
@@ -258,16 +261,17 @@ abstract class TestCase extends BaseTestCase
             'warehouse' => 'warehouses',
             'item' => 'items',
             'purchase' => 'purchases',
-            'purchase return' => 'purchase returns',
+            'purchaseReturn' => 'purchaseReturns',
             'sale' => 'sales',
-            'sale return' => 'sale returns',
+            'saleReturn' => 'saleReturns',
             'quotation' => 'quotations',
             'adjustment' => 'adjustments',
             'transfer' => 'transfers',
             'pipeline' => 'pipelines',
-            'sales channel' => 'sales channels',
+            'channel' => 'channels',
             'lead' => 'leads',
             'stage' => 'stages',
+            'variant' => 'variants',
             'role' => 'roles',
         ];
 

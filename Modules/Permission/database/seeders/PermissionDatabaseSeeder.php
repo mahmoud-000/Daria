@@ -11,7 +11,6 @@ class PermissionDatabaseSeeder extends Seeder
     public function run()
     {
         $modules = [
-            'attribute' => 'attributes',
             'company' => 'companies',
             'branch' => 'branches',
             'department' => 'departments',
@@ -26,14 +25,14 @@ class PermissionDatabaseSeeder extends Seeder
             'warehouse' => 'warehouses',
             'item' => 'items',
             'purchase' => 'purchases',
-            'purchase return' => 'purchase returns',
+            'purchaseReturn' => 'purchaseReturns',
             'sale' => 'sales',
-            'sale return' => 'sale returns',
+            'saleReturn' => 'saleReturns',
             'quotation' => 'quotations',
             'adjustment' => 'adjustments',
             'transfer' => 'transfers',
             'pipeline' => 'pipelines',
-            'sales channel' => 'sales channels',
+            'channel' => 'channels',
             'lead' => 'leads',
             'stage' => 'stages',
             'variant' => 'variants',

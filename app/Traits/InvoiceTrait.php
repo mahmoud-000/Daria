@@ -6,6 +6,8 @@ use App\Enums\ProductTypesEnum;
 use Illuminate\Support\Arr;
 use Modules\Detail\Models\Detail;
 use Modules\Patch\Models\Patch;
+use Modules\Item\Models\Item;
+use Modules\Variant\Models\Variant;
 use Modules\Stage\Models\Stage;
 use Modules\Stock\Models\Stock;
 use Modules\Unit\Models\Unit;
@@ -250,7 +252,7 @@ trait InvoiceTrait
         'production_date' => $detail['production_date'],
         'expired_date' => $detail['expired_date'],
         'unit_id' => $detail['unit_id'],
-        'amount' => $detail['amount'],
+        'amount' => $detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost,
         'quantity' => $quantity,
         'warehouse_id' => $invoice['warehouse_id'],
       ]);
@@ -346,7 +348,7 @@ trait InvoiceTrait
       ->where('warehouse_id', $invoice['warehouse_id'])
       ->where('item_id', $detail['item_id'])
       ->where('variant_id', $detail['variant_id'])
-      ->where('amount', $detail['amount'])
+      ->where('amount', $detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost)
       ->when(
         !empty($detail['production_date']),
         fn ($query) => $query->whereDate('production_date', $detail['production_date'])

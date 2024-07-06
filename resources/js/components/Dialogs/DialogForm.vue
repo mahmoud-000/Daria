@@ -227,6 +227,7 @@ onMounted(() => {
                                 }))
                             "
                             :disable="!!editedDetail.id"
+                            :clearable="!editedDetail.id"
                         >
                             <!-- :error="$v.patch_id.$error"
                         :errors="$v.patch_id.$errors"
@@ -236,8 +237,15 @@ onMounted(() => {
                                 <q-item v-bind="scope.itemProps">
                                     <q-item-section>
                                         <q-item-label>
+                                            <q-badge>
+                                                {{ t("production_date") }}
+                                            </q-badge>
+                                            {{ `: ${scope.opt.production_date}` }}
+                                            <q-badge>
+                                                {{ t("expired_date") }}
+                                            </q-badge>
                                             {{
-                                                `${scope.opt.production_date} - ${scope.opt.expired_date}`
+                                                `: ${scope.opt.expired_date}`
                                             }}
                                         </q-item-label>
                                         <q-item-label caption>
@@ -289,7 +297,7 @@ onMounted(() => {
                             @input="() => $v.production_date.$touch()"
                             @blur="() => $v.production_date.$touch()"
                             :errors="$v.production_date.$errors"
-                            :disable="!!editedDetail.id"
+                            :disable="!!editedDetail.id || !!formData.patch_id"
                         />
                     </div>
                     <div
@@ -303,7 +311,7 @@ onMounted(() => {
                             @input="() => $v.expired_date.$touch()"
                             @blur="() => $v.expired_date.$touch()"
                             :errors="$v.expired_date.$errors"
-                            :disable="!!editedDetail.id"
+                            :disable="!!editedDetail.id || !!formData.patch_id"
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
