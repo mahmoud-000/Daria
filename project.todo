@@ -6,6 +6,7 @@ MVP:
     - Add Paymanet
   Sale:
     - Add Paymanet
+    - Add Batch ID
   SaleReturn:
     - Add Paymanet
   Quotation:

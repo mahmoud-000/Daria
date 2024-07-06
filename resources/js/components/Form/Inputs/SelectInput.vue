@@ -56,10 +56,6 @@ const colorBasedOnMode = computed(() => store.getters["colorBasedOnMode"]);
             </div>
         </template>
 
-        <template v-for="(_, name) in $slots" #[name]="slotData">
-            <slot :name="name" v-bind="slotData || {}" />
-        </template>
-
         <template #selected-item="scope">
             <q-chip
                 :tabindex="scope.tabindex"
@@ -69,6 +65,10 @@ const colorBasedOnMode = computed(() => store.getters["colorBasedOnMode"]);
             >
                 {{ scope.opt.label }}
             </q-chip>
+        </template>
+        
+        <template v-for="(_, name) in $slots" #[name]="slotData">
+            <slot :name="name" v-bind="slotData || {}" />
         </template>
     </q-select>
 </template>

@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             CategoryDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
             UnitDatabaseSeeder::class,
-            ItemDatabaseSeeder::class,
+            // ItemDatabaseSeeder::class,
             SupplierDatabaseSeeder::class,
             DelegateDatabaseSeeder::class,
             UserDatabaseSeeder::class,

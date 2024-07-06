@@ -109,4 +109,6 @@ export default {
   item_id: "Item",
   department_id: "Department",
   sku: "SKU",
+  patch_id: "Patch ID",
+  company_name: "Company Name",
 }

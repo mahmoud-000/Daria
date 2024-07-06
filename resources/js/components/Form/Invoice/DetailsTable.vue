@@ -68,6 +68,7 @@ const deleteItem = () => {
 
 const confirmEdit = (detail, index) => {
     editedDetail.value = detail;
+
     editedDetailIndex.value = index;
     dialogForm.value = true;
 };
@@ -85,6 +86,7 @@ const editItem = (editForm) => {
         editForm.discount < 0 ? editForm.discount * -1 : editForm.discount;
     detail.discount_type = editForm.discount_type;
     detail.unit_id = editForm.unit_id;
+    detail.patch_id = editForm.patch_id;
     detail.production_date = editForm.production_date;
     detail.expired_date = editForm.expired_date;
 
@@ -271,6 +273,7 @@ const decrement = (detail) => {
                                 :toolbar="t('table.delete_record')"
                                 @click="confirmDelete(detail, i)"
                             />
+                       
                             <BaseBtn
                                 glossy
                                 round

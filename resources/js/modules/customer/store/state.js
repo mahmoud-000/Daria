@@ -2,6 +2,7 @@ export default () => ({
     customers: [],
     customer: {},
     options: [],
+    meta: {},
     pagination: {
         sortBy: "id",
         descending: true,

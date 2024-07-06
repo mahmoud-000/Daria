@@ -35,7 +35,7 @@ const colorBasedOnMode = computed(() => store.getters["colorBasedOnMode"]);
 <template>
     <SelectInputWithMedia
         :options="
-            options.map((opt) => ({
+            options?.map((opt) => ({
                 label: opt.fullname,
                 value: opt.id,
                 img: opt.avatar.url,

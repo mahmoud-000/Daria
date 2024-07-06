@@ -34,7 +34,6 @@ service.interceptors.response.use(
   },
   error => {
     // remove auth user informations from cookies and return to login page
-    console.log(error?.response);
     if (error?.response) {
       if ([401].includes(error?.response?.status)) {
         store.commit('auth/REMOVE_AUTH_DETAILS')

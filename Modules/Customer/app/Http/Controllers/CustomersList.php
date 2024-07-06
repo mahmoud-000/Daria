@@ -17,7 +17,7 @@ class CustomersList extends Controller
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return CustomersCollectionResource::collection(
             Customer::query()
-                ->select(['id', 'fullname', 'email', 'company_name', 'type', 'is_active', 'created_at', 'updated_at'])
+                ->select(['id', 'fullname', 'email', 'type', 'company_name', 'type', 'is_active', 'created_at', 'updated_at'])
                 ->with(['media'])
                 ->withCount(['media'])
                 ->search($req->filter)

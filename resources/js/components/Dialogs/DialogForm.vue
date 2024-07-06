@@ -1,12 +1,15 @@
 <script setup>
 import useVuelidate from "@vuelidate/core";
-import { ref, reactive, toRefs, computed, onMounted } from "vue";
+import { ref, reactive, toRefs, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { taxTypes, fpTypes } from "../../utils/constraints";
 import { required, requiredIf, minValue } from "../../utils/i18n-validators";
 import { BaseInput, BaseBtn, SelectInput, DateInput } from "../import";
-import { getDefaultCurrencySymbol } from "../../utils/helpers";
+import {
+    getDefaultCurrencySymbol,
+    numberFormatWithCurrency,
+} from "../../utils/helpers";
 
 const props = defineProps({
     dialogForm: {
@@ -39,6 +42,7 @@ const formData = reactive({
     discount: 0,
     discount_type: null,
     unit_id: null,
+    patch_id: null,
     product_type: 1,
     production_date: null,
     expired_date: null,
@@ -63,6 +67,11 @@ const rules = computed(() => ({
     expired_date: {
         requiredIfRef: requiredIf(formData.product_type === 2),
     },
+    // patch_id: {
+    //     requiredIfRef: requiredIf(
+    //         formData.product_type === 2 && keyOfUnit.value === "sale"
+    //     ),
+    // },
 }));
 
 const $v = useVuelidate(rules, formData);
@@ -82,6 +91,8 @@ const getUnitWithChilds = computed(() =>
     store.getters["unit/getUnitWithChilds"](editedDetail.value.unity)
 );
 
+const getTextColor = computed(() => store.getters["getTextColor"]);
+
 const updateUnit = () => {
     const unit = getUnitWithChilds.value.find(
         (unit) => unit.id === formData.unit_id
@@ -97,13 +108,40 @@ const updateUnit = () => {
     }
 };
 
+watch(
+    () => formData.patch_id,
+    (val) => {
+        const patch = formData.patches?.find((d) => d.id === val);
+
+        if (patch) {
+            formData.production_date = patch.production_date;
+            formData.expired_date = patch.expired_date;
+        }
+    }
+);
+
 onMounted(() => {
+    const stock = computed(() => store.getters["stock/getStockByWarehouse"]);
+
+    const findStock = stock.value.find((s) => {
+        if (
+            editedDetail.value.product_type === 2 &&
+            editedDetail.value.item_id === s.item_id &&
+            editedDetail.value.variant_id === s.variant_id
+        ) {
+            return s;
+        }
+    });
+
+    formData.patches = findStock?.patches;
+
     formData.amount = editedDetail.value.amount;
     formData.tax = editedDetail.value.tax;
     formData.tax_type = editedDetail.value.tax_type;
     formData.discount = editedDetail.value.discount;
     formData.discount_type = editedDetail.value.discount_type;
     formData.unit_id = editedDetail.value.unit_id;
+    formData.patch_id = editedDetail.value.patch_id;
     formData.product_type = editedDetail.value.product_type;
     formData.production_date = editedDetail.value.production_date;
     formData.expired_date = editedDetail.value.expired_date;
@@ -171,10 +209,78 @@ onMounted(() => {
             <q-card-section class="text-center">
                 <div class="row justify-between">
                     <div
-                        class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        class="col-lg-12 col-md-12 col-xs-12 q-px-md q-pb-sm"
                         v-if="
-                            formData.product_type === 2 && !editedDetail.id
+                            formData.product_type === 2 && keyOfUnit === 'sale'
                         "
+                    >
+                        <SelectInput
+                            v-model="formData.patch_id"
+                            :label="t('patch_id')"
+                            :options="
+                                formData.patches?.map((opt) => ({
+                                    production_date: opt.production_date,
+                                    expired_date: opt.expired_date,
+                                    amount: opt.amount,
+                                    quantity: opt.quantity,
+                                    value: opt.id,
+                                }))
+                            "
+                            :disable="!!editedDetail.id"
+                        >
+                            <!-- :error="$v.patch_id.$error"
+                        :errors="$v.patch_id.$errors"
+                        @input="() => $v.patch_id.$touch()"
+                        @blur="() => $v.patch_id.$touch()" -->
+                            <template #option="scope">
+                                <q-item v-bind="scope.itemProps">
+                                    <q-item-section>
+                                        <q-item-label>
+                                            {{
+                                                `${scope.opt.production_date} - ${scope.opt.expired_date}`
+                                            }}
+                                        </q-item-label>
+                                        <q-item-label caption>
+                                            <q-badge>
+                                                {{ t("table.quantity") }}
+                                            </q-badge>
+                                            {{
+                                                `: ${$filters.formatNumber(
+                                                    scope.opt.quantity,
+                                                    4
+                                                )} ${editedDetail.unit}`
+                                            }}
+                                            <q-badge>
+                                                {{ t("cost") }}
+                                            </q-badge>
+                                            {{
+                                                `: ${numberFormatWithCurrency(
+                                                    scope.opt.amount,
+                                                    2
+                                                )}`
+                                            }}
+                                        </q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </template>
+
+                            <template #selected-item="scope">
+                                <q-chip
+                                    :tabindex="scope.tabindex"
+                                    color="primary"
+                                    :text-color="getTextColor"
+                                    class="q-ma-none"
+                                >
+                                    {{
+                                        `${scope.opt.production_date} - ${scope.opt.expired_date}`
+                                    }}
+                                </q-chip>
+                            </template>
+                        </SelectInput>
+                    </div>
+                    <div
+                        class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        v-if="formData.product_type === 2"
                     >
                         <DateInput
                             v-model="formData.production_date"
@@ -183,13 +289,12 @@ onMounted(() => {
                             @input="() => $v.production_date.$touch()"
                             @blur="() => $v.production_date.$touch()"
                             :errors="$v.production_date.$errors"
+                            :disable="!!editedDetail.id"
                         />
                     </div>
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        v-if="
-                            formData.product_type === 2 && !editedDetail.id
-                        "
+                        v-if="formData.product_type === 2"
                     >
                         <DateInput
                             v-model="formData.expired_date"
@@ -198,12 +303,17 @@ onMounted(() => {
                             @input="() => $v.expired_date.$touch()"
                             @blur="() => $v.expired_date.$touch()"
                             :errors="$v.expired_date.$errors"
+                            :disable="!!editedDetail.id"
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
                         <BaseInput
                             v-model.number="formData.amount"
-                            :label="t('cost')"
+                            :label="
+                                keyOfUnit === 'purchase'
+                                    ? t('cost')
+                                    : t('price')
+                            "
                             :error="$v.amount.$error"
                             @input="() => $v.amount.$touch()"
                             @blur="() => $v.amount.$touch()"
@@ -259,7 +369,7 @@ onMounted(() => {
                             @blur="() => $v.discount_type.$touch()"
                         />
                     </div>
-            
+
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         v-if="!editedDetail.id"

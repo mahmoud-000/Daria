@@ -7,7 +7,12 @@ import { useStore } from "vuex";
 
 const peoples = computed(() =>
     routeChildren().filter((r) =>
-        ["purchase.list"].includes(r.name)
+        [
+            "purchase.list",
+            "purchaseReturn.list",
+            "sale.list",
+            "saleReturn.list",
+        ].includes(r.name)
     )
 );
 
@@ -34,7 +39,7 @@ const colorBasedOnMode = computed(() => store.getters["colorBasedOnMode"]);
                 v-permission="[`${people.meta.permissions}`]"
             >
                 <q-card
-                :class="{
+                    :class="{
                         'bg-white': !Dark.isActive,
                     }"
                     dark
@@ -55,7 +60,7 @@ const colorBasedOnMode = computed(() => store.getters["colorBasedOnMode"]);
                     </q-card-section>
                     <q-card-section class="text-center">
                         <q-icon
-                        :color="`${colorBasedOnMode}`"
+                            :color="`${colorBasedOnMode}`"
                             :name="people.meta.icon"
                             size="5em"
                         ></q-icon>

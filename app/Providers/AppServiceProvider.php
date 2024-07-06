@@ -11,6 +11,7 @@ use Modules\Setting\Models\Setting;
 use Modules\Supplier\Models\Supplier;
 use Modules\User\Models\User;
 use Modules\Purchase\Models\Purchase;
+use Modules\Sale\Models\Sale;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'Delegate'          => Delegate::class,
             'Setting'           => Setting::class,
             'Purchase'           => Purchase::class,
+            'Sale'              => Sale::class,
         ]);
     }
 }

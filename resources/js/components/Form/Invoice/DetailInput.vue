@@ -12,7 +12,7 @@ const props = defineProps({
     },
     notInclude: {
         type: Array,
-        required: true,
+        required: false,
         default: () => [],
     },
     details: {
@@ -123,7 +123,6 @@ const filterFn = (val, update, abort) => {
 };
 
 const addItemToDetailsTable = () => {
-console.log(itemSelect.value.production_date);
     if (
         details.value.some(
             (d) =>
@@ -153,6 +152,7 @@ console.log(itemSelect.value.production_date);
                 `is_available_for_edit_in_${keyOfUnit.value}`
             ];
         detail.value.product_type = itemSelect.value.item.product_type;
+        detail.value.patches = itemSelect.value.patches;
         detail.value.production_date =
             itemSelect.value.item.product_type === 2
                 ? new Date().toISOString().slice(0, 10)

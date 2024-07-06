@@ -24,7 +24,8 @@ class StockByWarehouse extends Controller
                     'variant',
                     'item.purchaseUnit',
                     'item.saleUnit',
-                    'item.media'
+                    'item.media',
+                    'patches'
                 ])
                 ->where('warehouse_id', $req->warehouse)
                 ->where(

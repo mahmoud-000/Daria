@@ -15,7 +15,7 @@ await store.dispatch("sale/fetchSale", route.params.id);
 
 const formData = computed(() => store.getters["sale/getSale"]);
 
-const { detailCalculate } = useInvoiceDetail("cost");
+const { detailCalculate } = useInvoiceDetail("price");
 
 onMounted(() => {
     formData.value.deletedDetails = ref([])

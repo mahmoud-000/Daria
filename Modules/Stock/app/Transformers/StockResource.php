@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Item\Models\Item;
 use Modules\Item\Transformers\ItemResource;
 use Modules\Variant\Transformers\VariantResource;
+use Modules\Patch\Transformers\PatchResource;
 
 class StockResource extends JsonResource
 {
@@ -25,6 +26,8 @@ class StockResource extends JsonResource
 
             'item' => ItemResource::make($this->whenLoaded('item')),
             'variant' => VariantResource::make($this->whenLoaded('variant')),
+
+            'patches' => PatchResource::collection($this->whenLoaded('patches')),
 
             'tax_details' => Item::getTaxDetails($this->whenLoaded('item'), $this->whenLoaded('variant'))
         ];

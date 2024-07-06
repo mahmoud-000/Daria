@@ -29,6 +29,9 @@ import variantModule from '../modules/variant'
 import invoiceModule from '../modules/invoice'
 import stockModule from '../modules/stock'
 import purchaseModule from '../modules/purchase'
+import purchaseReturnModule from '../modules/purchaseReturn'
+import saleReturnModule from '../modules/saleReturn'
+import saleModule from '../modules/sale'
 import pipelineModule from '../modules/pipeline'
 import stageModule from '../modules/stage'
 
@@ -58,6 +61,9 @@ const addModules = registerModules({
   invoice: invoiceModule,
   stock: stockModule,
   purchase: purchaseModule,
+  purchaseReturn: purchaseReturnModule,
+  sale: saleModule,
+  saleReturn: saleReturnModule,
   pipeline: pipelineModule,
   stage: stageModule,
   permission: permissionModule,

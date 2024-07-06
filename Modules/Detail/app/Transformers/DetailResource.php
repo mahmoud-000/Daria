@@ -3,6 +3,7 @@
 namespace Modules\Detail\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Patch\Transformers\PatchResource;
 
 class DetailResource extends JsonResource
 {
@@ -36,7 +37,7 @@ class DetailResource extends JsonResource
                 ->where('item_id', $this->item_id)
                 ->where('variant_id', $this->variant_id)
                 ->first()
-                ->quantity),
+                ->quantity)
         ];
     }
 }

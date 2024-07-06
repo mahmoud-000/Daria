@@ -17,6 +17,7 @@ class CustomersCollectionResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'fullname' => $this->fullname,
+            'type' => $this->type,
             'company_name' => $this->company_name,
             'is_active' => $this->is_active,
             'avatar' => $this->whenLoaded('media') && $this->media_count ? (new UploadResource($this->getFirstMedia('customers')))->additional(['conversion' => 'avatar'])

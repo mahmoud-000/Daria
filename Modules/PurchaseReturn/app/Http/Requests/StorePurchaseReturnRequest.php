@@ -35,6 +35,7 @@ class StorePurchaseReturnRequest extends FormRequest
             'details.*.warehouse_id' => ['required', 'integer'],
             'details.*.item_id' => ['required', 'integer'],
             'details.*.variant_id' => ['sometimes', 'integer', 'nullable'],
+            'details.*.patch_id' => ['sometimes', 'integer', 'nullable'],
             'details.*.unit_id' => ['required', 'integer'],
             'details.*.amount' => ['required', 'numeric', 'min:0'],
             'details.*.discount' => ['required', 'numeric', 'min:0'],

@@ -78,6 +78,7 @@ trait InvoiceTrait
   {
     return [
       'id' => $detail['id'],
+      'patch_id' => $detail['patch_id'],
       'amount' => $detail['amount'],
       'tax' => $detail['tax'],
       'tax_type' => $detail['tax_type'],
@@ -338,6 +339,9 @@ trait InvoiceTrait
 
   public static function findPatchInDB($invoice, $detail)
   {
+    if($detail['patch_id']) {
+      return Patch::find($detail['patch_id']);
+    }
     return Patch::query()
       ->where('warehouse_id', $invoice['warehouse_id'])
       ->where('item_id', $detail['item_id'])
