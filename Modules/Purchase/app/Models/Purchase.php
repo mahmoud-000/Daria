@@ -15,6 +15,7 @@ use Modules\Purchase\Database\Factories\PurchaseFactory;
 use Modules\User\Models\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Modules\Payment\Models\Payment;
 
 class Purchase extends Model implements HasMedia
 {
@@ -28,7 +29,7 @@ class Purchase extends Model implements HasMedia
 
     protected $withCount = ['media'];
 
-        protected $fillable = [
+    protected $fillable = [
         'user_id',
         'supplier_id',
         'warehouse_id',
@@ -40,7 +41,6 @@ class Purchase extends Model implements HasMedia
         'remarks',
         'date',
         'tax',
-        // 'tax_net',
         'paid_amount',
         'payment_status',
         'grand_total',
@@ -58,7 +58,6 @@ class Purchase extends Model implements HasMedia
         'commission_type' => \App\Enums\FPTypesEnum::class,
 
         'tax' => 'double',
-        // 'tax_net' => 'double',
         'paid_amount' => 'double',
         'grand_total' => 'double',
         'discount' => 'double',
@@ -73,7 +72,7 @@ class Purchase extends Model implements HasMedia
             $model->user_id = auth()->id();
             static::paymentStatus($model);
         });
-        
+
         static::updating(function ($model) {
             static::paymentStatus($model);
         });
@@ -81,7 +80,7 @@ class Purchase extends Model implements HasMedia
 
     public static function paymentStatus($model)
     {
-        if(floatval($model->paid_amount) < floatval($model->grand_total) && floatval($model->paid_amount) !== 0.0) {
+        if (floatval($model->paid_amount) < floatval($model->grand_total) && floatval($model->paid_amount) !== 0.0) {
             $model->payment_status = PaymentStatusEnum::PARTIAL;
         } elseif (floatval($model->paid_amount) === floatval($model->grand_total)) {
             $model->payment_status = PaymentStatusEnum::PAID;
@@ -97,6 +96,11 @@ class Purchase extends Model implements HasMedia
     public static function searchable()
     {
         return ['date'];
+    }
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
     }
 
     public function delegate()

@@ -3,12 +3,10 @@
 namespace Modules\Sale\Tests\Unit;
 
 use App\Enums\ItemTypesEnum;
-use App\Enums\ProductTypesEnum;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Modules\Item\Models\Item;
-use Modules\Warehouse\Models\Warehouse;
 
 class SalesTest extends TestCase
 {

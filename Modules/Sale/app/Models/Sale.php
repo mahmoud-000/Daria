@@ -15,6 +15,7 @@ use Modules\Sale\Database\Factories\SaleFactory;
 use Modules\User\Models\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Modules\Payment\Models\Payment;
 
 class Sale extends Model implements HasMedia
 {
@@ -40,7 +41,6 @@ class Sale extends Model implements HasMedia
         'remarks',
         'date',
         'tax',
-        // 'tax_net',
         'paid_amount',
         'payment_status',
         'grand_total',
@@ -58,7 +58,6 @@ class Sale extends Model implements HasMedia
         'commission_type' => \App\Enums\FPTypesEnum::class,
 
         'tax' => 'double',
-        // 'tax_net' => 'double',
         'paid_amount' => 'double',
         'grand_total' => 'double',
         'discount' => 'double',
@@ -99,6 +98,11 @@ class Sale extends Model implements HasMedia
         return ['date'];
     }
 
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
+    
     public function delegate()
     {
         return $this->belongsTo(Delegate::class)->withTrashed();

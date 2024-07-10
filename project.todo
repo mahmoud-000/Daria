@@ -6,10 +6,11 @@ MVP:
     - Add Paymanet
   Sale:
     - Add Paymanet
-    - Add Batch ID
   SaleReturn:
     - Add Paymanet
   Quotation:
+    - Test
+    - Convert To Sale Invoice
   Transfer:
   Transfer:
   SystemSettings:

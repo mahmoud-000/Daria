@@ -32,6 +32,7 @@ import purchaseModule from '../modules/purchase'
 import purchaseReturnModule from '../modules/purchaseReturn'
 import saleReturnModule from '../modules/saleReturn'
 import saleModule from '../modules/sale'
+import quotationModule from '../modules/quotation'
 import pipelineModule from '../modules/pipeline'
 import stageModule from '../modules/stage'
 
@@ -64,6 +65,7 @@ const addModules = registerModules({
   purchaseReturn: purchaseReturnModule,
   sale: saleModule,
   saleReturn: saleReturnModule,
+  quotation: quotationModule,
   pipeline: pipelineModule,
   stage: stageModule,
   permission: permissionModule,

@@ -12,6 +12,7 @@ const peoples = computed(() =>
             "purchaseReturn.list",
             "sale.list",
             "saleReturn.list",
+            "quotation.list",
         ].includes(r.name)
     )
 );

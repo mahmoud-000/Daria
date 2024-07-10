@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\InvoiceTypesEnum;
 use App\Enums\ProductTypesEnum;
 use Illuminate\Support\Arr;
 use Modules\Detail\Models\Detail;
@@ -207,7 +208,7 @@ trait InvoiceTrait
   public function updateStockInDB($invoice, $detail, $quantity)
   {
     $stock = self::findStockInDB($invoice, $detail);
-    if ($stock) {
+    if ($stock && self::INV_TYPE !== InvoiceTypesEnum::QUOTATION->value) {
       $stock->update([
         'quantity' => $quantity
       ]);
@@ -215,13 +216,11 @@ trait InvoiceTrait
 
     if (!$stock) {
       $isComplete = $this->isComplete($invoice['pipeline_id'], $invoice['stage_id']);
-      $quantity = $this->calcQte($detail, $isComplete, self::qteStockInDB($invoice, $detail));
+      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qteStockInDB($invoice, $detail));
 
       Stock::create([
         'item_id' => $detail['item_id'],
         'variant_id' => $detail['variant_id'],
-        'production_date' => $detail['production_date'],
-        'expired_date' => $detail['expired_date'],
         'quantity' => $quantity,
         'warehouse_id' => $invoice['warehouse_id'],
       ]);
@@ -234,8 +233,8 @@ trait InvoiceTrait
   {
     // Find A Patch If Exist Update It
     $patch = self::findPatchInDB($invoice, $detail);
-
-    if ($patch) {
+    
+    if ($patch && self::INV_TYPE !== InvoiceTypesEnum::QUOTATION->value) {
       $patch->update([
         'quantity' => $quantity
       ]);
@@ -243,7 +242,7 @@ trait InvoiceTrait
     // Find A Patch If Not Exist Create It
     if (!$patch) {
       $isComplete = $this->isComplete($invoice['pipeline_id'], $invoice['stage_id']);
-      $quantity = $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice, $detail));
+      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice, $detail));
 
       $patch = Patch::create([
         'stock_id' => $stock['id'],

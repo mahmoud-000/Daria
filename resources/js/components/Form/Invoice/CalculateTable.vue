@@ -26,11 +26,12 @@ const { formData, costOrPrice, hideRows } = toRefs(props);
 const { t } = useI18n();
 const route = useRoute();
 
-const notAllowed = computed(
-    () => !["adjustment.create", "adjustment.edit"].includes(route.name)
-);
+// Hide All In Adjustment
+// const notShowInAdjustment = computed(
+//     () => !["adjustment.create", "adjustment.edit"].includes(route.name)
+// );
 
-const hideForTable = (row) => {
+const showInTable = (row) => {
     return !hideRows.value?.includes(row);
 };
 
@@ -57,7 +58,7 @@ watch(
 <template>
     <q-markup-table dense class="calculate col-lg-4 col-md-6 col-sm-12">
         <tbody>
-            <tr v-if="notAllowed && hideForTable('tax')">
+            <tr v-if="showInTable('tax')">
                 <td class="bold">
                     {{ $t("table.order_tax") }}
                 </td>
@@ -71,7 +72,7 @@ watch(
                     >
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('discount')">
+            <tr v-if="showInTable('discount')">
                 <td class="bold">
                     {{ $t("table.discount") }}
                 </td>
@@ -86,7 +87,7 @@ watch(
                     </span>
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('shipping')">
+            <tr v-if="showInTable('shipping')">
                 <td class="bold">
                     {{ $t("table.shipping") }}
                 </td>
@@ -101,7 +102,7 @@ watch(
                     </span>
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('shipping')">
+            <tr v-if="showInTable('shipping')">
                 <td class="bold">
                     {{ $t("table.other_expenses") }}
                 </td>
@@ -109,7 +110,7 @@ watch(
                     {{ numberFormatWithCurrency(formData.other_expenses) }}
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('grand_total')">
+            <tr v-if="showInTable('grand_total')">
                 <td>
                     <span class="font-weight-bold">{{
                         $t("table.grand_total")
@@ -121,7 +122,7 @@ watch(
                     </span>
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('paid_amount')">
+            <tr v-if="showInTable('paid_amount')">
                 <td>
                     <span class="font-weight-bold">{{
                         $t("table.paid_amount")
@@ -133,7 +134,7 @@ watch(
                     </span>
                 </td>
             </tr>
-            <tr v-if="notAllowed && hideForTable('due')">
+            <tr v-if="showInTable('due')">
                 <td>
                     <span class="font-weight-bold">{{ $t("table.due") }}</span>
                 </td>
