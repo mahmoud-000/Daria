@@ -2,6 +2,7 @@
 
 namespace Modules\SaleReturn\Http\Services;
 
+use App\Enums\InvoiceTypesEnum;
 use App\Enums\ProductTypesEnum;
 use App\Traits\InvoiceTrait;
 
@@ -9,6 +10,8 @@ class SaleReturnService
 {
     use InvoiceTrait;
 
+    const INV_TYPE = InvoiceTypesEnum::SALE_RETURN->value;
+    
     public function calcQte($detail, $isComplete, $quantityInDBTable)
     {
         if ($isComplete) {
@@ -69,7 +72,7 @@ class SaleReturnService
     public function destroyDetails($invoice, $deletedDetails, $old_isComplete)
     {
         $deletedIds = [];
-
+        
         if (count($deletedDetails)) {
             foreach ($deletedDetails as $deletedDetail) {
                 if (isset($deletedDetail['id'])) {
@@ -79,15 +82,15 @@ class SaleReturnService
                         $quantity = self::qteStockInDB(
                             $invoice,
                             $deletedDetail
-                        ) - $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
+                        ) - $this->stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
 
                         $stock = $this->updateStockInDB($invoice, $deletedDetail, $quantity);
 
-                        if ($deletedDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
+                        if ($deletedDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM->value) {
                             $quantityInPatch = self::qtePatchInDB(
                                 $invoice,
                                 $deletedDetail
-                            ) - $this->stockyByUnit($deletedDetail['unit_id'], $deletedDetail['quantity']);
+                            ) - $this->stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
 
                             $this->updateOrCreatePatchInDB($invoice, $deletedDetail, $quantityInPatch, $stock);
                         }

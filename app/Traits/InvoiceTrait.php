@@ -179,7 +179,7 @@ trait InvoiceTrait
                 )
               )
             );
-
+            
             if ($oldDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
               $this->updateOrCreatePatchInDB(
                 $invoice,
@@ -252,7 +252,7 @@ trait InvoiceTrait
         'production_date' => $detail['production_date'],
         'expired_date' => $detail['expired_date'],
         'unit_id' => $detail['unit_id'],
-        'amount' => $detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost,
+        'amount' => in_array(self::INV_TYPE, ['purchase', 'purchase_return']) ? $detail['amount'] : ($detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost),
         'quantity' => $quantity,
         'warehouse_id' => $invoice['warehouse_id'],
       ]);
@@ -341,14 +341,14 @@ trait InvoiceTrait
 
   public static function findPatchInDB($invoice, $detail)
   {
-    if($detail['patch_id']) {
+    if ($detail['patch_id']) {
       return Patch::find($detail['patch_id']);
     }
     return Patch::query()
       ->where('warehouse_id', $invoice['warehouse_id'])
       ->where('item_id', $detail['item_id'])
       ->where('variant_id', $detail['variant_id'])
-      ->where('amount', $detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost)
+      ->where('amount', in_array(self::INV_TYPE, ['purchase', 'purchase_return']) ? $detail['amount'] : ($detail['variant_id'] ? Variant::where('id', $detail['variant_id'])->first()->cost : Item::where('id', $detail['item_id'])->first()->cost))
       ->when(
         !empty($detail['production_date']),
         fn ($query) => $query->whereDate('production_date', $detail['production_date'])

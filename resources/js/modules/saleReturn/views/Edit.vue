@@ -10,12 +10,12 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 const store = useStore();
 const route = useRoute();
 
-await store.dispatch("saleReturn/fetchFormOptions", { app_name: "saleReturn" });
+await store.dispatch("saleReturn/fetchFormOptions", { app_name: "sale_return" });
 await store.dispatch("saleReturn/fetchSaleReturn", route.params.id);
 
 const formData = computed(() => store.getters["saleReturn/getSaleReturn"]);
 
-const { detailCalculate } = useInvoiceDetail("cost");
+const { detailCalculate } = useInvoiceDetail("price");
 
 onMounted(() => {
     formData.value.deletedDetails = ref([])

@@ -211,7 +211,7 @@ onMounted(() => {
                     <div
                         class="col-lg-12 col-md-12 col-xs-12 q-px-md q-pb-sm"
                         v-if="
-                            formData.product_type === 2 && keyOfUnit === 'sale'
+                            formData.product_type === 2
                         "
                     >
                         <SelectInput
@@ -328,6 +328,10 @@ onMounted(() => {
                             :errors="$v.amount.$errors"
                             min="0"
                             :prefix="getDefaultCurrencySymbol"
+                            :disable="
+                                keyOfUnit === 'purchase' &&
+                                (!!editedDetail.id || !!formData.patch_id)
+                            "
                         />
                     </div>
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">

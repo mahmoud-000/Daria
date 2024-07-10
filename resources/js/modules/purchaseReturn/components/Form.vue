@@ -34,7 +34,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-const keyOfUnit = ref("purchaseReturn");
+const keyOfUnit = ref("purchase");
 const costOrPrice = ref("cost");
 const SERVICE = 3;
 

@@ -8,7 +8,7 @@ class PurchaseReturn extends Resource {
 
     formOptions(query) {
         return request({
-            url: "/purchase_returns/form_options",
+            url: "/purchaseReturns/form_options",
             method: "get",
             params: query
         });

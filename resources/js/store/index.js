@@ -111,7 +111,7 @@ const store = createStore({
                     }
 
                     // Group Invoices
-                    if (['purchase', 'purchase_return', 'sale', 'sale_return'].includes(moduleName)) {
+                    if (['purchase', 'purchaseReturn', 'sale', 'saleReturn'].includes(moduleName)) {
                         array['invoice'] = `${activeClassForBg} ${getTextClass}`;
                         return array;
                     }

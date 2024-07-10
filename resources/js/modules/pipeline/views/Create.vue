@@ -12,13 +12,15 @@ const formData = reactive({
             name: 'New',
             color: '#ffffff',
             complete: 0,
-            default: true
+            default: true,
+            is_active: 1,
         },
         {
             name: 'Complete',
             color: '#ffffff',
             complete: 100,
-            default: true
+            default: true,
+            is_active: 1,
         },
     ],
     remarks: "",

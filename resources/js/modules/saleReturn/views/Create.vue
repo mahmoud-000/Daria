@@ -5,7 +5,7 @@ import { TheSpinner } from "../../../components/import";
 const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const store = useStore();
-await store.dispatch("saleReturn/fetchFormOptions", { app_name: "saleReturn" });
+await store.dispatch("saleReturn/fetchFormOptions", { app_name: "sale_return" });
 
 const formData = reactive({
     date: new Date().toISOString().slice(0, 10),

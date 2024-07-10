@@ -183,7 +183,7 @@ const sortStages = () => {
                                     v-model.number="stage.complete"
                                     :label="t('complete')"
                                     type="number"
-                                    :readonly="stage.is_default"
+                                    :readonly="stage.default"
                                     :errors="
                                         $v.stages.$each.$response.$errors[i]
                                             .complete
@@ -234,7 +234,7 @@ const sortStages = () => {
                                     :trueValue="1"
                                     :falseValue="0"
                                     :label="t('is_active')"
-                                    :disable="stage.is_default"
+                                    :disable="stage.default"
                                 />
                             </div>
                             <div
@@ -245,7 +245,7 @@ const sortStages = () => {
                                         () => removeFrom(formData, 'stages', i)
                                     "
                                     class="q-mb-lg"
-                                    :disabled="stage.is_default"
+                                    :disabled="stage.default"
                                 />
                             </div>
                         </div>

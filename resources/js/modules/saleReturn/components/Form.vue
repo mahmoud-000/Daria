@@ -34,7 +34,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-const keyOfUnit = ref("saleReturn");
+const keyOfUnit = ref("sale");
 const costOrPrice = ref("price");
 
 const warehouses = computed(() => store.getters["warehouse/getOptions"]);
