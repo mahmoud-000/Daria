@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'user.list',
-        icon: 'people',
+        icon: 'fa-solid fa-user-tie',
         permissions: ['list-user'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

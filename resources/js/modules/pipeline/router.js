@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'pipeline.list',
-        icon: 'filter_list',
+        icon: 'fa-solid fa-boxes-stacked',
         permissions: ['list-pipeline'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

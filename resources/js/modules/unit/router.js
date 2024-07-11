@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'unit.list',
-        icon: 'balance',
+        icon: 'fa-solid fa-scale-balanced',
         permissions: ['list-unit'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

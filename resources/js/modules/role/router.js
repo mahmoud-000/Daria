@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'role.list',
-        icon: 'key',
+        icon: 'fa-solid fa-key',
         permissions: ['list-role'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

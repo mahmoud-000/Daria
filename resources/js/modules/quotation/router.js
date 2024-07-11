@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'quotation.list',
-        icon: 'add_shopping_cart',
+        icon: 'fa-regular fa-file-lines',
         permissions: ['list-quotation'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

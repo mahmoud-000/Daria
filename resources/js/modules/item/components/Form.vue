@@ -321,8 +321,8 @@ watch(
                                 v-model="formData.is_active"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"
@@ -342,8 +342,8 @@ watch(
                                 v-model="formData.is_available_for_purchase"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_purchase')"
                             />
                         </div>
@@ -358,8 +358,8 @@ watch(
                                 v-model="formData.is_available_for_sale"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_sale')"
                             />
                         </div>
@@ -378,8 +378,8 @@ watch(
                                 "
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_edit_in_purchase')"
                             />
                         </div>
@@ -394,8 +394,8 @@ watch(
                                 v-model="formData.is_available_for_edit_in_sale"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_edit_in_sale')"
                             />
                         </div>

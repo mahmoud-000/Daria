@@ -10,7 +10,7 @@ const moduleRoutes = {
                 layout: 'content',
                 auth: true,
                 title: 'setting.list',
-                icon: 'settings',
+                icon: 'fa-solid fa-sliders',
                 permissions: ['*'],
                 // permissions: ['list-settings'],
                 breadcrumbs: [
@@ -27,7 +27,7 @@ const moduleRoutes = {
                 layout: 'content',
                 auth: true,
                 title: 'setting.system',
-                icon: 'settings',
+                icon: 'fa-solid fa-gears',
                 permissions: ['edit-system-settings'],
                 breadcrumbs: [
                     { label: 'links.home', to: 'dashboard' },
@@ -43,7 +43,7 @@ const moduleRoutes = {
             meta: {
                 layout: 'content',
                 auth: true,
-                icon: 'palette',
+                icon: 'fa-solid fa-palette',
                 title: 'setting.appearance',
                 permissions: ['*'],
                 breadcrumbs: [

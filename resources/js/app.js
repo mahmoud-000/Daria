@@ -5,9 +5,8 @@ import store from './store'
 import router from './router'
 import { formatNumber } from './filters';
 // Import icon libraries
-import '@quasar/extras/material-icons/material-icons.css'
-import iconSet from 'quasar/icon-set/material-icons'
-
+import iconSet from 'quasar/icon-set/fontawesome-v6'
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
 // Assumes your root component is App.vue

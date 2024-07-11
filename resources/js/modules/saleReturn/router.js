@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'saleReturn.list',
-        icon: 'add_shopping_cart',
+        icon: 'fa-solid fa-file-arrow-down',
         permissions: ['list-saleReturn'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

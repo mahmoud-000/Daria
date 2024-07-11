@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'supplier.list',
-        icon: 'diversity_3',
+        icon: 'fa-solid fa-people-carry-box',
         permissions: ['list-supplier'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

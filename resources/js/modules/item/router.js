@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'item.list',
-        icon: 'shopping_cart',
+        icon: 'fa-solid fa-basket-shopping',
         permissions: ['list-item'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

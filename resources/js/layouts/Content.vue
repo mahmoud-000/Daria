@@ -58,7 +58,7 @@ const getTextColor = computed(() => store.getters["getTextColor"]);
                 round
                 @click="toggleLeftDrawer"
                 aria-label="Menu"
-                icon="menu"
+                icon="fa-solid fa-bars"
             />
         </the-header>
 
@@ -117,7 +117,7 @@ const getTextColor = computed(() => store.getters["getTextColor"]);
                                 unelevated
                                 color="primary"
                                 :text-color="getTextColor"
-                                icon="chevron_left"
+                                icon="fa-solid fa-caret-left"
                                 @click="() => miniBtnClick()"
                             />
                         </div>

@@ -12,7 +12,7 @@ const moduleRoutes = {
       meta: {
         layout: 'content',
         title: 'dashboard',
-        icon: 'dashboard',
+        icon: 'fa-solid fa-gauge-high',
         auth: true,
         breadcrumbs: [
           { label: 'links.home'}

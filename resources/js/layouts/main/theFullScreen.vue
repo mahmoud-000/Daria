@@ -14,7 +14,11 @@ const { t } = useI18n();
         unelevated
         :color="$q.dark.isActive ? 'white' : 'dark'"
         @click="AppFullscreen.toggle()"
-        :icon="AppFullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+        :icon="
+            AppFullscreen.isActive
+                ? 'fa-solid fa-compress'
+                : 'fa-solid fa-expand'
+        "
         :toolbar="t('fullscreen')"
     />
 </template>

@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'stage.list',
-        icon: 'filter_alt',
+        icon: 'fa-solid fa-bars-staggered',
         permissions: ['list-stage'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

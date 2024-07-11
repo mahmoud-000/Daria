@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'warehouse.list',
-        icon: 'warehouse',
+        icon: 'fa-solid fa-warehouse',
         permissions: ['list-warehouse'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

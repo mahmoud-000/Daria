@@ -93,7 +93,7 @@ const SYSTEM_NAME = computed(() => store.getters["setting/getSystemName"]);
                     >
                         <template #append>
                             <q-icon
-                                :name="isPwd ? 'visibility_off' : 'visibility'"
+                                :name="isPwd ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
                                 class="cursor-pointer"
                                 @click="isPwd = !isPwd"
                             />
@@ -106,8 +106,8 @@ const SYSTEM_NAME = computed(() => store.getters["setting/getSystemName"]);
                             v-model="formData.remember"
                             :label="$t('auth.remember')"
                             color="primary"
-                            checked-icon="check"
-                                unchecked-icon="clear"
+                            checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                         />
 
                         <router-link

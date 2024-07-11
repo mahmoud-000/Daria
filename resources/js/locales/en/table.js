@@ -40,5 +40,6 @@ export default {
     parent_category: "Parent Category",
     production_date: "P.D",
     expired_date: "E.D",
+    create_a_sale: "Create a Sale",
   }
 }

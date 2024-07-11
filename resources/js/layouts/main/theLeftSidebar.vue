@@ -88,7 +88,7 @@ const navigation = computed(() =>
                 :to="{ name: 'dashboard' }"
             >
                 <q-item-section avatar>
-                    <q-icon name="dashboard" />
+                    <q-icon name="fa-solid fa-gauge-high" />
                 </q-item-section>
                 <q-item-section>
                     <q-item-label>{{ $t(`links.dashboard`, 2) }}</q-item-label>

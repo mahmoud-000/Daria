@@ -172,8 +172,8 @@ const onSubmit = async () => {
                                 v-model="formData.is_active"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :disable="formData.is_default"
                             />

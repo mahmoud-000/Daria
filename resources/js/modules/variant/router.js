@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'variant.list',
-        icon: 'pin',
+        icon: 'fa-regular fa-file',
         permissions: ['list-variant'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

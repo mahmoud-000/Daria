@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'branch.list',
-        icon: 'branch',
+        icon: 'fa-solid fa-diagram-project',
         permissions: ['list-branch'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

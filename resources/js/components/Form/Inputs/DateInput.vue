@@ -31,7 +31,7 @@ defineProps({
         v-bind="$attrs"
     >
         <template #append>
-            <q-icon name="event" class="cursor-pointer">
+            <q-icon name="fa-solid fa-calendar-days" class="cursor-pointer">
                 <q-popup-proxy
                     cover
                     transition-show="scale"

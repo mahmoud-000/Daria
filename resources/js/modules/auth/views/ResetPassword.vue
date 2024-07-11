@@ -96,7 +96,7 @@ const submit = async () => {
                     >
                         <template #append>
                             <q-icon
-                                :name="isPwd ? 'visibility_off' : 'visibility'"
+                                :name="isPwd ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
                                 class="cursor-pointer"
                                 @click="isPwd = !isPwd"
                             />

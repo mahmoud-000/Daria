@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'department.list',
-        icon: 'department',
+        icon: 'fa-solid fa-people-roof',
         permissions: ['list-department'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

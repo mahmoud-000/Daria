@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'company.list',
-        icon: 'apartment',
+        icon: 'fa-regular fa-building',
         permissions: ['list-company'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

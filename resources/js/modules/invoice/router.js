@@ -10,7 +10,7 @@ const moduleRoutes = {
                 layout: 'content',
                 auth: true,
                 title: 'invoice.list',
-                icon: 'description',
+                icon: 'fa-solid fa-file-invoice',
                 permissions: ['*'],
                 breadcrumbs: [
                     { label: 'links.home', to: 'dashboard' },

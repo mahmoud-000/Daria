@@ -199,8 +199,7 @@ const onSubmit = async () => {
                                     <q-icon
                                         :name="
                                             isPwd
-                                                ? 'visibility_off'
-                                                : 'visibility'
+                                                ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'
                                         "
                                         class="cursor-pointer"
                                         @click="isPwd = !isPwd"
@@ -224,8 +223,7 @@ const onSubmit = async () => {
                                     <q-icon
                                         :name="
                                             isPwdConf
-                                                ? 'visibility_off'
-                                                : 'visibility'
+                                                ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'
                                         "
                                         class="cursor-pointer"
                                         @click="isPwdConf = !isPwdConf"

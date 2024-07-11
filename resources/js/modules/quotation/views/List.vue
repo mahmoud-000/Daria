@@ -1,8 +1,9 @@
 <script setup>
 import { reactive } from "vue";
 import { columns } from "../columns";
-import { BaseTable, TheSpinner } from "../../../components/import";
+import { BaseTable, TheSpinner, BaseBtn } from "../../../components/import";
 import { numberFormatWithCurrency } from "../../../utils/helpers";
+import { useI18n } from "vue-i18n";
 
 const config = reactive({
     moduleName: "quotation",
@@ -14,18 +15,14 @@ const config = reactive({
         export: true,
     }, // import csv - export csv
 });
+
+const { t } = useI18n();
+const toSale = (qoutation) => {};
 </script>
 <template>
     <Suspense>
         <template #default>
             <BaseTable :config="config" :columns="columns">
-                <!-- Paid Amount -->
-                <template #body-cell-paid_amount="props">
-                    <q-td class="text-center" :props="props">
-                        {{ numberFormatWithCurrency(props.value) }}
-                    </q-td>
-                </template>
-
                 <!-- Grand Total -->
                 <template #body-cell-grand_total="props">
                     <q-td class="text-center" :props="props">
@@ -33,35 +30,16 @@ const config = reactive({
                     </q-td>
                 </template>
 
-                <!-- Due -->
-                <template #body-cell-due="props">
-                    <q-td class="text-center" :props="props">
-                        {{ numberFormatWithCurrency(props.value) }}
-                    </q-td>
-                </template>
-
-                <!-- Payment Status -->
-                <template #body-cell-payment_status="props">
-                    <q-td class="text-center" :props="props">
-                        <q-badge
-                            outline
-                            v-if="props.row.payment_status === 1"
-                            color="positive"
-                            >{{ props.value }}</q-badge
-                        >
-                        <q-badge
-                            outline
-                            v-if="props.row.payment_status === 2"
-                            color="negative"
-                            >{{ props.value }}</q-badge
-                        >
-                        <q-badge
-                            outline
-                            v-if="props.row.payment_status === 3"
-                            color="primary"
-                            >{{ props.value }}</q-badge
-                        >
-                    </q-td>
+                <template #moreActions>
+                    <BaseBtn
+                        glossy
+                        round
+                        icon="add_shopping_cart"
+                        color="secondary"
+                        class="q-ml-sm"
+                        :toolbar="t('table.create_a_sale')"
+                        @click="toSale(props.value)"
+                    />
                 </template>
             </BaseTable>
         </template>

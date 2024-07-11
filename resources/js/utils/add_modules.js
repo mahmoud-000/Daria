@@ -8,7 +8,6 @@ import authModule from '../modules/auth'
 import attributeModule from '../modules/attribute'
 import regionModule from '../modules/region'
 import organizationModule from '../modules/organization'
-import hrmModule from '../modules/hrm'
 import companyModule from '../modules/company'
 import branchModule from '../modules/branch'
 import departmentModule from '../modules/department'
@@ -42,7 +41,6 @@ const addModules = registerModules({
   region: regionModule,
   locale: localeModule,
   organization: organizationModule,
-  hrm: hrmModule,
   company: companyModule,
   branch: branchModule,
   department: departmentModule,

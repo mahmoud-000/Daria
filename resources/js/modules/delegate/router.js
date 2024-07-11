@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'delegate.list',
-        icon: 'local_shipping',
+        icon: 'fa-solid fa-truck-pickup',
         permissions: ['list-delegate'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

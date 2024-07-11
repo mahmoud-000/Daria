@@ -9,7 +9,7 @@ const { t } = useI18n();
     <BaseBtn
         glossy
         round
-        icon="remove"
+        icon="fa-solid fa-remove"
         color="red-10"
         :toolbar="t('action.delete')"
         v-bind="$attrs"

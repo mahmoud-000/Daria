@@ -9,7 +9,7 @@ const { t } = useI18n();
     <BaseBtn
         glossy
         round
-        icon="add"
+        icon="fa-solid fa-plus"
         color="positive"
         :toolbar="t('action.add')"
         v-bind="$attrs"

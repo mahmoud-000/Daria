@@ -212,8 +212,7 @@ const onSubmit = async () => {
                                     <q-icon
                                         :name="
                                             isPwd
-                                                ? 'visibility_off'
-                                                : 'visibility'
+                                                ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'
                                         "
                                         class="cursor-pointer"
                                         @click="isPwd = !isPwd"
@@ -237,8 +236,7 @@ const onSubmit = async () => {
                                     <q-icon
                                         :name="
                                             isPwdConf
-                                                ? 'visibility_off'
-                                                : 'visibility'
+                                                ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'
                                         "
                                         class="cursor-pointer"
                                         @click="isPwdConf = !isPwdConf"
@@ -267,8 +265,8 @@ const onSubmit = async () => {
                                 v-model="formData.is_active"
                                 :trueValue="1"
                                 :falseValue="0"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"

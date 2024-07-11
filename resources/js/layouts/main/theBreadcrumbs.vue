@@ -25,9 +25,9 @@ watch(
         moduleName.value = routeFullName[0];
         moduleIcon.value =
             routeFullName[1] === "create"
-                ? "add"
+                ? "fa-solid fa-plus"
                 : routeFullName[1] === "edit"
-                ? "edit"
+                ? "fa-regular fa-pen-to-square"
                 : newRouteIcon;
     },
     { immediate: true }

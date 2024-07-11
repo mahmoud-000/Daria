@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'sale.list',
-        icon: 'add_shopping_cart',
+        icon: 'fa-solid fa-file-invoice-dollar',
         permissions: ['list-sale'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

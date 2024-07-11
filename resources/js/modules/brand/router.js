@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'brand.list',
-        icon: 'local_police',
+        icon: 'fa-solid fa-ring',
         permissions: ['list-brand'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

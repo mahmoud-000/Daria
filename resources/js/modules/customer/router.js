@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'customer.list',
-        icon: 'diversity_1',
+        icon: 'fa-solid fa-people-robbery',
         permissions: ['list-customer'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

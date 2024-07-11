@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'purchaseReturn.list',
-        icon: 'add_shopping_cart',
+        icon: 'fa-solid fa-file-arrow-up',
         permissions: ['list-purchaseReturn'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

@@ -276,8 +276,8 @@ const clearDriver = () => {
                                 :error="$v.encryption.$error"
                                 @input="() => $v.encryption.$touch()"
                                 @blur="() => $v.encryption.$touch()"
-                                checked-icon="check"
-                                unchecked-icon="clear"
+                                checked-icon="fa-solid fa-check"
+                            unchecked-icon="fa-solid fa-xmark"
                             />
                         </div>
                         <div
@@ -308,8 +308,7 @@ const clearDriver = () => {
                                     <q-icon
                                         :name="
                                             isPwd
-                                                ? 'visibility_off'
-                                                : 'visibility'
+                                                ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'
                                         "
                                         class="cursor-pointer"
                                         @click="isPwd = !isPwd"

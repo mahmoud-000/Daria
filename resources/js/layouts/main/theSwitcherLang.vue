@@ -50,7 +50,7 @@ const onLocaleClick = async (val) => {
 </script>
 
 <template>
-    <q-btn-dropdown push glossy dense no-caps flat icon="language">
+    <q-btn-dropdown push glossy dense no-caps flat icon="fa-solid fa-globe">
         <q-list>
             <q-item
                 v-for="(locale, i) in localeOptions"

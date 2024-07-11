@@ -10,7 +10,7 @@ const moduleRoutes = {
                 layout: 'content',
                 auth: true,
                 title: 'organization.list',
-                icon: 'domain',
+                icon: 'fa-solid fa-sitemap',
                 permissions: ['*'],
                 // permissions: ['list-organizations'],
                 breadcrumbs: [

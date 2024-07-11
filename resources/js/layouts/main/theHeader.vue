@@ -32,7 +32,8 @@ const getTextClass = computed(() => store.getters["getTextClass"]);
                     <q-avatar size="26px">
                         <q-img :src="loginUser && loginUser['avatar']['url']" />
                     </q-avatar>
-                    <q-icon name="arrow_drop_down" size="16px" />
+                    
+                    <q-icon name="fa-solid fa-caret-down" size="16px" />
 
                     <q-menu
                         auto-close

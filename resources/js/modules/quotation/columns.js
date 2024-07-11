@@ -55,16 +55,6 @@ export const columns = reactive([
     },
 
     {
-        name: "pipeline",
-        required: false,
-        label: t('pipeline_id'),
-        align: "center",
-        field: (row) => row.pipeline,
-        format: (val) => `${val ?? t('table.no_default')}`,
-        sortable: false,
-    },
-
-    {
         name: "grand_total",
         required: false,
         label: t('table.grand_total'),

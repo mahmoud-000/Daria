@@ -200,9 +200,9 @@ onMounted(() => {
 
         <template #no-data="{ icon, message, filter }">
             <div class="full-width row flex-center text-accent q-gutter-sm">
-                <q-icon size="2em" name="sentiment_dissatisfied" />
+                <q-icon size="2em" name="fa-regular fa-face-frown-open" />
                 <span> {{ message }} </span>
-                <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+                <q-icon size="2em" :name="filter ? 'fa-solid fa-filter' : icon" />
             </div>
         </template>
 
@@ -218,8 +218,8 @@ onMounted(() => {
                         narrow-indicator
                         align="justify"
                     >
-                        <q-tab name="table" icon="table_rows" />
-                        <q-tab name="grid" icon="widgets" />
+                        <q-tab name="table" icon="fa-solid fa-table-list" />
+                        <q-tab name="grid" icon="fa-solid fa-grip" />
                     </q-tabs>
                 </div>
                 <div class="col-auto q-mb-md row justify-center">
@@ -241,7 +241,7 @@ onMounted(() => {
                         glossy
                         round
                         color="info"
-                        icon="file_upload"
+                        icon="fa-solid fa-file-import"
                         class="q-ml-md"
                         :toolbar="t('table.import_csv')"
                         :to="{ name: `${moduleName}.import` }"
@@ -253,7 +253,7 @@ onMounted(() => {
                         glossy
                         round
                         color="info"
-                        icon="file_upload"
+                        icon="fa-solid fa-file-csv"
                         class="q-ml-md"
                         :toolbar="t('table.export_csv')"
                         @click="() => exportTableCsv()"
@@ -264,7 +264,7 @@ onMounted(() => {
                     <BaseBtn
                         glossy
                         round
-                        icon="delete_outline"
+                        icon="fa-regular fa-trash-can"
                         color="negative"
                         class="q-ml-md"
                         :toolbar="t('table.bulk_delete')"
@@ -276,7 +276,7 @@ onMounted(() => {
                         glossy
                         round
                         dark
-                        icon="add"
+                        icon="fa-solid fa-plus"
                         color="primary"
                         class="q-ml-md"
                         :toolbar="t('table.new_record')"
@@ -288,8 +288,8 @@ onMounted(() => {
                         class="q-ml-md"
                         :icon="
                             props.inFullscreen
-                                ? 'fullscreen_exit'
-                                : 'fullscreen'
+                                ? 'fa-solid fa-compress'
+                                : 'fa-solid fa-expand'
                         "
                         @click="props.toggleFullscreen"
                         :toolbar="t('fullscreen')"
@@ -374,11 +374,10 @@ onMounted(() => {
                                         glossy
                                         round
                                         class="q-ml-md"
-                                        icon="picture_as_pdf"
+                                        icon="fa-regular fa-file-pdf"
                                         color="secondary"
                                         :toolbar="t('table.pdf_record')"
                                         @click="exportPDF(props.row.id)"
-                                        v-if="moduleName === 'ticket'"
                                         v-permission="[
                                             `export-file-${moduleName}`,
                                         ]"
@@ -388,18 +387,17 @@ onMounted(() => {
                                         round
                                         color="blue"
                                         class="q-ml-sm"
-                                        icon="visibility"
+                                        icon="fa-regular fa-eye"
                                         :toolbar="t('table.show_record')"
                                         @click="showItem(props.row.id)"
                                         v-permission="[`show-${moduleName}`]"
-                                        v-if="moduleName === 'ticket'"
                                     />
 
                                     <BaseBtn
                                         glossy
                                         round
                                         color="positive"
-                                        icon="edit"
+                                        icon="fa-regular fa-pen-to-square"
                                         class="q-ml-sm"
                                         :toolbar="t('table.edit_record')"
                                         @click="editItem(props.row.id)"
@@ -408,7 +406,7 @@ onMounted(() => {
                                     <BaseBtn
                                         glossy
                                         round
-                                        icon="delete"
+                                        icon="fa-solid fa-xmark"
                                         color="negative"
                                         class="q-ml-sm"
                                         :toolbar="t('table.delete_record')"
@@ -440,7 +438,7 @@ onMounted(() => {
                     glossy
                     round
                     class="q-ml-md"
-                    icon="picture_as_pdf"
+                    icon="fa-regular fa-file-pdf"
                     color="secondary"
                     :toolbar="t('table.pdf_record')"
                     @click="exportPDF(props.value)"
@@ -452,17 +450,16 @@ onMounted(() => {
                     round
                     color="blue"
                     class="q-ml-sm"
-                    icon="visibility"
+                    icon="fa-regular fa-eye"
                     :toolbar="t('table.show_record')"
                     @click="showItem(props.value)"
                     v-permission="[`show-${moduleName}`]"
-                    v-if="moduleName === 'ticket'"
                 />
                 <BaseBtn
                     glossy
                     round
                     color="positive"
-                    icon="edit"
+                    icon="fa-regular fa-pen-to-square"
                     class="q-ml-sm"
                     :toolbar="t('table.edit_record')"
                     @click="editItem(props.value)"
@@ -471,7 +468,7 @@ onMounted(() => {
                 <BaseBtn
                     glossy
                     round
-                    icon="delete"
+                    icon="fa-solid fa-xmark"
                     color="negative"
                     class="q-ml-sm"
                     :toolbar="t('table.delete_record')"
@@ -482,13 +479,14 @@ onMounted(() => {
                 <BaseBtn
                     glossy
                     round
-                    icon="picture_as_pdf"
+                    icon="fa-regular fa-file-pdf"
                     color="secondary"
                     class="q-ml-sm"
                     :toolbar="t('table.pdf_record')"
                     @click="exportPDF(props.value)"
                     v-if="options.pdf"
                 />
+                <slot name="moreActions" />
             </q-td>
         </template>
     </q-table>
