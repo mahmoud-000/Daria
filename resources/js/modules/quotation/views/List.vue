@@ -4,6 +4,8 @@ import { columns } from "../columns";
 import { BaseTable, TheSpinner, BaseBtn } from "../../../components/import";
 import { numberFormatWithCurrency } from "../../../utils/helpers";
 import { useI18n } from "vue-i18n";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const config = reactive({
     moduleName: "quotation",
@@ -17,7 +19,13 @@ const config = reactive({
 });
 
 const { t } = useI18n();
-const toSale = (qoutation) => {};
+const store = useStore();
+const router = useRouter();
+
+const toSale = (quotation) => {
+    store.dispatch('quotation/fetchQuotation', quotation.id)
+    router.push({name: 'sale.create'})
+};
 </script>
 <template>
     <Suspense>
@@ -30,15 +38,15 @@ const toSale = (qoutation) => {};
                     </q-td>
                 </template>
 
-                <template #moreActions>
+                <template #moreActions="{ props }">
                     <BaseBtn
                         glossy
                         round
-                        icon="add_shopping_cart"
+                        icon="fa-solid fa-file-invoice-dollar"
                         color="secondary"
                         class="q-ml-sm"
                         :toolbar="t('table.create_a_sale')"
-                        @click="toSale(props.value)"
+                        @click="toSale(props.row)"
                     />
                 </template>
             </BaseTable>

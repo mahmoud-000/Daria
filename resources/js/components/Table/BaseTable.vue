@@ -442,7 +442,6 @@ onMounted(() => {
                     color="secondary"
                     :toolbar="t('table.pdf_record')"
                     @click="exportPDF(props.value)"
-                    v-if="moduleName === 'ticket'"
                     v-permission="[`export-file-${moduleName}`]"
                 />
                 <BaseBtn
@@ -486,7 +485,7 @@ onMounted(() => {
                     @click="exportPDF(props.value)"
                     v-if="options.pdf"
                 />
-                <slot name="moreActions" />
+                <slot name="moreActions" :props="props" />
             </q-td>
         </template>
     </q-table>

@@ -17,3 +17,7 @@ export const SET_PAGINATION = (state, { meta, options }) => {
 export const SET_OPTIONS = (state, options) => {
   state.options = options
 }
+
+export const SET_SALE = (state, quotation) => {
+  state.quotation = quotation
+}

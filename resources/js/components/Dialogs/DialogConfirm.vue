@@ -28,7 +28,7 @@ const emit = defineEmits(["close-confirm", "delete-item"]);
                 <q-btn
                     dense
                     flat
-                    icon="minimize"
+                    icon="fa-regular fa-window-minimize"
                     @click="maximizedToggle = false"
                     :disable="!maximizedToggle"
                 >
@@ -39,7 +39,7 @@ const emit = defineEmits(["close-confirm", "delete-item"]);
                 <q-btn
                     dense
                     flat
-                    icon="crop_square"
+                    icon="fa-regular fa-square"
                     @click="maximizedToggle = true"
                     :disable="maximizedToggle"
                 >
@@ -51,7 +51,7 @@ const emit = defineEmits(["close-confirm", "delete-item"]);
                 <q-btn
                     dense
                     flat
-                    icon="close"
+                    icon="fa-solid fa-xmark"
                     v-close-popup
                     @click="emit('close-confirm')"
                 >
@@ -59,7 +59,7 @@ const emit = defineEmits(["close-confirm", "delete-item"]);
                 </q-btn>
             </q-bar>
             <q-card-section class="text-center">
-                <q-icon name="delete_outline" color="negative" size="4rem" />
+                <q-icon name="fa-regular fa-trash-can" color="negative" size="4rem" />
                 <h5>
                     <slot />
                 </h5>
@@ -69,7 +69,7 @@ const emit = defineEmits(["close-confirm", "delete-item"]);
                 <BaseBtn
                     :toolbar="$t('action.delete')"
                     @click="emit('delete-item')"
-                    icon="check"
+                    icon="fa-solid fa-check"
                     color="negative"
                     q-close-popup
                     size="md"

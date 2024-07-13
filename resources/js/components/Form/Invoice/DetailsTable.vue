@@ -224,14 +224,14 @@ const decrement = (detail) => {
                             >
                                 <template #before>
                                     <q-icon
-                                        name="remove"
+                                        name="fa-solid fa-minus"
                                         class="bg-primary"
                                         @click="decrement(detail)"
                                     />
                                 </template>
                                 <template #after>
                                     <q-icon
-                                        name="add"
+                                        name="fa-solid fa-plus"
                                         class="bg-primary"
                                         @click="increment(detail)"
                                     />
@@ -267,7 +267,7 @@ const decrement = (detail) => {
                             <BaseBtn
                                 glossy
                                 round
-                                icon="delete"
+                                icon="fa-solid fa-remove"
                                 color="negative"
                                 class="q-ml-sm"
                                 :toolbar="t('table.delete_record')"
@@ -277,7 +277,7 @@ const decrement = (detail) => {
                             <BaseBtn
                                 glossy
                                 round
-                                icon="edit"
+                                icon="fa-regular fa-pen-to-square"
                                 color="positive"
                                 class="q-ml-sm"
                                 :toolbar="t('table.edit_record')"

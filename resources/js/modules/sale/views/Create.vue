@@ -1,13 +1,15 @@
 <script setup>
-import { defineAsyncComponent, reactive } from "vue";
+import { computed, defineAsyncComponent, onMounted, reactive } from "vue";
 import { useStore } from "vuex";
 import { TheSpinner } from "../../../components/import";
+import { useInvoiceDetail } from "../../../composables/invoiceDetail";
+import { addOptionTo } from "../../../utils/helpers";
 const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const store = useStore();
 await store.dispatch("sale/fetchFormOptions", { app_name: "sale" });
 
-const formData = reactive({
+const formDataSale = reactive({
     date: new Date().toISOString().slice(0, 10),
     user_id: null,
     customer_id: null,
@@ -29,6 +31,29 @@ const formData = reactive({
     remarks: "",
     deletedDetails: [],
     deletedPayments: [],
+});
+
+const formData = computed(() => {
+    const quotation = computed(() => store.getters["quotation/getQuotation"]);
+    const { detailCalculate } = useInvoiceDetail("price");
+    
+    if (Object.keys(quotation.value).length !== 0) {
+        console.log(quotation.value);
+        if (quotation.value.customer_id) {
+            addOptionTo("customer", quotation.value);
+        }
+
+        if (quotation.value.delegate_id) {
+            addOptionTo("delegate", quotation.value);
+        }
+
+        quotation.value?.details.forEach((detail) => {
+            detailCalculate(detail);
+        });
+        return quotation.value;
+    }
+
+    return formDataSale
 });
 </script>
 

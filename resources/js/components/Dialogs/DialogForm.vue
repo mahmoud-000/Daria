@@ -163,7 +163,7 @@ onMounted(() => {
                 <q-btn
                     dense
                     flat
-                    icon="minimize"
+                    icon="fa-regular fa-window-minimize"
                     @click="maximizedToggle = false"
                     :disable="!maximizedToggle"
                 >
@@ -174,7 +174,7 @@ onMounted(() => {
                 <q-btn
                     dense
                     flat
-                    icon="crop_square"
+                    icon="fa-regular fa-square"
                     @click="maximizedToggle = true"
                     :disable="maximizedToggle"
                 >
@@ -186,7 +186,7 @@ onMounted(() => {
                 <q-btn
                     dense
                     flat
-                    icon="close"
+                    icon="fa-solid fa-xmark"
                     v-close-popup
                     @click="emit('close-confirm')"
                 >
@@ -409,7 +409,7 @@ onMounted(() => {
                 <BaseBtn
                     :toolbar="$t('action.edit')"
                     @click="() => editItem(formData)"
-                    icon="check"
+                    icon="fa-solid fa-check"
                     color="positive"
                     q-close-popup
                     size="md"
