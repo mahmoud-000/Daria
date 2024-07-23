@@ -5,6 +5,7 @@ namespace App\Traits;
 use Modules\Detail\Models\Detail;
 use Modules\Pipeline\Models\Pipeline;
 use Modules\Stage\Models\Stage;
+use Modules\User\Models\User;
 use Modules\Warehouse\Models\Warehouse;
 
 trait BaseInvoiceRelationsTrait
@@ -27,5 +28,10 @@ trait BaseInvoiceRelationsTrait
   public function stage()
   {
     return $this->belongsTo(Stage::class)->withTrashed();
+  }
+
+  public function user()
+  {
+    return $this->belongsTo(User::class)->withTrashed();
   }
 }

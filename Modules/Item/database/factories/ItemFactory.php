@@ -32,7 +32,7 @@ class ItemFactory extends Factory
                 return Unit::where('unit_id', null)->where('is_active', true)->get()->first()->id;
             },
 
-            'type' => $this->faker->randomElement([1, 2, 3]),
+            'type' => $this->faker->unique->randomElement([1, 2, 3]),
             'product_type' => $this->faker->randomElement([1, 2]),
             'is_active' => true,
             'is_available_for_purchase' => true,

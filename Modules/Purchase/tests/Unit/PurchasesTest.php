@@ -3,12 +3,10 @@
 namespace Modules\Purchase\Tests\Unit;
 
 use App\Enums\ItemTypesEnum;
-use App\Enums\ProductTypesEnum;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Modules\Item\Models\Item;
-use Modules\Warehouse\Models\Warehouse;
 
 class PurchasesTest extends TestCase
 {
@@ -36,7 +34,7 @@ class PurchasesTest extends TestCase
         $this->assertEquals(1, $res['meta']['total']);
     }
 
-    public function test_can_not_create_purchasse_without_required_inputs()
+    public function test_can_not_create_purchase_without_required_inputs()
     {
         $res = $this->post(route('api.purchases.store'), [])
             ->assertStatus(422)
@@ -265,7 +263,7 @@ class PurchasesTest extends TestCase
         $stageId = $this->storeStage(['pipeline_id' => $pipelineId, 'complete' => 100])->id;
 
         $purchase = $this->createPurchase(['warehouse_id' => $warehouseId, 'pipeline_id' => $pipelineId, 'stage_id' => $stageId,]);
-
+        
         $this->createStock([
             'warehouse_id' => $warehouseId,
             'variant_id' => $this->variantItem->variants->first()->id,
@@ -327,7 +325,8 @@ class PurchasesTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 44
+            'warehouse_id' => $warehouseId,
+            'quantity' => 66
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $purchaseId), 'module' => __('modules.purchase')]));

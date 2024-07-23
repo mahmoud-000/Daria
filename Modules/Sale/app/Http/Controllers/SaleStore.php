@@ -15,7 +15,7 @@ class SaleStore extends Controller
 {
     public function __invoke(StoreSaleRequest $request, SaleService $service)
     {
-        try {
+        // try {
             $request = $request->validated();
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -29,19 +29,20 @@ class SaleStore extends Controller
                     (new FilesAssign)($request['sale_documents'], $sale, 'sales', 'sale_documents', true);
                 }
 
-                $detailsIdIsset = isset($request['details']) ? $request['details'] : [];
+                $detailsIsset = isset($request['details']) ? $request['details'] : [];
+                $paymentsIsset = isset($request['payments']) ? $request['payments'] : [];
 
-                $createdDetails = $service->createDetails($sale, $detailsIdIsset);
+                $createdDetails = $service->createDetails($sale, $detailsIsset);
                 $service->updateStockInCreate($sale, $createdDetails, $isComplete);
-                $service->createPayments($sale, isset($request['payments']) ? $request['payments'] : []);
+                $service->createPayments($sale, $paymentsIsset);
 
                 return $sale;
             });
             return $this->success(__('status.created', ['name' => sprintf('%07d', $sale['id']), 'module' => __('modules.sale')]));
-        } catch (\Illuminate\Database\QueryException $e) {
-            $this->error(__('status.create_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (\Exception $e) {
-            $this->error(trans('status.create_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     $this->error(__('status.create_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        // } catch (\Exception $e) {
+        //     $this->error(trans('status.create_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        // }
     }
 }

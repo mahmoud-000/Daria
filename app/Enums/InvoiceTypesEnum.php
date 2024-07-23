@@ -11,8 +11,7 @@ enum InvoiceTypesEnum:string
   case SALE = 'sale';
   case SALE_RETURN = 'sale_return';
 
-  case ADJUSTMENT = 'adjustment';
   case QUOTATION = 'quotation';
-
+  case ADJUSTMENT = 'adjustment';
   case TRANSFER = 'transfer';
 }

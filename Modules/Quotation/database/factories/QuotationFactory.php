@@ -37,7 +37,7 @@ class QuotationFactory extends Factory
             'shipping' => 0,
             'other_expenses' => 0,
             'grand_total' => 0,
-            'effected'  => false,
+            'effected'  => true,
             'remarks'  => $this->faker->paragraph(),
         ];
     }

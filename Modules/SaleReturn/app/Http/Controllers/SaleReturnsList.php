@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Modules\SaleReturn\Models\SaleReturn;
 use Modules\SaleReturn\Transformers\SaleReturnsCollectionResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class SaleReturnsList extends Controller
 {
     public function __invoke(Request $req)
     {
+        if (!auth()->user()->is_owner)  abort_if(!Gate::any(['list-saleReturn', auth()->user()->is_owner]), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return SaleReturnsCollectionResource::collection(
             SaleReturn::query()

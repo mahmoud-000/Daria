@@ -34,5 +34,6 @@
     "Patch": true,
     "Department": true,
     "Job": true,
-    "Region": true
+    "Region": true,
+    "Adjustment": true
 }

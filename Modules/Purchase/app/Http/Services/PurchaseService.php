@@ -11,7 +11,7 @@ class PurchaseService
     use InvoiceTrait;
 
     const INV_TYPE = InvoiceTypesEnum::PURCHASE->value;
-    
+
     public function calcQte($detail, $isComplete, $quantityInDBTable)
     {
         if ($isComplete) {
@@ -72,7 +72,6 @@ class PurchaseService
     public function destroyDetails($invoice, $deletedDetails, $old_isComplete)
     {
         $deletedIds = [];
-
         if (count($deletedDetails)) {
             foreach ($deletedDetails as $deletedDetail) {
                 if (isset($deletedDetail['id'])) {
@@ -83,7 +82,7 @@ class PurchaseService
                             $invoice,
                             $deletedDetail
                         ) - $this->stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
-
+                       
                         $stock = $this->updateStockInDB($invoice, $deletedDetail, $quantity);
 
                         if ($deletedDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM->value) {

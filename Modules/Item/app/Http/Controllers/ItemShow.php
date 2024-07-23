@@ -13,6 +13,8 @@ class ItemShow extends Controller
     public function __invoke(Item $item)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-item'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return ItemResource::make($item->load(['media', 'variants', 'stock']));
+        return (ItemResource::make($item->load(['media', 'variants', 'stock'])))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }

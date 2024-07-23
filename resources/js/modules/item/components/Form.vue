@@ -273,7 +273,7 @@ watch(
                             >
                                 <template #append>
                                     <q-icon
-                                        name="barcode_reader"
+                                        name="fa-solid fa-barcode"
                                         class="bg-primary"
                                         @click="
                                             formData.code = Math.random()
@@ -424,6 +424,7 @@ watch(
                         </div>
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                            v-if="formData.type !== SERVICE"
                         >
                             <SelectInput
                                 v-model="formData.product_type"

@@ -62,8 +62,6 @@ const rules = computed(() => ({
         required,
         minValue: minValue(0),
     },
-    pipeline_id: { required, integer },
-    stage_id: { required, integer },
     discount_type: { required },
 }));
 
@@ -343,10 +341,6 @@ watch(
                                         value: opt.id,
                                     }))
                                 "
-                                :error="$v.pipeline_id.$error"
-                                :errors="$v.pipeline_id.$errors"
-                                @input="() => $v.pipeline_id.$touch()"
-                                @blur="() => $v.pipeline_id.$touch()"
                             />
                         </div>
 
@@ -362,10 +356,6 @@ watch(
                                         value: opt.id,
                                     }))
                                 "
-                                :error="$v.stage_id.$error"
-                                :errors="$v.stage_id.$errors"
-                                @input="() => $v.stage_id.$touch()"
-                                @blur="() => $v.stage_id.$touch()"
                             />
                         </div>
                     </div>

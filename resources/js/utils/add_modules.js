@@ -24,7 +24,7 @@ import brandModule from '../modules/brand'
 import warehouseModule from '../modules/warehouse'
 import unitModule from '../modules/unit'
 import itemModule from '../modules/item'
-import variantModule from '../modules/variant'
+// import variantModule from '../modules/variant'
 import invoiceModule from '../modules/invoice'
 import stockModule from '../modules/stock'
 import purchaseModule from '../modules/purchase'
@@ -32,6 +32,7 @@ import purchaseReturnModule from '../modules/purchaseReturn'
 import saleReturnModule from '../modules/saleReturn'
 import saleModule from '../modules/sale'
 import quotationModule from '../modules/quotation'
+import adjustmentModule from '../modules/adjustment'
 import pipelineModule from '../modules/pipeline'
 import stageModule from '../modules/stage'
 
@@ -56,7 +57,7 @@ const addModules = registerModules({
   warehouse: warehouseModule,
   unit: unitModule,
   item: itemModule,
-  variant: variantModule,
+  // variant: variantModule,
   invoice: invoiceModule,
   stock: stockModule,
   purchase: purchaseModule,
@@ -64,6 +65,7 @@ const addModules = registerModules({
   sale: saleModule,
   saleReturn: saleReturnModule,
   quotation: quotationModule,
+  adjustment: adjustmentModule,
   pipeline: pipelineModule,
   stage: stageModule,
   permission: permissionModule,

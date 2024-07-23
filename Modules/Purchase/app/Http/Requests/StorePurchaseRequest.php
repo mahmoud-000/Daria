@@ -2,6 +2,8 @@
 
 namespace Modules\Purchase\Http\Requests;
 
+use App\Enums\ItemTypesEnum;
+use App\Enums\ProductTypesEnum;
 use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
@@ -19,10 +21,9 @@ class StorePurchaseRequest extends FormRequest
             'remarks'       => ['string', 'nullable'],
             'date' => ['required', 'date'],
             'tax' => ['required', 'numeric', 'min:0'],
-            // 'tax_net' => ['required', 'numeric'],
             'paid_amount' => ['required', 'numeric'],
-            'pipeline_id' => ['required', 'integer'],
-            'stage_id' => ['required', 'integer'],
+            'pipeline_id' => ['sometimes', 'nullable', 'integer'],
+            'stage_id' => ['sometimes', 'nullable', 'integer'],
             'grand_total' => ['required', 'numeric'],
             'discount_type' => ['required', 'integer', Rule::in([1, 2])],
             'discount' => ['required', 'numeric', 'min:0'],
@@ -46,7 +47,8 @@ class StorePurchaseRequest extends FormRequest
             'details.*.quantity' => ['required', 'numeric', 'min:1'],
             'details.*.production_date' => ['nullable', 'date', 'date_format:Y-m-d'],
             'details.*.expired_date' => ['nullable', 'date', 'date_format:Y-m-d', 'after:details.*.production_date'],
-            'details.*.product_type' => ['required', 'integer', Rule::in([1, 2])],
+            'details.*.product_type' => ['required', 'integer', Rule::in([ProductTypesEnum::STOCK_ITEM->value, ProductTypesEnum::CONSUMER_ITEM->value])],
+            'details.*.type' => ['required', 'integer', Rule::in([ItemTypesEnum::STANDARD->value, ItemTypesEnum::VARIABLE->value, ItemTypesEnum::SERVICE->value])],
 
             'payments' => ['sometimes', 'array'],
             'payments.*.date' => ['required', 'date'],

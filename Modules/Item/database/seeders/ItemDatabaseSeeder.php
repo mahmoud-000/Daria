@@ -17,7 +17,7 @@ class ItemDatabaseSeeder extends Seeder
             ->pluck('id')
             ->toArray();
 
-        Item::factory(30)->create()->each(function ($item) use ($warehouses) {
+        Item::factory(3)->create()->each(function ($item) use ($warehouses) {
             if ($item->type === ItemTypesEnum::VARIABLE) {
                 Variant::factory(5)->create(['item_id' => $item->id])->each(function ($variant) use ($warehouses, $item) {
                     foreach ($warehouses as $warehouse) {

@@ -96,8 +96,10 @@ trait InvoiceTrait
       'total' => $detail['total'],
       'quantity' => $detail['quantity'],
       'product_type' => $detail['product_type'],
+      'type' => $detail['type'],
       'production_date' => $detail['production_date'],
       'expired_date' => $detail['expired_date'],
+      'movement' => self::INV_TYPE === InvoiceTypesEnum::ADJUSTMENT->value ? $detail['movement'] : null,
     ];
   }
 
@@ -160,7 +162,7 @@ trait InvoiceTrait
     $oldDetails = $invoice->details;
     $requestDetails = $details;
     $oldInvoiceEffected = $invoice_effected;
-
+    
     foreach ($requestDetails as $detail) {
       if (isset($detail['id'])) {
         foreach ($oldDetails as $oldDetail) {
@@ -302,11 +304,12 @@ trait InvoiceTrait
   {
     $claculateStocky = 0;
     $unit = Unit::whereId($unitId)->first();
-
-    if ($unit->operator === '/') {
-      $claculateStocky = $stocky / $unit->operator_value;
-    } else {
-      $claculateStocky = $stocky * $unit->operator_value;
+    if($unit) {
+      if ($unit->operator === '/') {
+        $claculateStocky = $stocky / $unit->operator_value;
+      } else {
+        $claculateStocky = $stocky * $unit->operator_value;
+      }
     }
     return $claculateStocky;
   }
@@ -365,7 +368,8 @@ trait InvoiceTrait
     if ($stage) {
       return $stage->complete === self::STAGE_COMPLETE;
     }
-    return false;
+    // Invoice will be effected if not find pipeline or not choose any pipeline & stage
+    return true;
   }
 
   public function isDuplicateDetails($details)

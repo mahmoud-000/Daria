@@ -34,12 +34,15 @@ class Detail extends Model
         'quantity',
         'production_date',
         'expired_date',
-        'product_type'
+        'product_type',
+        'type',
+        'movement'
     ];
 
     
     protected $casts = [
         'product_type'      => \App\Enums\ProductTypesEnum::class,
+        'type'      => \App\Enums\ItemTypesEnum::class,
         'tax_type'          => 'integer',
         'total'              => 'double',
         'quantity'              => 'double',

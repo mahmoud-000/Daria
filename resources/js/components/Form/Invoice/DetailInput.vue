@@ -75,9 +75,9 @@ const filterFn = (val, update, abort) => {
             (v) =>
                 v.item?.code.toLowerCase().indexOf(needle) > -1 ||
                 v.variant?.code.toLowerCase().indexOf(needle) > -1 ||
-                (v.item.type === 1
-                    ? v.item?.name.toLowerCase().indexOf(needle) > -1
-                    : v.variant?.name.toLowerCase().indexOf(needle) > -1)
+                (v.item.type === 2
+                    ? v.variant?.name.toLowerCase().indexOf(needle) > -1
+                    : v.item?.name.toLowerCase().indexOf(needle) > -1)
         );
 
         if (
@@ -152,6 +152,7 @@ const addItemToDetailsTable = () => {
                 `is_available_for_edit_in_${keyOfUnit.value}`
             ];
         detail.value.product_type = itemSelect.value.item.product_type;
+        detail.value.type = itemSelect.value.item.type;
         detail.value.patches = itemSelect.value.patches;
         detail.value.production_date =
             itemSelect.value.item.product_type === 2
@@ -189,15 +190,26 @@ const addItemToDetailsTable = () => {
             itemSelect.value.item[`${keyOfUnit.value}_unit_id`];
 
         detail.value.unit =
-            itemSelect.value.item[`${keyOfUnit.value}_unit`][`short_name`];
+            itemSelect.value.item.type !== 3
+                ? itemSelect.value.item[`${keyOfUnit.value}_unit`][`short_name`]
+                : "";
         detail.value.operator =
-            itemSelect.value.item[`${keyOfUnit.value}_unit`][`operator`];
+            itemSelect.value.item.type !== 3
+                ? itemSelect.value.item[`${keyOfUnit.value}_unit`][`operator`]
+                : "*";
         detail.value.operator_value =
-            itemSelect.value.item[`${keyOfUnit.value}_unit`][`operator_value`];
+            itemSelect.value.item.type !== 3
+                ? itemSelect.value.item[`${keyOfUnit.value}_unit`][
+                      `operator_value`
+                  ]
+                : 1;
 
-        detail.value.type = 1; // 1-Add 2-Sub For Adjustment
+        detail.value.movement = 1; // 1-Add 2-Sub For Adjustment
         // Fixed Values
-        detail.value.unity = itemSelect.value.item[`unit_id`];
+        detail.value.unity =
+            itemSelect.value.item.type !== 3
+                ? itemSelect.value.item[`unit_id`]
+                : "";
         detail.value.amounty =
             itemSelect.value.item.type === 2
                 ? itemSelect.value.variant[`${costOrPrice.value}`]

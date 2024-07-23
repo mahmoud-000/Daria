@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 import i18n from "../../i18n";
-import { statusTypes, paymentStatus } from "../../utils/constraints";
+import { paymentStatus } from "../../utils/constraints";
 const { t } = i18n.global
 
 export const columns = reactive([

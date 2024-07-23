@@ -166,8 +166,8 @@ class Item extends Model implements HasMedia
         $net_cost = 0;
         $total_cost = $tax_cost + $itemCost;
 
-        $purchaseOperator = $item->purchaseUnit->operator;
-        $purchaseOperatorValue = $item->purchaseUnit->operator_value;
+        $purchaseOperator = $item->type === ItemTypesEnum::SERVICE ? '*' : $item->purchaseUnit->operator;
+        $purchaseOperatorValue = $item->type === ItemTypesEnum::SERVICE ? 1 : $item->purchaseUnit->operator_value;
 
         $net_cost = self::calculate($itemCost, $purchaseOperator, $purchaseOperatorValue);
         $tax_cost = self::calculate($tax_cost, $purchaseOperator, $purchaseOperatorValue);
@@ -179,8 +179,8 @@ class Item extends Model implements HasMedia
         $net_price = 0;
         $total_price = $tax_price + $itemPrice;
 
-        $saleOperator = $item->saleUnit->operator;
-        $saleOperatorValue = $item->saleUnit->operator_value;
+        $saleOperator = $item->type === ItemTypesEnum::SERVICE ? '*' : $item->saleUnit->operator;
+        $saleOperatorValue = $item->type === ItemTypesEnum::SERVICE ? 1 : $item->saleUnit->operator_value;
 
         $net_price = self::calculate($itemPrice, $saleOperator, $saleOperatorValue);
         $tax_price = self::calculate($tax_price, $purchaseOperator, $purchaseOperatorValue);

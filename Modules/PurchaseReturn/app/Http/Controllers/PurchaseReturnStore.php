@@ -29,11 +29,12 @@ class PurchaseReturnStore extends Controller
                     (new FilesAssign)($request['purchaseReturn_documents'], $purchaseReturn, 'purchaseReturns', 'purchaseReturn_documents', true);
                 }
 
-                $detailsIdIsset = isset($request['details']) ? $request['details'] : [];
+                $detailsIsset = isset($request['details']) ? $request['details'] : [];
+                $paymentsIsset = isset($request['payments']) ? $request['payments'] : [];
 
-                $createdDetails = $service->createDetails($purchaseReturn, $detailsIdIsset);
+                $createdDetails = $service->createDetails($purchaseReturn, $detailsIsset);
                 $service->updateStockInCreate($purchaseReturn, $createdDetails, $isComplete);
-                $service->createPayments($purchaseReturn, isset($request['payments']) ? $request['payments'] : []);
+                $service->createPayments($purchaseReturn, $paymentsIsset);
 
                 return $purchaseReturn;
             });

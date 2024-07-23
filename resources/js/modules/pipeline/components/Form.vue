@@ -134,7 +134,7 @@ const sortStages = () => {
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"
@@ -202,13 +202,13 @@ const sortStages = () => {
                             >
                                 <BaseInput
                                     :label="t('color')"
-                                     :rules="['anyColor']"
+                                    :rules="['anyColor']"
                                     v-model="stage.color"
                                     readonly
                                 >
                                     <template #append>
                                         <q-icon
-                                            name="colorize"
+                                            name="fa-solid fa-eye-dropper"
                                             class="cursor-pointer"
                                         >
                                             <q-popup-proxy

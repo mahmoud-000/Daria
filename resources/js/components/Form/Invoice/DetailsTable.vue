@@ -10,7 +10,7 @@ import {
     DialogForm,
 } from "../../import";
 import { useRoute } from "vue-router";
-import { adjustmentTypes } from "../../../utils/constraints";
+import { movementTypes } from "../../../utils/constraints";
 import { floatify } from "../../../utils/helpers";
 import { numberFormatWithCurrency } from "../../../utils/helpers";
 
@@ -99,7 +99,7 @@ const clearDeletArray = () => {
     deletedDetail.value = null;
 };
 
-const notAllowed = computed(
+const hideInAdjustment = computed(
     () => !["adjustment.create", "adjustment.edit"].includes(route.name)
 );
 
@@ -125,7 +125,7 @@ const decrement = (detail) => {
                         <th class="text-center col-2">
                             {{ t("table.item") }}
                         </th>
-                        <th class="text-center col-1" v-if="notAllowed">
+                        <th class="text-center col-1" v-if="hideInAdjustment">
                             {{ t(`table.net_unit_${costOrPrice}`) }}
                         </th>
                         <th class="text-center col-1">
@@ -134,16 +134,16 @@ const decrement = (detail) => {
                         <th class="text-center col-6">
                             {{ t("table.quantity") }}
                         </th>
-                        <th class="text-center col-2" v-if="!notAllowed">
-                            {{ t("table.type") }}
+                        <th class="text-center col-2" v-if="!hideInAdjustment">
+                            {{ t("table.movement") }}
                         </th>
-                        <th class="text-center col-1" v-if="notAllowed">
+                        <th class="text-center col-1" v-if="hideInAdjustment">
                             {{ t("table.discount") }}
                         </th>
-                        <th class="text-center col-1" v-if="notAllowed">
+                        <th class="text-center col-1" v-if="hideInAdjustment">
                             {{ t("table.tax") }}
                         </th>
-                        <th class="text-center col-1" v-if="notAllowed">
+                        <th class="text-center col-1">
                             {{ t("table.sub_total") }}
                         </th>
                         <th class="text-center col-1">
@@ -193,7 +193,7 @@ const decrement = (detail) => {
                             </div>
                         </td>
 
-                        <td class="text-center" v-if="notAllowed">
+                        <td class="text-center" v-if="hideInAdjustment">
                             {{
                                 numberFormatWithCurrency(
                                     detail[`net_${costOrPrice}`],
@@ -202,10 +202,15 @@ const decrement = (detail) => {
                             }}
                         </td>
                         <td class="text-center">
-                            <q-chip color="primary" size="sm">
+                            <q-chip
+                                v-if="detail.type !== 3"
+                                color="primary"
+                                size="sm"
+                            >
                                 {{ detail.stocky }}
                                 {{ detail.unit }}
                             </q-chip>
+                            <span v-else class="text-bold"> - </span>
                         </td>
                         <td class="text-center" style="width: 130px">
                             <BaseInput
@@ -238,13 +243,14 @@ const decrement = (detail) => {
                                 </template>
                             </BaseInput>
                         </td>
-                        <td class="text-center" v-if="!notAllowed">
+                        <td class="text-center" v-if="!hideInAdjustment">
                             <SelectInput
-                                v-model="detail.type"
-                                :options="adjustmentTypes"
+                                v-model="detail.movement"
+                                :label="t('movement')"
+                                :options="movementTypes"
                             />
                         </td>
-                        <td class="text-center" v-if="notAllowed">
+                        <td class="text-center" v-if="hideInAdjustment">
                             <span>
                                 {{
                                     numberFormatWithCurrency(
@@ -253,12 +259,12 @@ const decrement = (detail) => {
                                 }}
                             </span>
                         </td>
-                        <td class="text-center" v-if="notAllowed">
+                        <td class="text-center" v-if="hideInAdjustment">
                             <span>
                                 {{ numberFormatWithCurrency(detail.tax_net) }}
                             </span>
                         </td>
-                        <td class="text-center" v-if="notAllowed">
+                        <td class="text-center">
                             <span>
                                 {{ numberFormatWithCurrency(detail.total) }}
                             </span>
@@ -273,7 +279,7 @@ const decrement = (detail) => {
                                 :toolbar="t('table.delete_record')"
                                 @click="confirmDelete(detail, i)"
                             />
-                       
+
                             <BaseBtn
                                 glossy
                                 round

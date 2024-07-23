@@ -36,7 +36,7 @@ class SaleReturnsTest extends TestCase
         $this->assertEquals(1, $res['meta']['total']);
     }
 
-    public function test_can_not_create_purchasse_without_required_inputs()
+    public function test_can_not_create_saleReturn_without_required_inputs()
     {
         $res = $this->post(route('api.saleReturns.store'), [])
             ->assertStatus(422)
@@ -327,7 +327,7 @@ class SaleReturnsTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 44
+            'quantity' => 66
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $saleReturnId), 'module' => __('modules.saleReturn')]));

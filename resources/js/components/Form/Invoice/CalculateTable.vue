@@ -14,6 +14,7 @@ const props = defineProps({
     hideRows: {
         type: Array,
         required: false,
+        default: () => [],
     },
     costOrPrice: {
         type: String,
@@ -25,11 +26,6 @@ const { formData, costOrPrice, hideRows } = toRefs(props);
 
 const { t } = useI18n();
 const route = useRoute();
-
-// Hide All In Adjustment
-// const notShowInAdjustment = computed(
-//     () => !["adjustment.create", "adjustment.edit"].includes(route.name)
-// );
 
 const showInTable = (row) => {
     return !hideRows.value?.includes(row);

@@ -34,7 +34,7 @@ class SalesTest extends TestCase
         $this->assertEquals(1, $res['meta']['total']);
     }
 
-    public function test_can_not_create_purchasse_without_required_inputs()
+    public function test_can_not_create_sale_without_required_inputs()
     {
         $res = $this->post(route('api.sales.store'), [])
             ->assertStatus(422)
@@ -325,7 +325,7 @@ class SalesTest extends TestCase
         $this->assertDatabaseHas('stock', [
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
-            'quantity' => 66
+            'quantity' => 44
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $saleId), 'module' => __('modules.sale')]));

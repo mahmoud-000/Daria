@@ -16,7 +16,6 @@ return new class extends Migration
             $table->boolean('effected')->default(0);
             $table->date('date');
             $table->float('tax', 10, 4)->default(0);
-            // $table->float('tax_net', 10, 4)->default(0);
             $table->float('paid_amount', 10, 4)->default(0);
             $table->tinyInteger('payment_status')->nullable()->default(PaymentStatusEnum::UNPAID);
             $table->float('grand_total', 10, 4);

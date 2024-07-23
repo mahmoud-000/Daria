@@ -9,7 +9,7 @@ export const useInvoiceDetail = (costOrPrice) => {
         // Fixed
         detail.discount = !detail.discount || detail.discount < 0 ? 0 : detail.discount * 1
         detail.quantity = !detail.quantity || detail.quantity <= 0 ? 1 : detail.quantity * 1
-    
+
         if (detail.discount_type == 1) {
             detail.discount_net = detail.discount;
         } else {
@@ -38,7 +38,7 @@ export const useInvoiceDetail = (costOrPrice) => {
         detail.tax = !detail.tax || detail.tax < 0 ? 0 : detail.tax * 1
         detail.amount = !detail.amount || detail.amount < 0 ? 0 : detail.amount * 1
         detail.quantity = !detail.quantity || detail.quantity <= 0 ? 1 : detail.quantity * 1
-        
+
         if (detail.tax_type == 1) {
             detail.tax_net = floatify(
                 ((detail.tax * (detail.amount - detail.discount_net)) / 100) * detail.quantity
@@ -58,7 +58,7 @@ export const useInvoiceDetail = (costOrPrice) => {
         detail.discount_net = discountNetByType(detail);
         detail[`net_${costOrPrice}`] = netByTaxType(detail);
         detail.tax_net = taxNetByTaxType(detail);
-        detail.total = detailSubTotal(detail, unit);
+        detail.total = detailSubTotal(detail);
         return detail;
     };
 
@@ -67,22 +67,23 @@ export const useInvoiceDetail = (costOrPrice) => {
         detail.discount_net = discountNetByType(detail);
         detail[`net_${costOrPrice}`] = netByTaxType(detail);
         detail.tax_net = taxNetByTaxType(detail);
-        detail.total = detailSubTotal(detail, unit);
+        detail.total = detailSubTotal(detail);
         return detail;
     };
 
-    const detailStocky = (detail, unit) => {
-        if (unit.operator === "/") {
+    const detailStocky = (detail, unit = null) => {
+        if (unit?.operator === "/") {
             return detail.stock * unit.operator_value;
         }
 
-        if (unit.operator === "*") {
+        if (unit?.operator === "*") {
             return detail.stock / unit.operator_value;
         }
     };
 
     const detailSubTotal = (detail, unit) => {
         detail.quantity = !detail.quantity || detail.quantity <= 0 ? 1 : detail.quantity * 1
+
         return floatify(
             detail[`net_${costOrPrice}`] * detail.quantity + detail.tax_net
         );
@@ -90,12 +91,15 @@ export const useInvoiceDetail = (costOrPrice) => {
 
     const detailCalculate = (detail) => {
         detail.quantity = !detail.quantity || detail.quantity <= 0 ? 1 : detail.quantity * 1
+        if (detail.type === 3) {
+            return unitSideEffectDivide(detail)
+        }
         units.value.forEach((unit) => {
             if (unit.id === detail.unit_id) {
                 detail.unit = unit.short_name;
                 unit.operator === "/"
                     ? unitSideEffectDivide(detail, unit)
-                    : unitSideEffectMultiply(detail, unit);
+                    : unitSideEffectMultiply(detail, unit)
             }
         });
     };

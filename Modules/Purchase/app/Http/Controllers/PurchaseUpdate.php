@@ -22,6 +22,7 @@ class PurchaseUpdate extends Controller
 
             $old_isComplete = $service->isComplete($purchase->pipeline_id, $purchase->stage_id);
             $old_invoice_effected = $purchase->effected;
+            
             $purchase = DB::transaction(function () use ($purchase, $request, $service, $old_isComplete, $old_invoice_effected) {
                 $purchase = $service->updateInvoice($purchase, Arr::except($request, ['details', 'payments', 'purchase_documents', 'deletedDetails', 'deletedPayments']));
 
@@ -32,7 +33,7 @@ class PurchaseUpdate extends Controller
                 $detailsIsset = isset($request['details']) ? $request['details'] : [];
                 $deletedDetailsIsset = isset($request['deletedDetails']) ? $request['deletedDetails'] : [];
 
-                $paymentsIdIsset = isset($request['payments']) ? $request['payments'] : [];
+                $paymentsIsset = isset($request['payments']) ? $request['payments'] : [];
                 $deletedPaymentsIdIsset = isset($request['deletedPayments']) ? $request['deletedPayments'] : [];
 
                 // Update Old Details
@@ -47,7 +48,7 @@ class PurchaseUpdate extends Controller
                 $service->destroyPayments($purchase, $deletedPaymentsIdIsset);
 
                 $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $purchase, Arr::only($request, ['pipeline_id', 'stage_id']));
-                $service->createPayments($purchase, $paymentsIdIsset);
+                $service->createPayments($purchase, $paymentsIsset);
 
                 return $purchase;
             });

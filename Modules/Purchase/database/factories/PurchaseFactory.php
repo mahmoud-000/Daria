@@ -40,7 +40,7 @@ class PurchaseFactory extends Factory
             'paid_amount' => 0,
             'grand_total' => 0,
             'payment_status' => $this->faker->randomElement([1, 2, 3]),
-            'effected'  => false,
+            'effected'  => true,
             'remarks'  => $this->faker->paragraph(),
         ];
     }

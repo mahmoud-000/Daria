@@ -22,10 +22,7 @@ export default {
       sale: 'Sale',
       sale_return: 'Sale Return',
     },
-    adjustment: {
-      addition: "Addition",
-      subtraction: "Subtraction"
-    },
+    
     delegate_type: {
       individual: "Individual",
       company: "Company",
@@ -65,5 +62,10 @@ export default {
       default: "Default",
       not_default: "Not Default",
     },
+
+    movement: {
+      addition: "Addition",
+      subtraction: "Subtraction"
+    }
   }
 }

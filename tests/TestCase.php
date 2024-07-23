@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\Sanctum;
+use Modules\Adjustment\Models\Adjustment;
 use Modules\Brand\Models\Brand;
 use Modules\Category\Models\Category;
 use Modules\Contact\Models\Contact;
@@ -132,6 +133,11 @@ abstract class TestCase extends BaseTestCase
     {
         return Quotation::factory()->create($args);
     }
+
+   public function createAdjustment($args = [])
+   {
+       return Adjustment::factory()->create($args);
+   } 
 
     public function createDetail($args = [])
     {

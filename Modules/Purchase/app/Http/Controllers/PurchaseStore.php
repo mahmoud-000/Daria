@@ -29,11 +29,12 @@ class PurchaseStore extends Controller
                     (new FilesAssign)($request['purchase_documents'], $purchase, 'purchases', 'purchase_documents', true);
                 }
 
-                $detailsIdIsset = isset($request['details']) ? $request['details'] : [];
+                $detailsIsset = isset($request['details']) ? $request['details'] : [];
+                $paymentsIsset = isset($request['payments']) ? $request['payments'] : [];
 
-                $createdDetails = $service->createDetails($purchase, $detailsIdIsset);
+                $createdDetails = $service->createDetails($purchase, $detailsIsset);
                 $service->updateStockInCreate($purchase, $createdDetails, $isComplete);
-                $service->createPayments($purchase, isset($request['payments']) ? $request['payments'] : []);
+                $service->createPayments($purchase, $paymentsIsset);
 
                 return $purchase;
             });

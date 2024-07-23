@@ -3,6 +3,11 @@ import { helpers } from "@vuelidate/validators";
 import i18n from "../i18n";
 const { t } = i18n.global
 
+export const movementTypes = reactive([
+    { value: 1, label: t("select.movement.addition") },
+    { value: 2, label: t("select.movement.subtraction") },
+]);
+
 export const paymentStatus = reactive([
     { value: 1, label: t("select.payment_status.paid") },
     { value: 2, label: t("select.payment_status.unpaid") },
@@ -12,11 +17,6 @@ export const paymentStatus = reactive([
 export const statusTypes = reactive([
     { value: 0, label: t("select.status.not_active") },
     { value: 1, label: t("select.status.active") },
-]);
-
-export const adjustmentTypes = reactive([
-    { value: 1, label: t("select.adjustment.addition") },
-    { value: 2, label: t("select.adjustment.subtraction") },
 ]);
 
 export const genderTypes = reactive([

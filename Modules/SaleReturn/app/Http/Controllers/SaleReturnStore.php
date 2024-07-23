@@ -29,11 +29,12 @@ class SaleReturnStore extends Controller
                     (new FilesAssign)($request['saleReturn_documents'], $saleReturn, 'saleReturns', 'saleReturn_documents', true);
                 }
 
-                $detailsIdIsset = isset($request['details']) ? $request['details'] : [];
+                $detailsIsset = isset($request['details']) ? $request['details'] : [];
+                $paymentsIsset = isset($request['payments']) ? $request['payments'] : [];
 
-                $createdDetails = $service->createDetails($saleReturn, $detailsIdIsset);
+                $createdDetails = $service->createDetails($saleReturn, $detailsIsset);
                 $service->updateStockInCreate($saleReturn, $createdDetails, $isComplete);
-                $service->createPayments($saleReturn, isset($request['payments']) ? $request['payments'] : []);
+                $service->createPayments($saleReturn, $paymentsIsset);
 
                 return $saleReturn;
             });

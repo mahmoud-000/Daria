@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Delegate\Models\Delegate;
 use Modules\PurchaseReturn\Database\Factories\PurchaseReturnFactory;
-use Modules\User\Models\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Modules\Payment\Models\Payment;
@@ -107,11 +106,6 @@ class PurchaseReturn extends Model implements HasMedia
     public function delegate()
     {
         return $this->belongsTo(Delegate::class)->withTrashed();
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class)->withTrashed();
     }
 
     protected static function newFactory()

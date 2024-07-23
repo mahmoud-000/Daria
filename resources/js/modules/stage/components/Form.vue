@@ -147,7 +147,7 @@ const onSubmit = async () => {
                             >
                                 <template #append>
                                     <q-icon
-                                        name="colorize"
+                                        name="fa-solid fa-eye-dropper"
                                         class="cursor-pointer"
                                     >
                                         <q-popup-proxy

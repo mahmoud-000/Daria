@@ -99,7 +99,7 @@ const store = createStore({
                     let moduleName = activeLink.split('.')[0];
 
                     // Group Settings
-                    if (['role', 'brand', 'category', 'warehouse', 'unit', 'pipeline'].includes(moduleName)) {
+                    if (['role', 'brand', 'category', 'warehouse', 'unit', 'pipeline', 'stage'].includes(moduleName)) {
                         array['setting'] = `${activeClassForBg} ${getTextClass}`;
                         return array;
                     }
@@ -111,13 +111,13 @@ const store = createStore({
                     }
 
                     // Group Invoices
-                    if (['purchase', 'purchaseReturn', 'sale', 'saleReturn'].includes(moduleName)) {
+                    if (['purchase', 'purchaseReturn', 'sale', 'saleReturn', 'quotation', 'adjustment'].includes(moduleName)) {
                         array['invoice'] = `${activeClassForBg} ${getTextClass}`;
                         return array;
                     }
 
                     // Group Organization
-                    if (['company', 'branch'].includes(moduleName)) {
+                    if (['company', 'branch', 'department'].includes(moduleName)) {
                         array['organization'] = `${activeClassForBg} ${getTextClass}`;
                         return array;
                     }

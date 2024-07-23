@@ -3,6 +3,7 @@ import useVuelidate from "@vuelidate/core";
 import { ref, reactive, toRefs, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import { taxTypes, fpTypes } from "../../utils/constraints";
 import { required, requiredIf, minValue } from "../../utils/i18n-validators";
 import { BaseInput, BaseBtn, SelectInput, DateInput } from "../import";
@@ -33,17 +34,25 @@ const { editedDetail, keyOfUnit } = toRefs(props);
 const maximizedToggle = ref(false);
 
 const store = useStore();
+const route = useRoute();
 const { t } = useI18n();
+
+const SERVICE = 3;
+
+const hideInAdjustment = computed(
+    () => !["adjustment.create", "adjustment.edit"].includes(route.name)
+);
 
 const formData = reactive({
     amount: 0,
     tax: 0,
-    tax_type: null,
+    tax_type: 1,
     discount: 0,
-    discount_type: null,
+    discount_type: 1,
     unit_id: null,
     patch_id: null,
     product_type: 1,
+    type: 1,
     production_date: null,
     expired_date: null,
 });
@@ -60,7 +69,7 @@ const rules = computed(() => ({
         minValue: minValue(0),
         required,
     },
-    unit_id: { required },
+    unit_id: { requiredIfRef: requiredIf(formData.type !== SERVICE) },
     production_date: {
         requiredIfRef: requiredIf(formData.product_type === 2),
     },
@@ -87,11 +96,11 @@ const editItem = async (item) => {
     emit("edit-item", item);
 };
 
+const getTextColor = computed(() => store.getters["getTextColor"]);
+
 const getUnitWithChilds = computed(() =>
     store.getters["unit/getUnitWithChilds"](editedDetail.value.unity)
 );
-
-const getTextColor = computed(() => store.getters["getTextColor"]);
 
 const updateUnit = () => {
     const unit = getUnitWithChilds.value.find(
@@ -143,6 +152,7 @@ onMounted(() => {
     formData.unit_id = editedDetail.value.unit_id;
     formData.patch_id = editedDetail.value.patch_id;
     formData.product_type = editedDetail.value.product_type;
+    formData.type = editedDetail.value.type;
     formData.production_date = editedDetail.value.production_date;
     formData.expired_date = editedDetail.value.expired_date;
 });
@@ -210,9 +220,7 @@ onMounted(() => {
                 <div class="row justify-between">
                     <div
                         class="col-lg-12 col-md-12 col-xs-12 q-px-md q-pb-sm"
-                        v-if="
-                            formData.product_type === 2
-                        "
+                        v-if="formData.product_type === 2"
                     >
                         <SelectInput
                             v-model="formData.patch_id"
@@ -240,13 +248,13 @@ onMounted(() => {
                                             <q-badge>
                                                 {{ t("production_date") }}
                                             </q-badge>
-                                            {{ `: ${scope.opt.production_date}` }}
+                                            {{
+                                                `: ${scope.opt.production_date}`
+                                            }}
                                             <q-badge>
                                                 {{ t("expired_date") }}
                                             </q-badge>
-                                            {{
-                                                `: ${scope.opt.expired_date}`
-                                            }}
+                                            {{ `: ${scope.opt.expired_date}` }}
                                         </q-item-label>
                                         <q-item-label caption>
                                             <q-badge>
@@ -288,7 +296,7 @@ onMounted(() => {
                     </div>
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        v-if="formData.product_type === 2"
+                        v-if="formData.product_type === 2 && hideInAdjustment"
                     >
                         <DateInput
                             v-model="formData.production_date"
@@ -302,7 +310,7 @@ onMounted(() => {
                     </div>
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        v-if="formData.product_type === 2"
+                        v-if="formData.product_type === 2 && hideInAdjustment"
                     >
                         <DateInput
                             v-model="formData.expired_date"
@@ -314,7 +322,10 @@ onMounted(() => {
                             :disable="!!editedDetail.id || !!formData.patch_id"
                         />
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
+                    <div
+                        class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        v-if="hideInAdjustment"
+                    >
                         <BaseInput
                             v-model.number="formData.amount"
                             :label="
@@ -334,7 +345,26 @@ onMounted(() => {
                             "
                         />
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
+
+                    <div
+                        class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        v-if="hideInAdjustment"
+                    >
+                        <SelectInput
+                            v-model="formData.tax_type"
+                            :label="t('tax_type')"
+                            :options="taxTypes"
+                            :error="$v.tax_type.$error"
+                            :errors="$v.tax_type.$errors"
+                            @input="() => $v.tax_type.$touch()"
+                            @blur="() => $v.tax_type.$touch()"
+                        />
+                    </div>
+                    
+                    <div
+                        class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        v-if="hideInAdjustment"
+                    >
                         <BaseInput
                             v-model.number="formData.tax"
                             :label="t('tax')"
@@ -346,15 +376,16 @@ onMounted(() => {
                             :prefix="getDefaultCurrencySymbol"
                         />
                     </div>
+
                     <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
                         <SelectInput
-                            v-model="formData.tax_type"
-                            :label="t('tax_type')"
-                            :options="taxTypes"
-                            :error="$v.tax_type.$error"
-                            :errors="$v.tax_type.$errors"
-                            @input="() => $v.tax_type.$touch()"
-                            @blur="() => $v.tax_type.$touch()"
+                            v-model="formData.discount_type"
+                            :label="t('discount_type')"
+                            :options="fpTypes"
+                            :error="$v.discount_type.$error"
+                            :errors="$v.discount_type.$errors"
+                            @input="() => $v.discount_type.$touch()"
+                            @blur="() => $v.discount_type.$touch()"
                         />
                     </div>
 
@@ -370,21 +401,10 @@ onMounted(() => {
                             :prefix="getDefaultCurrencySymbol"
                         />
                     </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm">
-                        <SelectInput
-                            v-model="formData.discount_type"
-                            :label="t('discount_type')"
-                            :options="fpTypes"
-                            :error="$v.discount_type.$error"
-                            :errors="$v.discount_type.$errors"
-                            @input="() => $v.discount_type.$touch()"
-                            @blur="() => $v.discount_type.$touch()"
-                        />
-                    </div>
 
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
-                        v-if="!editedDetail.id"
+                        v-if="!editedDetail.id && formData.type !== SERVICE"
                     >
                         <SelectInput
                             v-model="formData.unit_id"

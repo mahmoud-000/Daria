@@ -8,8 +8,6 @@ use App\Enums\ItemTypesEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Benchmark;
-use Modules\Item\Models\Item;
 use Modules\Stock\Transformers\StockResource;
 use Modules\Stock\Models\Stock;
 
@@ -34,7 +32,7 @@ class StockByWarehouse extends Controller
                             'item',
                             fn ($query) => $query
                                 ->where('is_active', ActiveEnum::ACTIVED)
-                                ->where('type', ItemTypesEnum::STANDARD)
+                                ->whereIn('type', [ItemTypesEnum::STANDARD, ItemTypesEnum::SERVICE])
                                 ->where(
                                     fn (Builder $query) => $query
                                         ->when(
