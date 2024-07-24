@@ -76,11 +76,9 @@ const rules = computed(() => ({
     expired_date: {
         requiredIfRef: requiredIf(formData.product_type === 2),
     },
-    // patch_id: {
-    //     requiredIfRef: requiredIf(
-    //         formData.product_type === 2 && keyOfUnit.value === "sale"
-    //     ),
-    // },
+    patch_id: {
+        requiredIfRef: requiredIf(keyOfUnit.value === "sale"),
+    },
 }));
 
 const $v = useVuelidate(rules, formData);
@@ -236,11 +234,11 @@ onMounted(() => {
                             "
                             :disable="!!editedDetail.id"
                             :clearable="!editedDetail.id"
+                            :error="$v.patch_id.$error"
+                            :errors="$v.patch_id.$errors"
+                            @input="() => $v.patch_id.$touch()"
+                            @blur="() => $v.patch_id.$touch()"
                         >
-                            <!-- :error="$v.patch_id.$error"
-                        :errors="$v.patch_id.$errors"
-                        @input="() => $v.patch_id.$touch()"
-                        @blur="() => $v.patch_id.$touch()" -->
                             <template #option="scope">
                                 <q-item v-bind="scope.itemProps">
                                     <q-item-section>
@@ -305,7 +303,7 @@ onMounted(() => {
                             @input="() => $v.production_date.$touch()"
                             @blur="() => $v.production_date.$touch()"
                             :errors="$v.production_date.$errors"
-                            :disable="!!editedDetail.id || !!formData.patch_id"
+                            :disable="!!editedDetail.id || !!formData.patch_id || keyOfUnit !== 'purchase'"
                         />
                     </div>
                     <div
@@ -319,7 +317,7 @@ onMounted(() => {
                             @input="() => $v.expired_date.$touch()"
                             @blur="() => $v.expired_date.$touch()"
                             :errors="$v.expired_date.$errors"
-                            :disable="!!editedDetail.id || !!formData.patch_id"
+                            :disable="!!editedDetail.id || !!formData.patch_id || keyOfUnit !== 'purchase'"
                         />
                     </div>
                     <div
@@ -360,7 +358,7 @@ onMounted(() => {
                             @blur="() => $v.tax_type.$touch()"
                         />
                     </div>
-                    
+
                     <div
                         class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         v-if="hideInAdjustment"

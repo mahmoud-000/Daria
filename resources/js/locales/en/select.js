@@ -21,6 +21,9 @@ export default {
       purchase_return: 'Purchase Return',
       sale: 'Sale',
       sale_return: 'Sale Return',
+      quotation: 'Quotation',
+      adjustment: 'Adjustment',
+      transfer: 'Transfer',
     },
     
     delegate_type: {

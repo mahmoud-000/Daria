@@ -85,6 +85,9 @@ export const moduleNames = reactive([
     { value: 'purchase_return', label: t("select.app_names.purchase_return") },
     { value: 'sale', label: t("select.app_names.sale") },
     { value: 'sale_return', label: t("select.app_names.sale_return") },
+    { value: 'quotation', label: t("select.app_names.quotation") },
+    { value: 'adjustment', label: t("select.app_names.adjustment") },
+    { value: 'transfer', label: t("select.app_names.transfer") },
 ]);
 
 export const branch = reactive({
