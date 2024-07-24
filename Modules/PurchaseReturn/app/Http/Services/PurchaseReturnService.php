@@ -80,7 +80,7 @@ class PurchaseReturnService
 
                     if ($old_isComplete) {
                         $quantity = self::qteStockInDB(
-                            $invoice,
+                            $invoice['warehouse_id'],
                             $deletedDetail
                         ) + $this->stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
 
@@ -88,7 +88,7 @@ class PurchaseReturnService
 
                         if ($deletedDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM->value) {
                             $quantityInPatch = self::qtePatchInDB(
-                                $invoice,
+                                $invoice['warehouse_id'],
                                 $deletedDetail
                             ) + $this->stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
 

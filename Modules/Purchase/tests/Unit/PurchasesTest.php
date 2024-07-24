@@ -62,12 +62,14 @@ class PurchasesTest extends TestCase
             'quantity' => 35,
             'unit_id' => $this->standardItem->purchase_unit_id,
             'product_type' => $this->standardItem->product_type,
+
+            'type' => $this->standardItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
 
         $pipelineId = $this->createPipeline()->id;
-        
+
         $payment_1 = $this->createPayment([
             'paymentable_id' => null,
             'paymentable_type' => null,
@@ -95,7 +97,7 @@ class PurchasesTest extends TestCase
             'details' => [$detail_1],
             'payments' => [$payment_1]
         ])->json();
-        
+       
         $this->assertDatabaseCount('purchases', 2);
         $this->assertDatabaseHas('purchases', [
             'warehouse_id' => 1,
@@ -136,6 +138,7 @@ class PurchasesTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -159,7 +162,7 @@ class PurchasesTest extends TestCase
             'paid_amount' => 0,
             'details' => [$detail_1]
         ])->json();
-            
+
         $this->assertDatabaseCount('purchases', 2);
         $this->assertDatabaseHas('purchases', [
             'warehouse_id' => 4,
@@ -193,6 +196,7 @@ class PurchasesTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -245,7 +249,7 @@ class PurchasesTest extends TestCase
     public function test_can_edit_purchase_and_remove_a_old_detail()
     {
         $warehouseId = $this->createWarehouse()->id;
-        
+
         $old_detail = $this->createDetail([
             'detailable_id' => null,
             'detailable_type' => null,
@@ -255,6 +259,7 @@ class PurchasesTest extends TestCase
             'quantity' => 11,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -263,7 +268,7 @@ class PurchasesTest extends TestCase
         $stageId = $this->storeStage(['pipeline_id' => $pipelineId, 'complete' => 100])->id;
 
         $purchase = $this->createPurchase(['warehouse_id' => $warehouseId, 'pipeline_id' => $pipelineId, 'stage_id' => $stageId,]);
-        
+
         $this->createStock([
             'warehouse_id' => $warehouseId,
             'variant_id' => $this->variantItem->variants->first()->id,
@@ -282,6 +287,7 @@ class PurchasesTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -310,7 +316,7 @@ class PurchasesTest extends TestCase
                 'deletedDetails' => [$purchase->details->first()->toArray()]
             ]
         )->json();
-        
+
         $this->assertDatabaseCount('purchases', 2);
         $this->assertDatabaseHas('purchases', [
             'warehouse_id' => $warehouseId,

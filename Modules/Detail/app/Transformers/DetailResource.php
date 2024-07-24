@@ -12,6 +12,7 @@ class DetailResource extends JsonResource
         return [
             'id' => $this->id,
             'movement' => $this->movement,
+            'type' => $this->type,
             'product_type' => $this->product_type,
             'production_date' => $this->production_date,
             'expired_date' => $this->expired_date,

@@ -62,6 +62,8 @@ class QuotationsTest extends TestCase
             'quantity' => 35,
             'unit_id' => $this->standardItem->sale_unit_id,
             'product_type' => $this->standardItem->product_type,
+
+'type' => $this->standardItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -114,6 +116,7 @@ class QuotationsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->sale_unit_id,
             'product_type' => $this->variantItem->product_type,
+'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -165,6 +168,7 @@ class QuotationsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->sale_unit_id,
             'product_type' => $this->variantItem->product_type,
+'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -221,6 +225,7 @@ class QuotationsTest extends TestCase
             'quantity' => 11,
             'unit_id' => $this->variantItem->sale_unit_id,
             'product_type' => $this->variantItem->product_type,
+'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -241,6 +246,7 @@ class QuotationsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->sale_unit_id,
             'product_type' => $this->variantItem->product_type,
+'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();

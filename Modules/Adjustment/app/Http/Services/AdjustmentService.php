@@ -91,11 +91,11 @@ class AdjustmentService
 
                         $quantity = $detail['movement'] === self::ADDITION
                             ? self::qteStockInDB(
-                                $invoice,
+                                $invoice['warehouse_id'],
                                 $deletedDetail
                             ) - $this->stockyByUnit($deletedDetail['unit_id'], $detail->quantity)
                             : self::qteStockInDB(
-                                $invoice,
+                                $invoice['warehouse_id'],
                                 $deletedDetail
                             ) + $this->stockyByUnit($deletedDetail['unit_id'], $detail->quantity);
 
@@ -104,11 +104,11 @@ class AdjustmentService
                         if ($deletedDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM->value) {
                             $quantityInPatch = $detail['movement'] === self::ADDITION
                                 ? self::qtePatchInDB(
-                                    $invoice,
+                                    $invoice['warehouse_id'],
                                     $deletedDetail
                                 ) - $this->stockyByUnit($deletedDetail['unit_id'], $detail->quantity)
                                 : self::qtePatchInDB(
-                                    $invoice,
+                                    $invoice['warehouse_id'],
                                     $deletedDetail
                                 ) + $this->stockyByUnit($deletedDetail['unit_id'], $detail->quantity);
 
