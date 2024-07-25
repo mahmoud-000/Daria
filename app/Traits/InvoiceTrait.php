@@ -19,7 +19,7 @@ trait InvoiceTrait
 
   public function updateInvoice($invoice, $request)
   {
-    $isComplete = $this->isComplete($request['pipeline_id'], $request['stage_id']);
+    $isComplete = $this->isComplete($request['stage_id']);
     $invoice->update($request + ['effected' => $isComplete]);
     return $invoice;
   }
@@ -103,104 +103,40 @@ trait InvoiceTrait
     ];
   }
 
-  public function updateStockInCreate($invoice, $details, $isComplete)
+  public function updateStockForNewDetails($invoice, $details, $isComplete)
   {
     collect($details)
       ->each(function ($detail) use ($invoice, $isComplete) {
-        $stock = $this->updateStockInDB(
-          $invoice,
-          $detail,
-          $this->calcQte($detail, $isComplete, self::qteStockInDB($invoice['warehouse_id'], $detail))
-        );
-
-        if ($detail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
-          $patch = $this->updateOrCreatePatchInDB(
-            $invoice,
-            $detail,
-            $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice['warehouse_id'], $detail)),
-            $stock
-          );
-
-
-          $detail->update(['patch_id' => $patch['id']]);
-        }
+        $this->calcQte($invoice, $detail, $isComplete);
       });
   }
 
-  public function createNewDetailsAndUpdateStockInUpdate($requestDetails, $invoice, $params)
+  public function createNewDetailsAndUpdateStockInUpdate($requestDetails, $invoice, $stageId)
   {
-    $isComplete = $this->isComplete($params['pipeline_id'], $params['stage_id']);
+    $isComplete = $this->isComplete($stageId);
     $new_invoice_details = collect($requestDetails)
       ->whereNull('id')->all();
     if (count($new_invoice_details)) {
       $createdDetails = $this->createDetails($invoice, $new_invoice_details);
-      $createdDetails->each(function ($detail) use ($invoice, $isComplete) {
-        $stock = $this->updateStockInDB(
-          $invoice,
-          $detail,
-          $this->calcQte($detail, $isComplete, self::qteStockInDB($invoice['warehouse_id'], $detail))
-        );
-
-        if ($detail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
-          $patch = $this->updateOrCreatePatchInDB(
-            $invoice,
-            $detail,
-            $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice['warehouse_id'], $detail)),
-            $stock
-          );
-
-          $detail->update(['patch_id' => $patch['id']]);
-        }
-        return $detail;
-      });
+      if (count($createdDetails)) {
+        $this->updateStockForNewDetails($invoice, $createdDetails, $isComplete);
+      }
     }
   }
 
-  public function updateStockForOldDetails($invoice, $details, $params, $old_isComplete, $invoice_effected)
+  public function updateStockForOldDetails($invoice, $details, $stageId)
   {
-    $isComplete = $this->isComplete($params['pipeline_id'], $params['stage_id']);
-    $oldDetails = $invoice->details;
-    $requestDetails = $details;
-    $oldInvoiceEffected = $invoice_effected;
-    
-    foreach ($requestDetails as $detail) {
+    $isComplete = $this->isComplete($stageId);
+    foreach ($details as $detail) {
       if (isset($detail['id'])) {
-        foreach ($oldDetails as $oldDetail) {
+        foreach ($invoice->details as $oldDetail) {
           if ($oldDetail['id'] === $detail['id']) {
-            $stock = $this->updateStockInDB(
+            $this->updateStockAndPatch(
               $invoice,
               $detail,
-              $this->calcUpdatedQte(
-                $oldInvoiceEffected,
-                $detail,
-                $oldDetail,
-                $isComplete,
-                $old_isComplete,
-                self::qteStockInDB(
-                  $invoice['warehouse_id'],
-                  $detail
-                )
-              )
+              $oldDetail,
+              $isComplete
             );
-            
-            if ($oldDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
-              $this->updateOrCreatePatchInDB(
-                $invoice,
-                $detail,
-                $this->calcUpdatedQte(
-                  $oldInvoiceEffected,
-                  $detail,
-                  $oldDetail,
-                  $isComplete,
-                  $old_isComplete,
-                  self::qtePatchInDB(
-                    $invoice['warehouse_id'],
-                    $detail
-                  )
-                ),
-                $stock
-              );
-            }
           }
         }
       }
@@ -217,7 +153,7 @@ trait InvoiceTrait
     }
 
     if (!$stock) {
-      $isComplete = $this->isComplete($invoice['pipeline_id'], $invoice['stage_id']);
+      $isComplete = $this->isComplete($invoice['stage_id']);
       $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qteStockInDB($invoice['warehouse_id'], $detail));
 
       Stock::create([
@@ -235,7 +171,7 @@ trait InvoiceTrait
   {
     // Find A Patch If Exist Update It
     $patch = self::findPatchInDB($invoice['warehouse_id'], $detail);
-    
+
     if ($patch && self::INV_TYPE !== InvoiceTypesEnum::QUOTATION->value) {
       $patch->update([
         'quantity' => $quantity
@@ -243,7 +179,7 @@ trait InvoiceTrait
     }
     // Find A Patch If Not Exist Create It
     if (!$patch) {
-      $isComplete = $this->isComplete($invoice['pipeline_id'], $invoice['stage_id']);
+      $isComplete = $this->isComplete($invoice['stage_id']);
       $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qtePatchInDB($invoice['warehouse_id'], $detail));
 
       $patch = Patch::create([
@@ -304,7 +240,7 @@ trait InvoiceTrait
   {
     $claculateStocky = 0;
     $unit = Unit::whereId($unitId)->first();
-    if($unit) {
+    if ($unit) {
       if ($unit->operator === '/') {
         $claculateStocky = $stocky / $unit->operator_value;
       } else {
@@ -362,9 +298,9 @@ trait InvoiceTrait
       ->first();
   }
 
-  public function isComplete($pipelineId, $stageId)
+  public function isComplete($stageId)
   {
-    $stage = Stage::whereId($stageId)->wherePipelineId($pipelineId)->first();
+    $stage = Stage::whereId($stageId)->first();
     if ($stage) {
       return $stage->complete === self::STAGE_COMPLETE;
     }

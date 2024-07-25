@@ -20,9 +20,7 @@ class AdjustmentUpdate extends Controller
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            $old_isComplete = $service->isComplete($adjustment->pipeline_id, $adjustment->stage_id);
-            $old_invoice_effected = $adjustment->effected;
-            $adjustment = DB::transaction(function () use ($adjustment, $request, $service, $old_isComplete, $old_invoice_effected) {
+            $adjustment = DB::transaction(function () use ($adjustment, $request, $service) {
                 $detailsIsset = isset($request['details']) ? $request['details'] : [];
                 $adjustment = $service->updateInvoice($adjustment, Arr::except($request, ['details', 'adjustment_documents', 'deletedDetails']) + ['items' => count($detailsIsset)]);
 
@@ -36,12 +34,12 @@ class AdjustmentUpdate extends Controller
                 $service->updateDetails($adjustment, $detailsIsset);
 
                 // Update Old Details Stock
-                $service->updateStockForOldDetails($adjustment, $detailsIsset, Arr::only($request, ['pipeline_id', 'stage_id']), $old_isComplete, $old_invoice_effected);
+                $service->updateStockForOldDetails($adjustment, $detailsIsset, $request['stage_id']);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($adjustment, $deletedDetailsIsset, $old_isComplete);
+                $service->destroyDetails($adjustment, $deletedDetailsIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $adjustment, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $adjustment, $request['stage_id']);
 
                 return $adjustment;
             });

@@ -34,9 +34,9 @@ class QuotationUpdate extends Controller
                 $service->updateDetails($quotation, $detailsIsset);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($quotation, $deletedDetailsIsset, false);
+                $service->destroyDetails($quotation, $deletedDetailsIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $quotation, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $quotation, $request['stage_id']);
 
                 return $quotation;
             });

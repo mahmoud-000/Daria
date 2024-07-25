@@ -20,9 +20,7 @@ class SaleReturnUpdate extends Controller
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            $old_isComplete = $service->isComplete($saleReturn->pipeline_id, $saleReturn->stage_id);
-            $old_invoice_effected = $saleReturn->effected;
-            $saleReturn = DB::transaction(function () use ($saleReturn, $request, $service, $old_isComplete, $old_invoice_effected) {
+            $saleReturn = DB::transaction(function () use ($saleReturn, $request, $service) {
                 $saleReturn = $service->updateInvoice($saleReturn, Arr::except($request, ['details', 'payments', 'saleReturn_documents', 'deletedDetails', 'deletedPayments']));
 
                 if (isset($request['saleReturn_documents']) && !is_null($request['saleReturn_documents']) && !array_key_exists('fake', $request['saleReturn_documents'])) {
@@ -39,14 +37,14 @@ class SaleReturnUpdate extends Controller
                 $service->updateDetails($saleReturn, $detailsIsset);
 
                 // Update Old Details Stock
-                $service->updateStockForOldDetails($saleReturn, $detailsIsset, Arr::only($request, ['pipeline_id', 'stage_id']), $old_isComplete, $old_invoice_effected);
+                $service->updateStockForOldDetails($saleReturn, $detailsIsset, $request['stage_id']);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($saleReturn, $deletedDetailsIsset, $old_isComplete);
+                $service->destroyDetails($saleReturn, $deletedDetailsIsset);
 
                 $service->destroyPayments($saleReturn, $deletedPaymentsIdIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $saleReturn, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $saleReturn, $request['stage_id']);
                 $service->createPayments($saleReturn, $paymentsIdIsset);
 
                 return $saleReturn;

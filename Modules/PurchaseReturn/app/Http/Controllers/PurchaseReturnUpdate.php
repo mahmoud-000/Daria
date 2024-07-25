@@ -20,9 +20,7 @@ class PurchaseReturnUpdate extends Controller
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            $old_isComplete = $service->isComplete($purchaseReturn->pipeline_id, $purchaseReturn->stage_id);
-            $old_invoice_effected = $purchaseReturn->effected;
-            $purchaseReturn = DB::transaction(function () use ($purchaseReturn, $request, $service, $old_isComplete, $old_invoice_effected) {
+            $purchaseReturn = DB::transaction(function () use ($purchaseReturn, $request, $service) {
                 $purchaseReturn = $service->updateInvoice($purchaseReturn, Arr::except($request, ['details', 'payments', 'purchaseReturn_documents', 'deletedDetails', 'deletedPayments']));
 
                 if (isset($request['purchaseReturn_documents']) && !is_null($request['purchaseReturn_documents']) && !array_key_exists('fake', $request['purchaseReturn_documents'])) {
@@ -39,14 +37,14 @@ class PurchaseReturnUpdate extends Controller
                 $service->updateDetails($purchaseReturn, $detailsIsset);
 
                 // Update Old Details Stock
-                $service->updateStockForOldDetails($purchaseReturn, $detailsIsset, Arr::only($request, ['pipeline_id', 'stage_id']), $old_isComplete, $old_invoice_effected);
+                $service->updateStockForOldDetails($purchaseReturn, $detailsIsset, $request['stage_id']);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($purchaseReturn, $deletedDetailsIsset, $old_isComplete);
+                $service->destroyDetails($purchaseReturn, $deletedDetailsIsset);
 
                 $service->destroyPayments($purchaseReturn, $deletedPaymentsIdIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $purchaseReturn, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $purchaseReturn, $request['stage_id']);
                 $service->createPayments($purchaseReturn, $paymentsIdIsset);
 
                 return $purchaseReturn;

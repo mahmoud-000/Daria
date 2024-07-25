@@ -20,9 +20,7 @@ class SaleUpdate extends Controller
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            $old_isComplete = $service->isComplete($sale->pipeline_id, $sale->stage_id);
-            $old_invoice_effected = $sale->effected;
-            $sale = DB::transaction(function () use ($sale, $request, $service, $old_isComplete, $old_invoice_effected) {
+            $sale = DB::transaction(function () use ($sale, $request, $service) {
                 $sale = $service->updateInvoice($sale, Arr::except($request, ['details', 'payments', 'sale_documents', 'deletedDetails', 'deletedPayments']));
 
                 if (isset($request['sale_documents']) && !is_null($request['sale_documents']) && !array_key_exists('fake', $request['sale_documents'])) {
@@ -39,14 +37,14 @@ class SaleUpdate extends Controller
                 $service->updateDetails($sale, $detailsIsset);
 
                 // Update Old Details Stock
-                $service->updateStockForOldDetails($sale, $detailsIsset, Arr::only($request, ['pipeline_id', 'stage_id']), $old_isComplete, $old_invoice_effected);
+                $service->updateStockForOldDetails($sale, $detailsIsset, $request['stage_id']);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($sale, $deletedDetailsIsset, $old_isComplete);
+                $service->destroyDetails($sale, $deletedDetailsIsset);
 
                 $service->destroyPayments($sale, $deletedPaymentsIdIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $sale, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $sale, $request['stage_id']);
                 $service->createPayments($sale, $paymentsIdIsset);
 
                 return $sale;

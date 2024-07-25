@@ -61,13 +61,13 @@ class AdjustmentsTest extends TestCase
             'unit_id' => $this->standardItem->purchase_unit_id,
             'product_type' => $this->standardItem->product_type,
 
-'type' => $this->standardItem->type,
+            'type' => $this->standardItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
 
         $pipelineId = $this->createPipeline()->id;
-        
+
         $res = $this->post(route('api.adjustments.store'), [
             'date' => date('Y-m-d'),
             'warehouse_id' => 1,
@@ -76,7 +76,7 @@ class AdjustmentsTest extends TestCase
             'grand_total' => 100,
             'details' => [$detail_1],
         ])->json();
-        
+
         $this->assertDatabaseCount('adjustments', 2);
         $this->assertDatabaseHas('adjustments', [
             'warehouse_id' => 1,
@@ -110,7 +110,7 @@ class AdjustmentsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
-'type' => $this->variantItem->type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -124,7 +124,7 @@ class AdjustmentsTest extends TestCase
             'grand_total' => 200,
             'details' => [$detail_1]
         ])->json();
-            
+
         $this->assertDatabaseCount('adjustments', 2);
         $this->assertDatabaseHas('adjustments', [
             'warehouse_id' => 4,
@@ -159,7 +159,7 @@ class AdjustmentsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
-'type' => $this->variantItem->type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -173,7 +173,7 @@ class AdjustmentsTest extends TestCase
                 'warehouse_id' => 4,
                 'pipeline_id' => $pipelineId,
                 'stage_id' => $this->storeStage(['pipeline_id' => $pipelineId, 'complete' => 100])->id,
-                'grand_total' => 100,   
+                'grand_total' => 100,
                 'details' => [$detail_1],
                 'deletedDetails' => []
             ]
@@ -202,7 +202,7 @@ class AdjustmentsTest extends TestCase
     public function test_can_edit_adjustment_and_remove_a_old_detail()
     {
         $warehouseId = $this->createWarehouse()->id;
-        
+
         $old_detail = $this->createDetail([
             'movement' => 1,
             'detailable_id' => null,
@@ -213,7 +213,7 @@ class AdjustmentsTest extends TestCase
             'quantity' => 11,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
-'type' => $this->variantItem->type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -242,7 +242,7 @@ class AdjustmentsTest extends TestCase
             'quantity' => 22,
             'unit_id' => $this->variantItem->purchase_unit_id,
             'product_type' => $this->variantItem->product_type,
-'type' => $this->variantItem->type,
+            'type' => $this->variantItem->type,
             'production_date' => null,
             'expired_date' => null,
         ])->toArray();
@@ -261,7 +261,7 @@ class AdjustmentsTest extends TestCase
                 'deletedDetails' => [$adjustment->details->first()->toArray()]
             ]
         )->json();
-        
+
         $this->assertDatabaseCount('adjustments', 2);
         $this->assertDatabaseHas('adjustments', [
             'warehouse_id' => $warehouseId,
@@ -277,7 +277,7 @@ class AdjustmentsTest extends TestCase
             'item_id' => $this->variantItem->id,
             'variant_id' => $this->variantItem->variants->first()->id,
             'warehouse_id' => $warehouseId,
-            'quantity' => 44
+            'quantity' => 66
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => sprintf('%07d', $adjustmentId), 'module' => __('modules.adjustment')]));

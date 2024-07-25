@@ -11,17 +11,21 @@ class QuotationService
 
     const INV_TYPE = InvoiceTypesEnum::QUOTATION->value;
 
-    public function calcQte($detail, $isComplete, $quantityInDBTable)
+    public function calcQte($invoice, $detail, $isComplete)
     {
         return $this->stockyByUnit($detail['unit_id'], $detail['quantity']);
     }
 
-    public function calcUpdatedQte($oldQuotationEffected, $detail, $oldDetail, $isComplete, $old_isComplete, $quantityInDBTable)
+    public function calcUpdatedQte($invoice, $detail, $oldDetail, $isComplete, $quantityInDBTable)
     {
         return $this->stockyByUnit($detail['unit_id'], $oldDetail['quantity']);
     }
 
-    public function destroyDetails($invoice, $deletedDetails, $old_isComplete)
+    public function updateStockAndPatch($invoice, $detail, $oldDetail, $isComplete)
+    {
+        return false;
+    }
+    public function destroyDetails($invoice, $deletedDetails)
     {
         $deletedIds = [];
 

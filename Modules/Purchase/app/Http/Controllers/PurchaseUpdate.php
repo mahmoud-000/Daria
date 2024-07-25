@@ -20,10 +20,7 @@ class PurchaseUpdate extends Controller
 
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            $old_isComplete = $service->isComplete($purchase->pipeline_id, $purchase->stage_id);
-            $old_invoice_effected = $purchase->effected;
-            
-            $purchase = DB::transaction(function () use ($purchase, $request, $service, $old_isComplete, $old_invoice_effected) {
+            $purchase = DB::transaction(function () use ($purchase, $request, $service) {
                 $purchase = $service->updateInvoice($purchase, Arr::except($request, ['details', 'payments', 'purchase_documents', 'deletedDetails', 'deletedPayments']));
 
                 if (isset($request['purchase_documents']) && !is_null($request['purchase_documents']) && !array_key_exists('fake', $request['purchase_documents'])) {
@@ -40,14 +37,14 @@ class PurchaseUpdate extends Controller
                 $service->updateDetails($purchase, $detailsIsset);
 
                 // Update Old Details Stock
-                $service->updateStockForOldDetails($purchase, $detailsIsset, Arr::only($request, ['pipeline_id', 'stage_id']), $old_isComplete, $old_invoice_effected);
+                $service->updateStockForOldDetails($purchase, $detailsIsset, $request['stage_id']);
 
                 // Delete Old Details If in Deleted Details
-                $service->destroyDetails($purchase, $deletedDetailsIsset, $old_isComplete);
+                $service->destroyDetails($purchase, $deletedDetailsIsset);
 
                 $service->destroyPayments($purchase, $deletedPaymentsIdIsset);
 
-                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $purchase, Arr::only($request, ['pipeline_id', 'stage_id']));
+                $service->createNewDetailsAndUpdateStockInUpdate($detailsIsset, $purchase, $request['stage_id']);
                 $service->createPayments($purchase, $paymentsIsset);
 
                 return $purchase;

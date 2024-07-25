@@ -21,7 +21,7 @@ class AdjustmentStore extends Controller
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
             $adjustment = DB::transaction(function () use ($request, $service) {
-                $isComplete = $service->isComplete($request['pipeline_id'], $request['stage_id']);
+                $isComplete = $service->isComplete($request['stage_id']);
                 $detailsIdIsset = isset($request['details']) ? $request['details'] : [];
 
                 $adjustment = Adjustment::create(Arr::except($request, ['details', 'adjustment_documents']) + ['effected' => $isComplete, 'items' => count($detailsIdIsset)]);
@@ -31,7 +31,7 @@ class AdjustmentStore extends Controller
                 }
 
                 $createdDetails = $service->createDetails($adjustment, $detailsIdIsset);
-                $service->updateStockInCreate($adjustment, $createdDetails, $isComplete);
+                $service->updateStockForNewDetails($adjustment, $createdDetails, $isComplete);
 
                 return $adjustment;
             });

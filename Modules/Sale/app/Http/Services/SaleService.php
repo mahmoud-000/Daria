@@ -11,20 +11,48 @@ class SaleService
     use InvoiceTrait;
 
     const INV_TYPE = InvoiceTypesEnum::SALE->value;
-    
-    public function calcQte($detail, $isComplete, $quantityInDBTable)
+
+    public function calcQte($invoice, $detail, $isComplete)
     {
         if ($isComplete) {
-            return $quantityInDBTable - $this->stockyByUnit($detail['unit_id'], $detail['quantity']);
-        }
+            $quantityInDBTable = self::qteStockInDB($invoice['warehouse_id'], $detail);
 
-        return $quantityInDBTable;
+            $quantityInDBTable -= $this->stockyByUnit($detail['unit_id'], $detail['quantity']);
+
+            $stock = $this->updateStockInDB(
+                $invoice,
+                $detail,
+                $quantityInDBTable
+            );
+
+            if ($detail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
+                $quantityPatchInDBTable = self::qtePatchInDB(
+                    $invoice['warehouse_id'],
+                    $detail
+                );
+
+                $quantityInDBTable -= $this->stockyByUnit($detail['unit_id'], $detail['quantity']);
+
+                $patch = $this->updateOrCreatePatchInDB(
+                    $invoice,
+                    $detail,
+                    $quantityPatchInDBTable,
+                    $stock
+                );
+
+
+                $detail->update(['patch_id' => $patch['id']]);
+            }
+        }
     }
 
-    public function calcUpdatedQte($oldSaleEffected, $detail, $oldDetail, $isComplete, $old_isComplete, $quantityInDBTable)
+    public function calcUpdatedQte($invoice, $detail, $oldDetail, $isComplete, $quantityInDBTable)
     {
+        $old_isComplete = $this->isComplete($invoice->stage_id);
+
         $qte = $quantityInDBTable;
-        if ($oldSaleEffected) {
+
+        if ($invoice->effected) {
             if ($isComplete) {
                 if ($oldDetail['quantity'] == $detail['quantity']) {
                     $qte = $quantityInDBTable;
@@ -69,8 +97,45 @@ class SaleService
         return $qte;
     }
 
-    public function destroyDetails($invoice, $deletedDetails, $old_isComplete)
+    public function updateStockAndPatch($invoice, $detail, $oldDetail, $isComplete)
     {
+        $stock = $this->updateStockInDB(
+            $invoice,
+            $detail,
+            $this->calcUpdatedQte(
+                $invoice,
+                $detail,
+                $oldDetail,
+                $isComplete,
+                self::qteStockInDB(
+                    $invoice['warehouse_id'],
+                    $detail
+                )
+            )
+        );
+
+        if ($oldDetail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
+            $this->updateOrCreatePatchInDB(
+                $invoice,
+                $detail,
+                $this->calcUpdatedQte(
+                    $invoice,
+                    $detail,
+                    $oldDetail,
+                    $isComplete,
+                    self::qtePatchInDB(
+                        $invoice['warehouse_id'],
+                        $detail
+                    )
+                ),
+                $stock
+            );
+        }
+    }
+
+    public function destroyDetails($invoice, $deletedDetails)
+    {
+        $old_isComplete = $this->isComplete($invoice->stage_id);
         $deletedIds = [];
 
         if (count($deletedDetails)) {
