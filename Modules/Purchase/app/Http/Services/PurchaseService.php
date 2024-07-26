@@ -133,6 +133,7 @@ class PurchaseService
             );
         }
     }
+    
     public function destroyDetails($invoice, $deletedDetails)
     {
         $old_isComplete = $this->isComplete($invoice->stage_id);
