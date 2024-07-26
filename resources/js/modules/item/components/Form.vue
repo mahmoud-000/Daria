@@ -141,7 +141,8 @@ watch(
             formData.value.is_available_for_edit_in_purchase = 0;
             formData.value.product_type = 1;
         }
-    }
+    },
+    { immediate: true }
 );
 </script>
 
@@ -322,7 +323,7 @@ watch(
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"
@@ -343,7 +344,7 @@ watch(
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_purchase')"
                             />
                         </div>
@@ -359,7 +360,7 @@ watch(
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_sale')"
                             />
                         </div>
@@ -379,7 +380,7 @@ watch(
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_edit_in_purchase')"
                             />
                         </div>
@@ -395,7 +396,7 @@ watch(
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_available_for_edit_in_sale')"
                             />
                         </div>

@@ -107,7 +107,7 @@ trait InvoiceTrait
   {
     collect($details)
       ->each(function ($detail) use ($invoice, $isComplete) {
-        $this->calcQte($invoice, $detail, $isComplete);
+        self::calcQte($invoice, $detail, $isComplete);
       });
   }
 
@@ -131,7 +131,7 @@ trait InvoiceTrait
       if (isset($detail['id'])) {
         foreach ($invoice->details as $oldDetail) {
           if ($oldDetail['id'] === $detail['id']) {
-            $this->updateStockAndPatch(
+            self::updateStockAndPatch(
               $invoice,
               $detail,
               $oldDetail,
@@ -143,7 +143,7 @@ trait InvoiceTrait
     }
   }
 
-  public function updateStockInDB($invoice, $detail, $quantity, $warehouse = null)
+  public static function updateStockInDB($invoice, $detail, $quantity, $warehouse = null)
   {
     $stock = self::findStockInDB($warehouse ?? $invoice['warehouse_id'], $detail);
     if ($stock && self::INV_TYPE !== InvoiceTypesEnum::QUOTATION->value) {
@@ -167,7 +167,7 @@ trait InvoiceTrait
     return $stock;
   }
 
-  public function updateOrCreatePatchInDB($invoice, $detail, $quantity, $stock, $warehouse = null)
+  public static function updateOrCreatePatchInDB($invoice, $detail, $quantity, $stock, $warehouse = null)
   {
     // Find A Patch If Exist Update It
     $patch = self::findPatchInDB($warehouse ?? $invoice['warehouse_id'], $detail);
@@ -236,7 +236,7 @@ trait InvoiceTrait
     }
   }
 
-  public function stockyByUnit($unitId, $stocky)
+  public static function stockyByUnit($unitId, $stocky)
   {
     $claculateStocky = 0;
     $unit = Unit::whereId($unitId)->first();
@@ -298,7 +298,7 @@ trait InvoiceTrait
       ->first();
   }
 
-  public function isComplete($stageId)
+  public static function isComplete($stageId)
   {
     $stage = Stage::whereId($stageId)->first();
     if ($stage) {

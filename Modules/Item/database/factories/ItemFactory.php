@@ -33,7 +33,7 @@ class ItemFactory extends Factory
             },
 
             'type' => $this->faker->unique->randomElement([1, 2, 3]),
-            'product_type' => $this->faker->randomElement([1, 2]),
+            'product_type' => 1,
             'is_active' => true,
             'is_available_for_purchase' => true,
             'is_available_for_sale' => true,

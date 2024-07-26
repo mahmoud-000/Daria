@@ -17,7 +17,6 @@ class JobsList extends Controller
         $dir = $req->descending === 'true' ? 'desc' : 'asc';
         return JobResource::collection(
             Job::query()
-                ->with(['media'])
                 ->search($req->filter)
                 ->orderBy($req->sortBy, $dir)
                 ->paginate($req->rowsPerPage)

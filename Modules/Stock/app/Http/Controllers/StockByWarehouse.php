@@ -32,7 +32,15 @@ class StockByWarehouse extends Controller
                             'item',
                             fn ($query) => $query
                                 ->where('is_active', ActiveEnum::ACTIVED)
-                                ->whereIn('type', [ItemTypesEnum::STANDARD, ItemTypesEnum::SERVICE])
+                                ->where(
+                                    fn (Builder $query) => $query
+                                        ->when(
+                                            !empty($req->types) && !!count($req->types),
+                                            fn (Builder $query) => $query
+                                                ->whereIn('type', $req->types)
+                                        )
+                                )
+                                // ->whereIn('type', [ItemTypesEnum::STANDARD, ItemTypesEnum::SERVICE])
                                 ->where(
                                     fn (Builder $query) => $query
                                         ->when(

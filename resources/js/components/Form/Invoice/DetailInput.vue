@@ -15,6 +15,11 @@ const props = defineProps({
         required: false,
         default: () => [],
     },
+    types: {
+        type: Array,
+        required: true,
+        default: () => [],
+    },
     details: {
         type: Array,
         required: true,
@@ -37,7 +42,7 @@ const props = defineProps({
     },
 });
 
-const { warehouse, notInclude, details, keyOfUnit, costOrPrice } =
+const { warehouse, notInclude, types, details, keyOfUnit, costOrPrice } =
     toRefs(props);
 
 const { t } = useI18n();
@@ -89,6 +94,7 @@ const filterFn = (val, update, abort) => {
             await store.dispatch("stock/fetchStockByWarehouse", {
                 warehouse: warehouse.value,
                 not_include: notInclude.value,
+                types: types.value,
                 invoice_type: keyOfUnit.value,
                 search: needle,
             });
@@ -229,6 +235,7 @@ watch(
             store.dispatch("stock/fetchStockByWarehouse", {
                 warehouse: new_warehouse,
                 not_include: notInclude.value,
+                types: types.value,
                 invoice_type: keyOfUnit.value,
             });
         }

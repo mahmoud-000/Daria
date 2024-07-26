@@ -37,13 +37,15 @@ class CompaniesTest extends TestCase
 
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD',
             'is_active' => true,
             'branches' => $branches
         ])->json();
-
+       
         $this->assertDatabaseCount('companies', 2);
         $this->assertDatabaseHas('companies', [
-            'name' => 'testcompanyname'
+            'name' => 'testcompanyname',
+            'currency' => 'USD',
         ]);
 
         $this->assertDatabaseCount('branches', 2);
@@ -76,6 +78,7 @@ class CompaniesTest extends TestCase
             route('api.companies.update', ['company' => $companyId]),
             [
                 'name' => 'newcompanyname',
+                'currency' => 'USD',
                 'is_active' => true,
                 'branches' => $allBranches
             ]
@@ -83,7 +86,8 @@ class CompaniesTest extends TestCase
         
         $this->assertDatabaseCount('companies', 1);
         $this->assertDatabaseHas('companies', [
-            'name' => 'newcompanyname'
+            'name' => 'newcompanyname',
+            'currency' => 'USD',
         ]);
 
         $this->assertDatabaseCount('branches', 2);
@@ -118,6 +122,7 @@ class CompaniesTest extends TestCase
             route('api.companies.update', ['company' => $companyId]),
             [
                 'name' => 'newcompanyname',
+                'currency' => 'USD',
                 'is_active' => true,
                 'branches' => $allBranches
             ]
@@ -125,7 +130,8 @@ class CompaniesTest extends TestCase
 
         $this->assertDatabaseCount('companies', 1);
         $this->assertDatabaseHas('companies', [
-            'name' => 'newcompanyname'
+            'name' => 'newcompanyname',
+            'currency' => 'USD',
         ]);
 
         $this->assertDatabaseCount('branches', 3);
@@ -155,6 +161,7 @@ class CompaniesTest extends TestCase
     {
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD',
             'is_active' => 0,
         ])
             ->assertStatus(422)
@@ -172,6 +179,7 @@ class CompaniesTest extends TestCase
 
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD',
             'is_active' => true,
             'branches' => [$branch_1, $dupbranch_1]
         ])
@@ -191,6 +199,7 @@ class CompaniesTest extends TestCase
 
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD', 
             'is_active' => true,
             'branches' => [$branch_1]
         ])
@@ -210,6 +219,7 @@ class CompaniesTest extends TestCase
 
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD', 
             'is_active' => true,
             'branches' => $branches
         ])
@@ -233,6 +243,7 @@ class CompaniesTest extends TestCase
 
         $res = $this->post(route('api.companies.store'), [
             'name' => 'testcompanyname',
+            'currency' => 'USD', 
             'is_active' => true,
             'branches' => $branches
         ])

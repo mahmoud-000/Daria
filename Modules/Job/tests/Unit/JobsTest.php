@@ -15,7 +15,7 @@ class JobsTest extends TestCase
         $this->withoutExceptionHandling();
         $this->setupCompleted();
         $this->job = $this->createJob();
-        $this->createOwner();    
+        $this->createOwner();
     }
 
     public function test_can_list_jobs()
@@ -28,14 +28,17 @@ class JobsTest extends TestCase
     public function test_can_create_job_with_required_inputs()
     {
         $res = $this->post(route('api.jobs.store'), [
-            'name' => 'testjobname',
+            'title' => 'testjobname',
+            'min_salary' => 1000,
+            'max_salary' => 3000,
             'is_active' => true,
         ])->json();
 
-        
-        $this->assertDatabaseCount('jobs', 2);
-        $this->assertDatabaseHas('jobs', [
-            'name' => 'testjobname',
+        $this->assertDatabaseCount('job_titles', 2);
+        $this->assertDatabaseHas('job_titles', [
+            'title' => 'testjobname',
+            'min_salary' => 1000,
+            'max_salary' => 3000,
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.created', ['name' => 'testjobname', 'module' => __('modules.job')]));
@@ -46,14 +49,18 @@ class JobsTest extends TestCase
         $res = $this->put(
             route('api.jobs.update', ['job' => $this->job]),
             [
-                'name' => 'newjobname',
+                'title' => 'newjobname',
+                'min_salary' => 1000,
+                'max_salary' => 3000,
                 'is_active' => true,
             ]
         )->json();
 
-        $this->assertDatabaseCount('jobs', 1);
-        $this->assertDatabaseHas('jobs', [
-            'name' => 'newjobname',
+        $this->assertDatabaseCount('job_titles', 1);
+        $this->assertDatabaseHas('job_titles', [
+            'title' => 'newjobname',
+            'min_salary' => 1000,
+            'max_salary' => 3000,
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.updated', ['name' => 'newjobname', 'module' => __('modules.job')]));

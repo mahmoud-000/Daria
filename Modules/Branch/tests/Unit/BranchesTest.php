@@ -21,7 +21,7 @@ class BranchesTest extends TestCase
         $this->createOwner();
     }
 
-    public function test_can_list_branch()
+    public function test_can_list_branches()
     {
         $res = $this->get(route('api.branches.index'))->json();
         $this->assertEquals(1, count($res['data']));

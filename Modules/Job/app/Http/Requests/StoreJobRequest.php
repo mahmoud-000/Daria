@@ -1,6 +1,6 @@
 <?php
 
-titlespace Modules\Job\Http\Requests;
+namespace Modules\Job\Http\Requests;
 
 use App\Traits\ValidationErrorResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;

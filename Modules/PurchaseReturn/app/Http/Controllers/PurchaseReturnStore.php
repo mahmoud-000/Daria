@@ -21,7 +21,7 @@ class PurchaseReturnStore extends Controller
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
             $purchaseReturn = DB::transaction(function () use ($request, $service) {
-                $isComplete = $service->isComplete($request['stage_id']);
+                $isComplete = $service::isComplete($request['stage_id']);
 
                 $purchaseReturn = PurchaseReturn::create(Arr::except($request, ['details', 'payments', 'purchaseReturn_documents']) + ['effected' => $isComplete]);
 

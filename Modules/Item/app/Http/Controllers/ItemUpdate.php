@@ -19,34 +19,34 @@ class ItemUpdate extends Controller
 {
     public function __invoke(UpdateItemRequest $request, Item $item)
     {
-        try {
-            $request = $request->validated();
-            $item = DB::transaction(function () use ($item, $request) {
-                $item->update(Arr::except($request, ['item_images', 'variants']));
+        // try {
+        $request = $request->validated();
+        $item = DB::transaction(function () use ($item, $request) {
+            $item->update(Arr::except($request, ['item_images', 'variants']));
 
-                if ($item->type !== ItemTypesEnum::VARIABLE) {
-                    Stock::where('item_id', $item->id)->update(['sku' => $item->sku]);
-                }
+            if ($item->type !== ItemTypesEnum::VARIABLE) {
+                Stock::where('item_id', $item->id)->update(['sku' => $item->sku]);
+            }
 
 
-                if (isset($request['item_images']) && !is_null($request['item_images']) && !array_key_exists('fake', $request['item_images'])) {
-                    (new FilesAssign)($request['item_images'], $item, 'items', 'item_images', true);
-                }
+            if (isset($request['item_images']) && !is_null($request['item_images']) && !array_key_exists('fake', $request['item_images'])) {
+                (new FilesAssign)($request['item_images'], $item, 'items', 'item_images', true);
+            }
 
-                $variants = isset($request['variants']) ? $request['variants'] : [];
-                // Check if item has variants
-                if ($item->type === ItemTypesEnum::VARIABLE) {
-                    $this->variantsUpdateAndDestroy($item, $variants);
-                }
+            $variants = isset($request['variants']) ? $request['variants'] : [];
+            // Check if item has variants
+            if ($item->type === ItemTypesEnum::VARIABLE) {
+                $this->variantsUpdateAndDestroy($item, $variants);
+            }
 
-                return $item;
-            });
-            return $this->success(__('status.updated', ['name' => $item['name'], 'module' => __('modules.item')]));
-        } catch (\Illuminate\Database\QueryException $e) {
-            $this->error(__('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
-        } catch (\Exception $e) {
-            $this->error(trans('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+            return $item;
+        });
+        return $this->success(__('status.updated', ['name' => $item['name'], 'module' => __('modules.item')]));
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     $this->error(__('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        // } catch (\Exception $e) {
+        //     $this->error(trans('status.update_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        // }
     }
 
     protected function variantsUpdateAndDestroy($item, $variants)
@@ -67,6 +67,7 @@ class ItemUpdate extends Controller
                 $newVariantsArray[] = $variant;
             }
         }
+
         // If has variants to update
         if (count($existingVariantsIds)) {
             // Get the ids of the not existing variants
@@ -80,16 +81,12 @@ class ItemUpdate extends Controller
             Variant::whereIn('id', $variantsDeletedIds)
                 ->delete();
 
-            // Update SKU inStock Table
+            // Update SKU in Stock Table
             $variantsWithSku = collect($existingVariants)
-                ->map(function ($variant) {
-                    return [
-                        'variant_id' => $variant['id'],
-                        'sku' => $variant['sku'],
-                    ];
-                })->all();
+                ->each(function ($variant) {
+                    Stock::where('variant_id', $variant['id'])->update(['sku' => $variant['sku']]);
+                });
 
-            Stock::upsert($variantsWithSku, ['sku']);
             // Delete the stock for the not existing variants
             (new StockDestroy)($item, $variantsDeletedIds);
         }

@@ -34,6 +34,9 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
+const STANDARD = 1
+const SERVICE = 3
+
 const keyOfUnit = ref("sale");
 const costOrPrice = ref("price");
 
@@ -196,6 +199,7 @@ watch(
                                 :details="formData.details"
                                 :cost-or-price="costOrPrice"
                                 :key-of-unit="keyOfUnit"
+                                :types="[SERVICE, STANDARD]"
                             />
                         </div>
                     </div>

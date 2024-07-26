@@ -21,7 +21,7 @@ class PurchaseStore extends Controller
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
             $purchase = DB::transaction(function () use ($request, $service) {
-                $isComplete = $service->isComplete($request['stage_id']);
+                $isComplete = $service::isComplete($request['stage_id']);
 
                 $purchase = Purchase::create(Arr::except($request, ['details', 'payments', 'purchase_documents']) + ['effected' => $isComplete]);
 

@@ -36,6 +36,7 @@ const store = useStore();
 
 const keyOfUnit = ref("purchase");
 const costOrPrice = ref("cost");
+const STANDARD = 1;
 const SERVICE = 3;
 
 const warehouses = computed(() => store.getters["warehouse/getOptions"]);
@@ -198,6 +199,7 @@ watch(
                                 :cost-or-price="costOrPrice"
                                 :key-of-unit="keyOfUnit"
                                 :not-include="[SERVICE]"
+                                :types="[STANDARD]"
                             />
                         </div>
                     </div>

@@ -21,7 +21,7 @@ class SaleReturnStore extends Controller
             if ($service->isDuplicateDetails($request['details'])) return $this->error(__('status.details_dublicate_error'), Response::HTTP_INTERNAL_SERVER_ERROR);
 
             $saleReturn = DB::transaction(function () use ($request, $service) {
-                $isComplete = $service->isComplete($request['stage_id']);
+                $isComplete = $service::isComplete($request['stage_id']);
 
                 $saleReturn = SaleReturn::create(Arr::except($request, ['details', 'payments', 'saleReturn_documents']) + ['effected' => $isComplete]);
 

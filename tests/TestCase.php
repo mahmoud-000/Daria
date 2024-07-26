@@ -35,7 +35,9 @@ use Modules\Warehouse\Models\Warehouse;
 use Modules\Company\Models\Company;
 use Modules\Branch\Models\Branch;
 use Modules\Department\Models\Department;
+use Modules\Job\Models\Job;
 use Modules\Quotation\Models\Quotation;
+use Modules\Region\Models\Region;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -49,6 +51,16 @@ abstract class TestCase extends BaseTestCase
                 'value' => 1
             ]
         );
+    }
+
+    public function createRegion($args = [])
+    {
+        return Region::factory()->create($args);
+    }
+
+    public function createJob($args = [])
+    {
+        return Job::factory()->create($args);
     }
 
     public function createCompany($args = [])
@@ -216,6 +228,8 @@ abstract class TestCase extends BaseTestCase
             'price' => $type !== ItemTypesEnum::VARIABLE ? $price : 0,
             'tax' => $tax,
             'tax_type' => $taxType,
+            'is_available_for_purchase' => $type === ItemTypesEnum::SERVICE ? false : true, 
+            'is_available_for_sale' => true, 
         ]);
 
         if ($type === ItemTypesEnum::VARIABLE) {

@@ -13,6 +13,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
+            'currency' => 'USD Dollar',
             'is_active' => true,
             'remarks'  => $this->faker->paragraph(),
         ];

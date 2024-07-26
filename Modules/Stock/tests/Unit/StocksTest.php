@@ -29,7 +29,8 @@ class StocksTest extends TestCase
         $res = $this->get(route('api.stock.by_warehouse', [
             'warehouse' => 1,
             'invoice_type' => 'purchase',
-            'not_include' => [3]
+            'not_include' => [3],
+            'types' => [1]
         ]))->json();
         
         $this->assertDatabaseCount('stock', 6);
@@ -95,7 +96,8 @@ class StocksTest extends TestCase
             'search' => $item_standard['name'],
             'warehouse' => 1,
             'invoice_type' => 'purchase',
-            'not_include' => [3]
+            'not_include' => [3],
+            'types' => [1]
         ]))->json();
 
         $this->assertDatabaseCount('stock', 6);
@@ -119,7 +121,8 @@ class StocksTest extends TestCase
             'search' => $item_variable['name'],
             'warehouse' => 1,
             'invoice_type' => 'purchase',
-            'not_include' => [3]
+            'not_include' => [3],
+            'types' => [1]
         ]))->json();
 
         $this->assertDatabaseCount('stock', 6);
@@ -141,7 +144,8 @@ class StocksTest extends TestCase
             'search' => $item_variable['variants'][0]['name'],
             'warehouse' => 1,
             'invoice_type' => 'purchase',
-            'not_include' => [3]
+            'not_include' => [3],
+            'types' => [1]
         ]))->json();
 
         $this->assertDatabaseCount('stock', 6);
@@ -165,9 +169,10 @@ class StocksTest extends TestCase
             'search' => $item_service['name'],
             'warehouse' => 1,
             'invoice_type' => 'purchase',
-            'not_include' => [3]
+            'not_include' => [3],
+            'types' => [1]
         ]))->json();
-
+        
         $this->assertDatabaseCount('stock', 6);
         $this->assertDatabaseCount('items', 3);
 
