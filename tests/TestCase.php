@@ -38,6 +38,7 @@ use Modules\Department\Models\Department;
 use Modules\Job\Models\Job;
 use Modules\Quotation\Models\Quotation;
 use Modules\Region\Models\Region;
+use Modules\Transfer\Models\Transfer;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -151,6 +152,11 @@ abstract class TestCase extends BaseTestCase
        return Adjustment::factory()->create($args);
    } 
 
+   public function createTransfer($args = [])
+   {
+       return Transfer::factory()->create($args);
+   } 
+
     public function createDetail($args = [])
     {
         return Detail::factory()->make($args);
@@ -215,6 +221,7 @@ abstract class TestCase extends BaseTestCase
     {
         $warehouse1Id = $warehouse1Id ?? $this->createWarehouse()->id;
         $warehouse2Id = $warehouse2Id ?? $this->createWarehouse()->id;
+        
         $unitKg = $this->createUnit(['name' => 'Kilogram', 'short_name' => 'kg', 'operator' => '*', 'operator_value' => 1]);
         $unitG = $this->createUnit(['name' => 'Gram', 'short_name' => 'g', 'operator' => '/', 'operator_value' => 1000, 'unit_id' => $unitKg->id]);
 

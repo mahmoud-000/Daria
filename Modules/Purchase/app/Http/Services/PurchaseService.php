@@ -31,7 +31,7 @@ class PurchaseService
                     $detail
                 );
 
-                $quantityInDBTable += self::stockyByUnit($detail['unit_id'], $detail['quantity']);
+                $quantityPatchInDBTable += self::stockyByUnit($detail['unit_id'], $detail['quantity']);
 
                 $patch = self::updateOrCreatePatchInDB(
                     $invoice,

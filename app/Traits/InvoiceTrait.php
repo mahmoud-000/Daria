@@ -19,7 +19,7 @@ trait InvoiceTrait
 
   public function updateInvoice($invoice, $request)
   {
-    $isComplete = $this->isComplete($request['stage_id']);
+    $isComplete = self::isComplete($request['stage_id']);
     $invoice->update($request + ['effected' => $isComplete]);
     return $invoice;
   }
@@ -113,7 +113,7 @@ trait InvoiceTrait
 
   public function createNewDetailsAndUpdateStockInUpdate($requestDetails, $invoice, $stageId)
   {
-    $isComplete = $this->isComplete($stageId);
+    $isComplete = self::isComplete($stageId);
     $new_invoice_details = collect($requestDetails)
       ->whereNull('id')->all();
     if (count($new_invoice_details)) {
@@ -126,7 +126,7 @@ trait InvoiceTrait
 
   public function updateStockForOldDetails($invoice, $details, $stageId)
   {
-    $isComplete = $this->isComplete($stageId);
+    $isComplete = self::isComplete($stageId);
     foreach ($details as $detail) {
       if (isset($detail['id'])) {
         foreach ($invoice->details as $oldDetail) {
@@ -146,6 +146,7 @@ trait InvoiceTrait
   public static function updateStockInDB($invoice, $detail, $quantity, $warehouse = null)
   {
     $stock = self::findStockInDB($warehouse ?? $invoice['warehouse_id'], $detail);
+    
     if ($stock && self::INV_TYPE !== InvoiceTypesEnum::QUOTATION->value) {
       $stock->update([
         'quantity' => $quantity
@@ -153,9 +154,9 @@ trait InvoiceTrait
     }
 
     if (!$stock) {
-      $isComplete = $this->isComplete($invoice['stage_id']);
-      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qteStockInDB($warehouse ?? $invoice['warehouse_id'], $detail));
-
+      $isComplete = self::isComplete($invoice['stage_id']);
+      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : self::calcQte($detail, $isComplete, self::qteStockInDB($warehouse ?? $invoice['warehouse_id'], $detail));
+      
       Stock::create([
         'item_id' => $detail['item_id'],
         'variant_id' => $detail['variant_id'],
@@ -179,8 +180,8 @@ trait InvoiceTrait
     }
     // Find A Patch If Not Exist Create It
     if (!$patch) {
-      $isComplete = $this->isComplete($invoice['stage_id']);
-      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : $this->calcQte($detail, $isComplete, self::qtePatchInDB($warehouse ?? $invoice['warehouse_id'], $detail));
+      $isComplete = self::isComplete($invoice['stage_id']);
+      $quantity = self::INV_TYPE === InvoiceTypesEnum::QUOTATION->value ? 0 : self::calcQte($detail, $isComplete, self::qtePatchInDB($warehouse ?? $invoice['warehouse_id'], $detail));
 
       $patch = Patch::create([
         'stock_id' => $stock['id'],

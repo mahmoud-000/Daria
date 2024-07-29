@@ -35,5 +35,6 @@
     "Department": true,
     "Job": true,
     "Region": true,
-    "Adjustment": true
+    "Adjustment": true,
+    "Transfer": true
 }
