@@ -1,6 +1,5 @@
 import { reactive } from "vue";
 import i18n from "../../i18n";
-import { paymentStatus } from "../../utils/constraints";
 const { t } = i18n.global
 
 export const columns = reactive([
@@ -35,52 +34,22 @@ export const columns = reactive([
     },
 
     {
-        name: "warehouse",
+        name: "from_warehouse_id",
         required: false,
-        label: t('warehouse_id'),
+        label: t('from_warehouse_id'),
         align: "center",
-        field: (row) => row.warehouse,
+        field: (row) => row.from_warehouse,
         format: (val) => `${val ?? t('table.no_default')}`,
         sortable: false,
     },
 
     {
-        name: "supplier",
+        name: "to_warehouse_id",
         required: false,
-        label: t('supplier_id'),
+        label: t('to_warehouse_id'),
         align: "center",
-        field: (row) => row.supplier,
+        field: (row) => row.to_warehouse,
         format: (val) => `${val ?? t('table.no_default')}`,
-        sortable: false,
-    },
-
-    {
-        name: "pipeline",
-        required: false,
-        label: t('pipeline_id'),
-        align: "center",
-        field: (row) => row.pipeline,
-        format: (val) => `${val ?? t('table.no_default')}`,
-        sortable: false,
-    },
-
-    {
-        name: "paid_amount",
-        required: false,
-        label: t('table.paid_amount'),
-        align: "center",
-        field: (row) => row.paid_amount,
-        format: (val) => `${val}`,
-        sortable: false,
-    },
-
-    {
-        name: "payment_status",
-        required: false,
-        label: t('table.payment_status'),
-        align: "center",
-        field: (row) => row.payment_status,
-        format: (val) => `${paymentStatus.find(st => st.value === val).label}`,
         sortable: false,
     },
 
@@ -90,16 +59,6 @@ export const columns = reactive([
         label: t('table.grand_total'),
         align: "center",
         field: (row) => row.grand_total,
-        format: (val) => `${val}`,
-        sortable: false,
-    },
-
-    {
-        name: "due",
-        required: false,
-        label: t('table.due'),
-        align: "center",
-        field: (row) => row.due,
         format: (val) => `${val}`,
         sortable: false,
     },

@@ -14,6 +14,7 @@ const peoples = computed(() =>
             "saleReturn.list",
             "quotation.list",
             "adjustment.list",
+            "transfer.list",
         ].includes(r.name)
     )
 );

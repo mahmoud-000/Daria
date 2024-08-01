@@ -10,7 +10,7 @@ const moduleRoutes = {
         layout: 'content',
         auth: true,
         title: 'transfer.list',
-        icon: 'fa-solid fa-cart-plus',
+        icon: 'fa-solid fa-right-left',
         permissions: ['list-transfer'],
         breadcrumbs: [
           { label: 'links.home', to: 'dashboard' },

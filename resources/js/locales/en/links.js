@@ -42,6 +42,7 @@ export default {
     saleReturn: "Sale Return | Sale Returns",
     quotation: "Quotation | Quotations",
     adjustment: "Adjustment | Adjustments",
+    transfer: "Transfer | Transfers",
     theme_generator: "Theme Generator",
     choose_your_theme: "Choose Your Theme",
     not_found: "Not Found",

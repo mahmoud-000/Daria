@@ -184,7 +184,6 @@ watch(
                                 :errors="$v.to_warehouse_id.$errors"
                                 @input="() => $v.to_warehouse_id.$touch()"
                                 @blur="() => $v.to_warehouse_id.$touch()"
-                                :disable="formData.details.length > 0"
                             />
                         </div>
 
