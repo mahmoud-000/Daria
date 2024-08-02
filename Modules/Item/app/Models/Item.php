@@ -4,6 +4,7 @@ namespace Modules\Item\Models;
 
 use App\Enums\ItemTypesEnum;
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +26,7 @@ class Item extends Model implements HasMedia
     use HasFactory, Searchable, SoftDeletes, InteractsWithMedia;
 
     protected $withCount = ['media'];
-    
+
     protected $fillable = [
         'name',
         'label',
@@ -64,8 +65,6 @@ class Item extends Model implements HasMedia
         'product_type'      => \App\Enums\ProductTypesEnum::class,
         'tax_type'          => 'integer',
         'barcode_type'      => 'integer',
-        'cost'              => 'double',
-        'price'             => 'double',
 
         'unit_id' => 'integer',
         'sale_unit_id' => 'integer',
@@ -77,6 +76,31 @@ class Item extends Model implements HasMedia
     const DIVIDE = '/';
     const EXCLUSIVE = 1;
     const INCLUSIVE = 2;
+
+    
+    public function cost(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100
+        );
+    }
+
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100
+        );
+    }
+
+    public function tax(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100
+        );
+    }
 
     public function unit()
     {
