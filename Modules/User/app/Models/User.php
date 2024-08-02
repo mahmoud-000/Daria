@@ -4,13 +4,14 @@ namespace Modules\User\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Contact\Models\Contact;
 use Modules\Location\Models\Location;
@@ -64,12 +65,12 @@ class User extends Authenticatable implements HasMedia
         return ['firstname', 'lastname', 'username', 'email'];
     }
 
-    public function contacts()
+    public function contacts(): MorphMany
     {
         return $this->morphMany(Contact::class, 'contactable');
     }
 
-    public function locations()
+    public function locations(): MorphMany
     {
         return $this->morphMany(Location::class, 'locationable');
     }
@@ -90,11 +91,11 @@ class User extends Authenticatable implements HasMedia
         });
     }
 
-    public function setPasswordAttribute($password)
+    protected function password(): Attribute 
     {
-        if ($password !== null) {
-            return $this->attributes['password'] = Hash::make($password);
-        }
+        return new Attribute(
+            set: fn($value) => bcrypt($value)
+        );
     }
 
     public function sendPasswordResetNotification($token)
