@@ -10,12 +10,29 @@ class UserSettingTest extends TestCase
 {
     use RefreshDatabase;
     public $settings;
+
     public function setup(): void
     {
         parent::setUp();
         $this->withoutExceptionHandling();
         $this->settings = $this->setupCompleted();
         $this->createOwner();
+    }
+
+    public function test_can_set_user_locale()
+    {
+        $res = $this->post(route('api.locale.setLocale'), [
+            'locale' => 'en-US'
+        ])->json();
+
+        $this->assertDatabaseHas('settings', [
+            'key' => 'locale',
+            'value' => 'en',
+            'user_id' => auth()->id()
+        ]);
+        
+        $this->assertEquals($res['locale'], 'en');
+        
     }
 
     public function test_can_get_user_settings_by_id()

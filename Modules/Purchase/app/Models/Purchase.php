@@ -2,11 +2,13 @@
 
 namespace Modules\Purchase\Models;
 
+use App\Enums\FPTypesEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Traits\BaseInvoiceRelationsTrait;
 use App\Traits\InvoiceQrCodeTrait;
 use App\Traits\InvoiceSupplierTrait;
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,17 +53,10 @@ class Purchase extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'effected' => 'boolean',
-        'payment_status' => \App\Enums\PaymentStatusEnum::class,
-        'discount_type' => \App\Enums\FPTypesEnum::class,
-        'commission_type' => \App\Enums\FPTypesEnum::class,
-
-        'tax' => 'double',
-        'paid_amount' => 'double',
-        'grand_total' => 'double',
-        'discount' => 'double',
-        'shipping' => 'double',
-        'other_expenses' => 'double',
+        'effected'          => 'boolean',
+        'payment_status'    => PaymentStatusEnum::class,
+        'discount_type'     => FPTypesEnum::class,
+        'commission_type'   => FPTypesEnum::class,
     ];
 
     public static function boot()
@@ -90,6 +85,54 @@ class Purchase extends Model implements HasMedia
         }
 
         return $model->payment_status;
+    }
+
+    public function tax(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function discount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function paidAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function grandTotal(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function shipping(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function otherExpenses(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
     }
 
     public static function searchable()

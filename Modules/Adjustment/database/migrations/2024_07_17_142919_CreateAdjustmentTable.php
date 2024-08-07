@@ -14,8 +14,8 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->boolean('effected')->default(0);
-            $table->unsignedInteger('items');
-            $table->float('grand_total', 10, 4);
+            $table->unsignedTinyInteger('items');
+            $table->unsignedInteger('grand_total');
 
             $table->foreignId('user_id')->nullable()->constrained();
             

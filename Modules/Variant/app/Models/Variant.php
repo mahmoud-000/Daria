@@ -3,6 +3,7 @@
 namespace Modules\Variant\Models;
 
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,9 +33,23 @@ class Variant extends Model implements HasMedia
 
     protected $casts = [
         'is_active'                         => \App\Enums\ActiveEnum::class,
-        'cost'              => 'double',
-        'price'             => 'double',
     ];
+
+    public function cost(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
 
     public static function searchable()
     {

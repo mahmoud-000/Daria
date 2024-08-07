@@ -3,6 +3,7 @@
 use App\Enums\ProductTypesEnum;
 use App\Enums\ItemTypesEnum;
 use App\Enums\ActiveEnum;
+use App\Enums\TaxTypesEnum;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,20 +20,18 @@ return new class extends Migration
             $table->unsignedInteger('cost')->nullable()->default(0);
             $table->unsignedInteger('price')->nullable()->default(0);
 
-            // $table->char('channel', 1)->nullable();
-
             $table->string('sku')->nullable();
             $table->string('code')->nullable();
-            $table->tinyInteger('barcode_type')->nullable();
+            $table->unsignedTinyInteger('barcode_type')->nullable();
 
             $table->text('remarks')->nullable();
 
             $table->unsignedInteger('tax')->nullable()->default(0);
-            $table->tinyInteger('tax_type')->nullable();
-            $table->tinyInteger('stock_alert')->nullable()->default(0);
+            $table->unsignedTinyInteger('tax_type')->nullable()->default(TaxTypesEnum::EXCLUSIVE);
+            $table->unsignedInteger('stock_alert')->nullable()->default(0);
 
-            $table->tinyInteger('type')->nullable()->default(ItemTypesEnum::STANDARD);
-            $table->tinyInteger('product_type')->nullable()->default(ProductTypesEnum::STOCK_ITEM);
+            $table->unsignedTinyInteger('type')->nullable()->default(ItemTypesEnum::STANDARD);
+            $table->unsignedTinyInteger('product_type')->nullable()->default(ProductTypesEnum::STOCK_ITEM);
             
             $table->boolean('is_active')->nullable()->default(ActiveEnum::NOTACTIVED);
             $table->boolean('is_available_for_purchase')->nullable()->default(ActiveEnum::NOTACTIVED);

@@ -120,8 +120,8 @@ class SaleReturnsTest extends TestCase
         $this->assertDatabaseCount('payments', 1);
         $this->assertDatabaseHas('payments', [
             'type' => 1,
-            'received_amount' => 100,
-            'amount' => 50,
+            'received_amount' => 100000,
+            'amount' => 50000,
         ]);
         $this->assertTrue($res['success']);
         $this->assertEquals($res['payload'], __('status.created', ['name' => sprintf('%07d', 2), 'module' => __('modules.saleReturn')]));

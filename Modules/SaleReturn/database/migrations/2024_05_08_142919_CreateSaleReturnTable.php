@@ -15,15 +15,15 @@ return new class extends Migration
             $table->string('doc_invoice_number')->nullable();
             $table->boolean('effected')->default(0);
             $table->date('date');
-            $table->float('tax', 10, 4)->default(0);
-            $table->float('paid_amount', 10, 4)->default(0);
-            $table->tinyInteger('payment_status')->nullable()->default(PaymentStatusEnum::UNPAID);
-            $table->float('grand_total', 10, 4);
-            $table->tinyInteger('discount_type')->nullable()->default(FPTypesEnum::FIXED);
-            $table->float('discount', 10, 4)->nullable()->default(0);
-            $table->tinyInteger('commission_type')->nullable()->default(FPTypesEnum::FIXED);
-            $table->float('shipping', 10, 4)->nullable()->default(0);
-            $table->float('other_expenses', 10, 4)->nullable()->default(0);
+            $table->unsignedInteger('tax')->default(0);
+            $table->unsignedInteger('paid_amount')->default(0);
+            $table->unsignedTinyInteger('payment_status')->nullable()->default(PaymentStatusEnum::UNPAID);
+            $table->unsignedInteger('grand_total');
+            $table->unsignedTinyInteger('discount_type')->nullable()->default(FPTypesEnum::FIXED);
+            $table->unsignedInteger('discount')->nullable()->default(0);
+            $table->unsignedTinyInteger('commission_type')->nullable()->default(FPTypesEnum::FIXED);
+            $table->unsignedInteger('shipping')->nullable()->default(0);
+            $table->unsignedInteger('other_expenses')->nullable()->default(0);
             
             $table->foreignId('user_id')->nullable()->constrained();
 

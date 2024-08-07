@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->morphs('paymentable');
             $table->date('date');
-            $table->tinyInteger('type');
-            $table->float('received_amount', 10, 4);
-            $table->float('amount', 10, 4);
+            $table->unsignedTinyInteger('type');
+            $table->unsignedInteger('received_amount')->default(0);
+            $table->unsignedInteger('amount')->default(0);
             $table->text('note')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained();

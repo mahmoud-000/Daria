@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,22 @@ class Payment extends Model
         static::creating(function ($model) {
             $model->user_id = auth()->id();
         });
+    }
+
+    public function amount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function receivedAmount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
     }
 
     public function detailable()

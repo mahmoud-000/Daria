@@ -25,25 +25,6 @@ function setupCompleted()
 }
 
 /**
- * Shorthand for the current user settings
- *
- * @param string $key
- * @return mixed
- */
-function usersettings($key = '')
-{
-    if (!auth()->user()) {
-        return null;
-    }
-
-    if (!empty($key)) {
-        return auth()->user()->settings()->get($key);
-    }
-
-    // return auth()->user()->settings();
-}
-
-/**
  * Retrieve system settings
  *
  * @param string $key
@@ -60,6 +41,25 @@ function systemsettings($key = '')
     }
 
     return $settings[$key] ?? null;
+}
+
+/**
+ * Shorthand for the current user settings
+ *
+ * @param string $key
+ * @return mixed
+ */
+function usersettings($key = '')
+{
+    if (!auth()->user()) {
+        return null;
+    }
+
+    if (!empty($key)) {
+        return auth()->user()->settings()->get($key);
+    }
+
+    return auth()->user()->settings();
 }
 
 /**
@@ -88,4 +88,22 @@ function formatDateTime(Carbon $date, bool $use_relational = false): string
     }
 
     return $date->setTimezone($timezone)->format($format);
+}
+
+function getFormattedNumber(
+    int $value,
+    string $locale = 'en',
+    int $style = \NumberFormatter::DECIMAL,
+    int $precision = 2,
+    bool $groupingUsed = true,
+    string $currencyCode = 'EGP',
+): string|false {
+    $formatter = new \NumberFormatter($locale, $style);
+    $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $precision);
+    $formatter->setAttribute(\NumberFormatter::GROUPING_USED, $groupingUsed);
+    if ($style == \NumberFormatter::CURRENCY) {
+        $formatter->setTextAttribute(\NumberFormatter::CURRENCY_CODE, $currencyCode);
+    }
+
+    return $formatter->format($value);
 }

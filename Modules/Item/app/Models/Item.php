@@ -2,7 +2,11 @@
 
 namespace Modules\Item\Models;
 
+use App\Enums\ActiveEnum;
+use App\Enums\BarcodeTypesEnum;
+use App\Enums\TaxTypesEnum;
 use App\Enums\ItemTypesEnum;
+use App\Enums\ProductTypesEnum;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -56,49 +60,46 @@ class Item extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'is_active'                         => \App\Enums\ActiveEnum::class,
-        'is_available_for_purchase'         => \App\Enums\ActiveEnum::class,
-        'is_available_for_edit_in_sale'          => \App\Enums\ActiveEnum::class,
-        'is_available_for_edit_in_purchase'         => \App\Enums\ActiveEnum::class,
-        'is_available_for_sale'          => \App\Enums\ActiveEnum::class,
-        'type'              => \App\Enums\ItemTypesEnum::class,
-        'product_type'      => \App\Enums\ProductTypesEnum::class,
-        'tax_type'          => 'integer',
-        'barcode_type'      => 'integer',
+        'is_active'                             => ActiveEnum::class,
+        'is_available_for_purchase'             => ActiveEnum::class,
+        'is_available_for_edit_in_sale'         => ActiveEnum::class,
+        'is_available_for_edit_in_purchase'     => ActiveEnum::class,
+        'is_available_for_sale'                 => ActiveEnum::class,
+        'type'                                  => ItemTypesEnum::class,
+        'product_type'                          => ProductTypesEnum::class,
+        'tax_type'                              => TaxTypesEnum::class,
+        'barcode_type'                          => BarcodeTypesEnum::class,
 
-        'unit_id' => 'integer',
-        'sale_unit_id' => 'integer',
-        'purchase_unit_id' => 'integer',
-        'category_id' => 'integer',
-        'brand_id' => 'integer'
+        'unit_id'           => 'integer',
+        'sale_unit_id'      => 'integer',
+        'purchase_unit_id'  => 'integer',
+        'category_id'       => 'integer',
+        'brand_id'          => 'integer'
     ];
 
     const DIVIDE = '/';
-    const EXCLUSIVE = 1;
-    const INCLUSIVE = 2;
-
     
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
         );
     }
 
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
         );
     }
 
     public function tax(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
         );
     }
 
@@ -174,7 +175,7 @@ class Item extends Model implements HasMedia
     {
         $itemWith = $item->load('purchaseUnit', 'saleUnit');
 
-        if ($item->tax_type === self::INCLUSIVE) {
+        if ($item->tax_type === TaxTypesEnum::INCLUSIVE->value) {
             // { id: 2, name: "Inclusive" }
             return self::Inclusive($itemWith, $variant);
         }

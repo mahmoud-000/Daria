@@ -27,7 +27,7 @@ class ItemsTest extends TestCase
 
     public function test_can_list_items()
     {
-        $res = $this->get(route('api.items.index'))->json();
+        $res = $this->get(route('api.items.index'))->json();     
         $this->assertEquals(1, count($res['data']));
         $this->assertEquals(1, $res['meta']['total']);
     }
@@ -59,8 +59,8 @@ class ItemsTest extends TestCase
         $this->assertDatabaseHas('items', [
             'name' => 'testitemname',
             'label' => 'testitemlabel',
-            'cost' => 10,
-            'price' => 20,
+            'cost' => 10000,
+            'price' => 20000,
             'category_id' => $categoryId,
             'tax_type' => 1,
             'type' => ItemTypesEnum::STANDARD->value
@@ -96,7 +96,7 @@ class ItemsTest extends TestCase
         $this->assertDatabaseHas('items', [
             'name' => 'testitemname',
             'label' => 'testitemlabel',
-            'price' => 20,
+            'price' => 20000,
             'category_id' => $categoryId,
             'tax_type' => 1,
             'type' => ItemTypesEnum::SERVICE->value

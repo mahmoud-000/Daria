@@ -2,8 +2,10 @@
 
 namespace Modules\Transfer\Models;
 
+use App\Enums\FPTypesEnum;
 use App\Traits\InvoiceQrCodeTrait;
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,15 +50,9 @@ class Transfer extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'effected' => 'boolean',
-        'discount_type' => \App\Enums\FPTypesEnum::class,
-        'commission_type' => \App\Enums\FPTypesEnum::class,
-
-        'tax' => 'double',
-        'grand_total' => 'double',
-        'discount' => 'double',
-        'shipping' => 'double',
-        'other_expenses' => 'double',
+        'effected'          => 'boolean',
+        'discount_type'     => FPTypesEnum::class,
+        'commission_type'   => FPTypesEnum::class,
     ];
 
     public static function boot()
@@ -65,6 +61,46 @@ class Transfer extends Model implements HasMedia
         static::creating(function ($model) {
             $model->user_id = auth()->id();
         });
+    }
+
+    public function tax(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function discount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function grandTotal(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function shipping(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+
+    public function otherExpenses(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
     }
 
     public static function searchable()

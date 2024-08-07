@@ -44,13 +44,21 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
-    public function setupCompleted()
+    public function setupCompleted($userId = null)
     {
-        return Setting::create(
+        return Setting::insert([
+
             [
                 'key' => 'system_setup_completed',
-                'value' => 1
+                'value' => 1,
+                'user_id' => null
+            ],
+            [
+                'key' => 'locale',
+                'value' => 'ar',
+                'user_id' => $userId
             ]
+        ]
         );
     }
 

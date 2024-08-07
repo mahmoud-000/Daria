@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ActiveEnum;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,9 +14,9 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('code')->nullable();
             $table->string('sku')->nullable();
-            $table->float('cost', 10, 4)->nullable()->default(0);
-            $table->float('price', 10, 4)->nullable()->default(0);
-            $table->boolean('is_active')->nullable()->default(0);
+            $table->unsignedInteger('cost')->nullable()->default(0);
+            $table->unsignedInteger('price')->nullable()->default(0);
+            $table->boolean('is_active')->nullable()->default(ActiveEnum::NOTACTIVED);
             $table->text('remarks')->nullable();
             $table->foreignId('item_id')->constrained();
             $table->softDeletes();
