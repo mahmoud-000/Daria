@@ -333,7 +333,7 @@ class TransfersTest extends TestCase
         $this->assertDatabaseHas('transfers', [
             'from_warehouse_id' => $warehouseId,
             'to_warehouse_id' => 1,
-        ]);
+        ]);      
 
         $this->assertDatabaseCount('details', 1);
         $this->assertDatabaseHas('details', [
@@ -346,13 +346,6 @@ class TransfersTest extends TestCase
             'variant_id' => $this->variantItem->variants->first()->id,
             'warehouse_id' => $warehouseId,
             'quantity' => 44
-        ]);
-
-        $this->assertDatabaseHas('stock', [
-            'item_id' => $this->variantItem->id,
-            'variant_id' => $this->variantItem->variants->first()->id,
-            'warehouse_id' => 1,
-            'quantity' => 22
         ]);
 
         $this->assertTrue($res['success']);

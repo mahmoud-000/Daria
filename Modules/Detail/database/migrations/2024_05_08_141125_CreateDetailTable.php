@@ -32,6 +32,7 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->constrained();
             $table->foreignId('variant_id')->nullable()->constrained();
             $table->foreignId('patch_id')->nullable()->constrained();
+            $table->foreignId('stock_id')->nullable()->constrained('stock');
             
             $table->unsignedTinyInteger('movement')->nullable()->default(1);
             

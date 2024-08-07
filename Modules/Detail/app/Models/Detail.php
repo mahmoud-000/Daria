@@ -31,6 +31,7 @@ class Detail extends Model
         'variant_id',
         'warehouse_id',
         'patch_id',
+        'stock_id',
         'total',
         'quantity',
         'production_date',
@@ -49,6 +50,7 @@ class Detail extends Model
         'quantity'          => 'integer',
 
         'patch_id'      => 'integer',
+        'stock_id'      => 'integer',
         'unit_id'       => 'integer',
         'item_id'       => 'integer',
         'variant_id'    => 'integer',
@@ -99,7 +101,7 @@ class Detail extends Model
 
     public function stock()
     {
-        return $this->hasMany(Stock::class, 'item_id', 'item_id')->withTrashed();
+        return $this->belongsTo(Stock::class, 'stock_id')->withTrashed();
     }
 
     public function item()

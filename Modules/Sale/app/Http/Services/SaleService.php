@@ -41,7 +41,7 @@ class SaleService
                 );
 
 
-                $detail->update(['patch_id' => $patch['id']]);
+                $detail->update(['patch_id' => $patch['id'], 'stock_id' => $stock['id']]);
             }
         }
     }

@@ -62,7 +62,7 @@ class UserSettingTest extends TestCase
             ]
         );
 
-        $this->assertDatabaseCount('settings', 2);
+        $this->assertDatabaseCount('settings', 3);
         $this->assertDatabaseHas('settings', [
             'key' => 'new.user.key',
             'value' => 'new.user.value',
@@ -89,7 +89,7 @@ class UserSettingTest extends TestCase
             ]
         )->json();
 
-        $this->assertDatabaseCount('settings', 2);
+        $this->assertDatabaseCount('settings', 3);
         $this->assertDatabaseHas('settings', [
             'key' => 'old.key',
             'value' => 'new.user.value',

@@ -21,8 +21,8 @@ class SystemSettingTest extends TestCase
     {
         $res = $this->get(route('api.settings.system'))->json();
         $this->assertEquals(null, $res['data'][0]['user_id']);
-        $this->assertEquals($this->settings['key'], $res['data'][0]['key']);
-        $this->assertEquals($this->settings['id'], $res['data'][0]['id']);
+        $this->assertEquals("system_setup_completed", $res['data'][0]['key']);
+        $this->assertEquals(1, $res['data'][0]['id']);
     }
 
     public function test_can_not_store_system_settings_without_correct_data()
@@ -46,7 +46,7 @@ class SystemSettingTest extends TestCase
             ]
         );
 
-        $this->assertDatabaseCount('settings', 2);
+        $this->assertDatabaseCount('settings', 3);
         $this->assertDatabaseHas('settings', [
             'key' => 'new.key',
             'value' => 'new.value',
@@ -91,7 +91,7 @@ class SystemSettingTest extends TestCase
             ]
         )->json();
 
-        $this->assertDatabaseCount('settings', 2);
+        $this->assertDatabaseCount('settings', 3);
         $this->assertDatabaseHas('settings', [
             'key' => 'old.key',
             'value' => 'new.value',

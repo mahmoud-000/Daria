@@ -40,7 +40,7 @@ class PurchaseService
                     $stock
                 );
 
-                $detail->update(['patch_id' => $patch['id']]);
+                $detail->update(['patch_id' => $patch['id'], 'stock_id' => $stock['id']]);
             }
         }
     }

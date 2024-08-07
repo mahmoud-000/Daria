@@ -69,7 +69,7 @@ class TransferService
                     $invoice['to_warehouse_id']
                 );
 
-                $detail->update(['patch_id' => $patchTo['id']]);
+                $detail->update(['patch_id' => $patchTo['id'], 'stock_id' => $stockTo['id']]);
             }
         }
     }

@@ -22,10 +22,10 @@ class DetailResource extends JsonResource
             'is_available_for_edit_in_sale' => $this->item->is_available_for_edit_in_sale,
             'variant' => $this->variant?->name,
             'unit_id' => $this->unit_id,
-            'amount' => floatval($this->amount),
-            'tax' => floatval($this->tax),
+            'amount' => $this->amount,
+            'tax' => $this->tax,
             'tax_type' => $this->tax_type,
-            'discount' => floatval($this->discount),
+            'discount' => $this->discount,
             'discount_type' => $this->discount_type,
             'detailable_id' => $this->detailable_id,
             'detailable_type' => $this->detailable_type,
@@ -33,13 +33,14 @@ class DetailResource extends JsonResource
             'item_id' => $this->item_id,
             'variant_id' => $this->variant_id,
             'patch_id' => $this->patch_id,
-            'total' => floatval($this->total),
-            'quantity' => floatval($this->quantity),
-            'stock' =>  floatval($this->stock->where('warehouse_id', $this->warehouse_id)
+            'total' => $this->total,
+            'quantity' => $this->quantity,
+            'stock' => $this->whenLoaded('stock') ? $this->stock->quantity : 0,
+            'stocks' =>  $this->stock->where('warehouse_id', $this->warehouse_id)
                 ->where('item_id', $this->item_id)
                 ->where('variant_id', $this->variant_id)
                 ->first()
-                ->quantity)
+                ->quantity
         ];
     }
 }
