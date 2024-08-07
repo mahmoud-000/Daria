@@ -303,7 +303,11 @@ onMounted(() => {
                             @input="() => $v.production_date.$touch()"
                             @blur="() => $v.production_date.$touch()"
                             :errors="$v.production_date.$errors"
-                            :disable="!!editedDetail.id || !!formData.patch_id || keyOfUnit !== 'purchase'"
+                            :disable="
+                                !!editedDetail.id ||
+                                !!formData.patch_id ||
+                                keyOfUnit !== 'purchase'
+                            "
                         />
                     </div>
                     <div
@@ -317,7 +321,11 @@ onMounted(() => {
                             @input="() => $v.expired_date.$touch()"
                             @blur="() => $v.expired_date.$touch()"
                             :errors="$v.expired_date.$errors"
-                            :disable="!!editedDetail.id || !!formData.patch_id || keyOfUnit !== 'purchase'"
+                            :disable="
+                                !!editedDetail.id ||
+                                !!formData.patch_id ||
+                                keyOfUnit !== 'purchase'
+                            "
                         />
                     </div>
                     <div
@@ -337,10 +345,7 @@ onMounted(() => {
                             :errors="$v.amount.$errors"
                             min="0"
                             :prefix="getDefaultCurrencySymbol"
-                            :disable="
-                                keyOfUnit === 'purchase' &&
-                                (!!editedDetail.id || !!formData.patch_id)
-                            "
+                            :disable="!!formData.patch_id"
                         />
                     </div>
 
@@ -396,7 +401,11 @@ onMounted(() => {
                             @blur="() => $v.discount.$touch()"
                             :errors="$v.discount.$errors"
                             min="0"
-                            :prefix="getDefaultCurrencySymbol"
+                            :prefix="
+                                formData.discount_type === 1
+                                    ? getDefaultCurrencySymbol
+                                    : '%'
+                            "
                         />
                     </div>
 

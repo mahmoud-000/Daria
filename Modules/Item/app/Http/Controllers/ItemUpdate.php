@@ -52,7 +52,6 @@ class ItemUpdate extends Controller
     protected function variantsUpdateAndDestroy($item, $variants)
     {
         $existingVariantsIds = [];
-        $existingVariants = [];
         $newVariantsArray = [];
 
         foreach ($variants as $variant) {
@@ -60,9 +59,11 @@ class ItemUpdate extends Controller
             // If not, create a new variant
             // If has id, update the existing variant
             if (isset($variant['id'])) {
-                $variant['item_id'] = $item->id;
-                $existingVariants[] = $variant;
                 $existingVariantsIds[] = $variant['id'];
+                // Update Variant Details
+                Variant::find($variant['id'])->update(Arr::only($variant, ['name', 'code', 'cost', 'price', 'sku', 'is_active']));
+                // Update SKU in Stock Table
+                Stock::where('variant_id', $variant['id'])->update(['sku' => $variant['sku']]);
             } else {
                 $newVariantsArray[] = $variant;
             }
@@ -75,17 +76,10 @@ class ItemUpdate extends Controller
                 ->whereNotIn('id', $existingVariantsIds)
                 ->pluck('id')
                 ->toArray();
-            // Update the existing variants
-            Variant::upsert($existingVariants, ['id']);
+
             // Delete the not existing variants
             Variant::whereIn('id', $variantsDeletedIds)
                 ->delete();
-
-            // Update SKU in Stock Table
-            $variantsWithSku = collect($existingVariants)
-                ->each(function ($variant) {
-                    Stock::where('variant_id', $variant['id'])->update(['sku' => $variant['sku']]);
-                });
 
             // Delete the stock for the not existing variants
             (new StockDestroy)($item, $variantsDeletedIds);

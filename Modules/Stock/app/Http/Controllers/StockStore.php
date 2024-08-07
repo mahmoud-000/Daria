@@ -25,7 +25,7 @@ class StockStore extends Controller
                                 'item_id' => $item->id,
                                 'warehouse_id' => $warehouse,
                                 'variant_id' => $variant->id,
-                                'sku' => $variant-sku
+                                'sku' => $variant->sku
                             ];
                         }
                     } else {

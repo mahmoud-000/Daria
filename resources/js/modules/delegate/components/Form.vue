@@ -191,12 +191,8 @@ const clearCompanyName = () => {
                                 @blur="() => $v.commission.$touch()"
                                 :errors="$v.commission.$errors"
                                 min="0"
-                                :prefix="getDefaultCurrencySymbol"
+                                :prefix="formData.commission_type === 1 ? getDefaultCurrencySymbol: '%'"
                             />
-                            <!-- mask="#.##"
-                                fill-mask="0"
-                                reverse-fill-mask
-                                hint="Mask: #.##" -->
                         </div>
 
                         <div

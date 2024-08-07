@@ -279,7 +279,7 @@ watch(
                                 @blur="() => $v.discount.$touch()"
                                 :errors="$v.discount.$errors"
                                 min="0"
-                                :prefix="getDefaultCurrencySymbol"
+                                :prefix="formData.discount_type === 1 ? getDefaultCurrencySymbol: '%'"
                             />
                         </div>
 
