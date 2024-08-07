@@ -21,6 +21,7 @@ export const fetchLocales = ({ commit }) => {
         ResourceLocale.list()
             .then(response => {
                 commit('SET_LOCALES', response.locales)
+                commit('SET_LOCALE', response.locale)
                 resolve(response);
             })
             .catch(error => {
