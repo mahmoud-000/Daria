@@ -13,12 +13,14 @@ class QuotationService
 
     public static function calcQte($invoice, $detail, $isComplete)
     {
-        return self::stockyByUnit($detail['unit_id'], $detail['quantity']);
+        // return self::stockyByUnit($detail['unit_id'], $detail['quantity']);
+        return 0;
     }
 
     public static function calcUpdatedQte($invoice, $detail, $oldDetail, $isComplete, $quantityInDBTable)
     {
-        return self::stockyByUnit($detail['unit_id'], $oldDetail['quantity']);
+        // return self::stockyByUnit($detail['unit_id'], $oldDetail['quantity']);
+        return 0;
     }
 
     public static function updateStockAndPatch($invoice, $detail, $oldDetail, $isComplete)

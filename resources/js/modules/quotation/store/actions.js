@@ -9,11 +9,11 @@ const QuotationModel = new Quotation()
 
 export const fetchQuotations = ({ commit }, options) => {
     commit('SET_LOADING', true, { root: true })
-    // commit('SET_PURCHASES', [])
+    // commit('SET_QUOTATION', [])
     return new Promise((resolve, reject) => {
         QuotationModel.list(options).then(res => {
             Loading.hide();
-            commit('SET_PURCHASES', res.data)
+            commit('SET_QUOTATION', res.data)
             commit('SET_PAGINATION', { meta: res.meta, options })
             commit('SET_LOADING', false, { root: true })
             resolve(res);

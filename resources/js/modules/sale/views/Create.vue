@@ -1,6 +1,7 @@
 <script setup>
 import { computed, defineAsyncComponent, onMounted, reactive } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import { TheSpinner } from "../../../components/import";
 import { useInvoiceDetail } from "../../../composables/invoiceDetail";
 import { addOptionTo } from "../../../utils/helpers";
@@ -8,6 +9,15 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 
 const store = useStore();
 await store.dispatch("sale/fetchFormOptions", { app_name: "sale" });
+
+const router = useRouter();
+
+const lastRoute = computed(() => {
+  const backUrl = router.options.history.state.back
+  const route = router.resolve({ path: `${backUrl}` })
+
+  return route.name
+})
 
 const formDataSale = reactive({
     date: new Date().toISOString().slice(0, 10),
@@ -36,9 +46,8 @@ const formDataSale = reactive({
 const formData = computed(() => {
     const quotation = computed(() => store.getters["quotation/getQuotation"]);
     const { detailCalculate } = useInvoiceDetail("price");
-    
-    if (Object.keys(quotation.value).length !== 0) {
-        console.log(quotation.value);
+
+    if (lastRoute.value === 'quotation.list' && Object.keys(quotation.value).length !== 0) {
         if (quotation.value.customer_id) {
             addOptionTo("customer", quotation.value);
         }
@@ -53,7 +62,7 @@ const formData = computed(() => {
         return quotation.value;
     }
 
-    return formDataSale
+    return formDataSale;
 });
 </script>
 
