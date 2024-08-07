@@ -2,6 +2,7 @@
 
 namespace Modules\Patch\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,14 @@ class Patch extends Model
         'expired_date',
     ];
 
+    public function amount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value / 1000,
+            set: fn ($value) => $value * 1000
+        );
+    }
+    
     public function stock()
     {
         return $this->belongsTo(Stock::class);
