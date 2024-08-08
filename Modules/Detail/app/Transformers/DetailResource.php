@@ -36,5 +36,6 @@ class DetailResource extends JsonResource
             'total' => $this->total,
             'quantity' => $this->quantity,
             'stock' => $this->whenLoaded('stock') ? $this->stock->quantity : 0,
+        ];
     }
 }
