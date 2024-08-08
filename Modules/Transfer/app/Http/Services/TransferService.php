@@ -193,7 +193,7 @@ class TransferService
 
                         // To
                         $quantityTo = self::qteStockInDB(
-                            $invoice['from_warehouse_id'],
+                            $invoice['to_warehouse_id'],
                             $deletedDetail
                         ) - self::stockyByUnit($deletedDetail['unit_id'], $invoice->details->where('id', $deletedDetail['id'])->first()->quantity);
 

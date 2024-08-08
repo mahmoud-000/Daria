@@ -295,6 +295,7 @@ class TransfersTest extends TestCase
         $detail_1 = $this->createDetail([
             'detailable_id' => null,
             'detailable_type' => null,
+            'warehouse_id' => $warehouseId,
             'variant_id' => $this->variantItem->variants->first()->id,
             'item_id' => $this->variantItem->id,
             'quantity' => 22,
@@ -346,6 +347,13 @@ class TransfersTest extends TestCase
             'variant_id' => $this->variantItem->variants->first()->id,
             'warehouse_id' => $warehouseId,
             'quantity' => 44
+        ]);
+
+        $this->assertDatabaseHas('stock', [
+            'item_id' => $this->variantItem->id,
+            'variant_id' => $this->variantItem->variants->first()->id,
+            'warehouse_id' => 1,
+            'quantity' => 11
         ]);
 
         $this->assertTrue($res['success']);
