@@ -25,6 +25,8 @@ class PurchaseService
                 $quantityInDBTable
             );
 
+            $detail->update(['stock_id' => $stock['id']]);
+
             if ($detail['product_type'] === ProductTypesEnum::CONSUMER_ITEM) {
                 $quantityPatchInDBTable = self::qtePatchInDB(
                     $invoice['warehouse_id'],
@@ -40,7 +42,7 @@ class PurchaseService
                     $stock
                 );
 
-                $detail->update(['patch_id' => $patch['id'], 'stock_id' => $stock['id']]);
+                $detail->update(['patch_id' => $patch['id']]);
             }
         }
     }

@@ -345,7 +345,7 @@ onMounted(() => {
                             :errors="$v.amount.$errors"
                             min="0"
                             :prefix="getDefaultCurrencySymbol"
-                            :disable="!!formData.patch_id"
+                            :disable="keyOfUnit === 'purchase' && !!formData.patch_id"
                         />
                     </div>
 

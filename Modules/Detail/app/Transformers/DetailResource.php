@@ -36,11 +36,5 @@ class DetailResource extends JsonResource
             'total' => $this->total,
             'quantity' => $this->quantity,
             'stock' => $this->whenLoaded('stock') ? $this->stock->quantity : 0,
-            'stocks' =>  $this->stock->where('warehouse_id', $this->warehouse_id)
-                ->where('item_id', $this->item_id)
-                ->where('variant_id', $this->variant_id)
-                ->first()
-                ->quantity
-        ];
     }
 }
