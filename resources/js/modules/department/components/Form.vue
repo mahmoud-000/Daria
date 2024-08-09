@@ -13,6 +13,7 @@ import {
     CardRemarks,
     BaseInput,
     SelectInput,
+    UserInput,
 } from "../../../components/import";
 import { useFilterLazy } from "../../../composables/filterLazy";
 
@@ -86,7 +87,7 @@ const filterFn = async (val, update) =>
                         :class="!Dark.isActive ? 'bg-white' : 'bg-dark'"
                     >
                         <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                            class="col-lg-4 col-md-4 col-xs-12 q-px-md q-pb-sm"
                         >
                             <BaseInput
                                 v-model="formData[`name`]"
@@ -99,11 +100,11 @@ const filterFn = async (val, update) =>
                         </div>
 
                         <div
-                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                            class="col-lg-4 col-md-4 col-xs-12 q-px-md q-pb-sm"
                         >
                             <SelectInput
                                 v-model="formData.department_id"
-                                :label="t('department_id')"
+                                :label="t('parent')"
                                 :options="
                                     options?.map((opt) => ({
                                         label: opt.name,
@@ -118,6 +119,15 @@ const filterFn = async (val, update) =>
                         </div>
 
                         <div
+                            class="col-lg-4 col-md-4 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <UserInput
+                                v-model="formData.user_id"
+                                :label="t('manager_id')"
+                            />
+                        </div>
+
+                        <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
                             <q-toggle
@@ -126,7 +136,7 @@ const filterFn = async (val, update) =>
                                 :trueValue="1"
                                 :falseValue="0"
                                 checked-icon="fa-solid fa-check"
-                            unchecked-icon="fa-solid fa-xmark"
+                                unchecked-icon="fa-solid fa-xmark"
                                 :label="t('is_active')"
                                 :error="$v.is_active.$error"
                                 @input="() => $v.is_active.$touch()"

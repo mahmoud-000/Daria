@@ -13,6 +13,6 @@ class DepartmentShow extends Controller
     public function __invoke(Department $department)
     {
         if (!auth()->user()->is_owner)  abort_if(Gate::denies('show-department'), Response::HTTP_FORBIDDEN, __('permission::messages.gate_denies'));
-        return DepartmentResource::make($department->load(['parent']));
+        return DepartmentResource::make($department->load(['parent', 'manager', 'manager.media']));
     }
 }

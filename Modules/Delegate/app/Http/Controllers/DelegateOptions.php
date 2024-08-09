@@ -2,6 +2,7 @@
 
 namespace Modules\Delegate\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Delegate\Transformers\DelegateResource;
@@ -14,7 +15,7 @@ class DelegateOptions extends Controller
         return DelegateResource::collection(
             Delegate::query()
             ->with('media')
-            ->where('is_active', true)
+            ->where('is_active', ActiveEnum::ACTIVED->value)
             ->when(!empty($req->search), fn ($query) => $query->where('fullname', 'LIKE', '%' . $req->search . '%'))
             ->paginate(10)
         );

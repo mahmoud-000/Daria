@@ -99,6 +99,10 @@ export const BrandInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/BrandInput.vue")
 );
 
+export const UserInput = defineAsyncComponent(() =>
+    import("../components/Form/Inputs/UserInput.vue")
+);
+
 export const SupplierInput = defineAsyncComponent(() =>
     import("../components/Form/Inputs/SupplierInput.vue")
 );

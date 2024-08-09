@@ -16,6 +16,7 @@ class UpdateDepartmentRequest extends FormRequest
             'name'         => ['required', 'string', 'min:3', 'max:100', Rule::unique('departments', 'name')->withoutTrashed()->ignore($this->id)],
             'is_active'    => ['required', 'boolean'],
             'department_id'       => ['sometimes', 'integer', 'nullable'],
+            'user_id'       => ['sometimes', 'integer', 'nullable'],
             'remarks'      => ['string', 'nullable', 'max:255']
         ];
     }

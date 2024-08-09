@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Brand\Transformers\BrandResource;
@@ -14,7 +15,7 @@ class BrandOptions extends Controller
         return BrandResource::collection(
             Brand::query()
             ->with('media')
-            ->where('is_active', true)
+            ->where('is_active', ActiveEnum::ACTIVED->value)
             ->when(!empty($req->search), fn ($query) => $query->where('name', 'LIKE', '%' . $req->search . '%'))
             ->paginate(10));
     }

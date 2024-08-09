@@ -76,14 +76,14 @@ export const floatify = (number) => {
     return parseFloat((number).toFixed(10));
 }
 
-export const addOptionTo = (moduleName, formData) => {
+export const addOptionTo = (moduleName, formData, property = null) => {
     const getOptions = computed(() => store.getters[`${moduleName}/getOptions`]);
     const findOption = getOptions.value.find(
         (opt) => opt.id === formData[`${moduleName}_id`]
     );
 
     if (!findOption) {
-        getOptions.value.unshift(formData[`${moduleName}`]);
+        getOptions.value.unshift(formData[`${property ?? moduleName}`]);
     }
 }
 

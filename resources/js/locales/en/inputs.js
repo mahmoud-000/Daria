@@ -113,4 +113,6 @@ export default {
   company_name: "Company Name",
   from_warehouse_id: "From Warehouse",
   to_warehouse_id: "To Warehouse",
+  parent: "Parent",
+  manager_id: "Manager",
 }

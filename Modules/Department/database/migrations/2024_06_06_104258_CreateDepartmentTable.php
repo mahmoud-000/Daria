@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->foreignId('department_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->text('remarks')->nullable();
             $table->boolean('is_active')->nullable()->default(0);
 

@@ -27,10 +27,20 @@ export const columns = reactive([
     {
         name: "parent",
         required: false,
-        label: t('department_id'),
+        label: t('parent'),
         align: "center",
-        field: (row) => row.department,
+        field: (row) => row.parent,
         format: (val) => `${val?.name ?? '----'}`,
+        sortable: false,
+    },
+
+    {
+        name: "manager",
+        required: false,
+        label: t('manager'),
+        align: "center",
+        field: (row) => row.manager,
+        format: (val) => `${val?.fullname ?? '----'}`,
         sortable: false,
     },
 

@@ -8,9 +8,6 @@ MVP:
     - Add Paymanet
   SaleReturn:
     - Add Paymanet
-  Quotation:
-    - Test
-    - Convert To Sale Invoice
   Transfer:
   Transfer:
   SystemSettings:
@@ -35,7 +32,6 @@ MVP:
     - Add Personal Informations
 
 
-- icon_addjustment:contrast_square
 - floating action button
 - Stepper
 - Rating
@@ -70,9 +66,6 @@ Employee:
   - Certificates - Military Certificate
   - National ID card
   - marital status [single - married -  divorced - widowed]
-
-Department:
-  - Manager ID
 
 JobHistory:
   - ID

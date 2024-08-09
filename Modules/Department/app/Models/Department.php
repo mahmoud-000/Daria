@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Department\Database\Factories\DepartmentFactory;
+use Modules\User\Models\User;
 
 class Department extends Model
 {
@@ -16,12 +17,14 @@ class Department extends Model
         'name',
         'remarks',
         'is_active',
-        'department_id'
+        'department_id',
+        'user_id'
     ];
 
     protected $casts = [
         'is_active'         => \App\Enums\ActiveEnum::class,
         'department_id'     => 'integer',
+        'user_id'     => 'integer',
     ];
 
     public static function searchable()
@@ -32,6 +35,11 @@ class Department extends Model
     public function parent()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sub()

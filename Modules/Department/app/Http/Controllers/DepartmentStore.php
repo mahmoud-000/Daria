@@ -13,7 +13,7 @@ class DepartmentStore extends Controller
     public function __invoke(StoreDepartmentRequest $request)
     {
         try {
-            $department = Department::create(Arr::except($request->validated(), ['department']));
+            $department = Department::create(Arr::except($request->validated(), ['department', 'manager']));
 
             return $this->success(__('status.created', ['name' => $department['name'], 'module' => __('modules.department')]));
         } catch (\Illuminate\Database\QueryException $e) {

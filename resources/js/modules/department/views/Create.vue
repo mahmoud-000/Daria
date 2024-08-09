@@ -7,11 +7,13 @@ const Form = defineAsyncComponent(() => import("../components/Form.vue"));
 const formData = reactive({
     name: "",
     department_id: null,
+    user_id: null,
     is_active: 0,
     remarks: "",
 });
 const store = useStore();
 await store.dispatch("department/fetchOptions");
+await store.dispatch("user/fetchOptions");
 </script>
 
 <template>

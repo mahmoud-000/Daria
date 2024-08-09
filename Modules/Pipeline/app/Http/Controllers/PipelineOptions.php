@@ -2,6 +2,7 @@
 
 namespace Modules\Pipeline\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Pipeline\Transformers\PipelineResource;
@@ -14,7 +15,7 @@ class PipelineOptions extends Controller
         return PipelineResource::collection(
             Pipeline::query()
                 ->with('stages')
-                ->where('is_active', true)
+                ->where('is_active', ActiveEnum::ACTIVED->value)
                 ->when($req->app_name, fn ($query) => $query->where('app_name', $req->app_name))
                 ->get()
             );

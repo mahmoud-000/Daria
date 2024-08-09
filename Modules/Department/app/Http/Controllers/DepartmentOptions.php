@@ -2,6 +2,7 @@
 
 namespace Modules\Department\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Department\Transformers\DepartmentResource;
@@ -13,7 +14,7 @@ class DepartmentOptions extends Controller
     {
         return DepartmentResource::collection(
             Department::query()
-                ->where('is_active', true)
+            ->where('is_active', ActiveEnum::ACTIVED->value)
                 ->when(
                     !empty($req->form_id),
                     fn ($query) => $query

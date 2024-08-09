@@ -2,6 +2,7 @@
 
 namespace Modules\Item\Database\Factories;
 
+use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Item\Models\Item;
 use Modules\Unit\Models\Unit;
@@ -23,13 +24,13 @@ class ItemFactory extends Factory
             'sku' => $this->faker->randomNumber(8),
             'barcode_type' => $this->faker->randomElement([1, 2, 3, 4, 5]),
             'unit_id' => function () {
-                return Unit::where('unit_id', null)->where('is_active', true)->get()->first()->id;
+                return Unit::where('unit_id', null)->where('is_active', ActiveEnum::ACTIVED->value)->get()->first()->id;
             },
             'purchase_unit_id' => function () {
-                return Unit::where('unit_id', null)->where('is_active', true)->get()->first()->id;
+                return Unit::where('unit_id', null)->where('is_active', ActiveEnum::ACTIVED->value)->get()->first()->id;
             },
             'sale_unit_id' => function () {
-                return Unit::where('unit_id', null)->where('is_active', true)->get()->first()->id;
+                return Unit::where('unit_id', null)->where('is_active', ActiveEnum::ACTIVED->value)->get()->first()->id;
             },
 
             'type' => $this->faker->unique->randomElement([1, 2, 3]),

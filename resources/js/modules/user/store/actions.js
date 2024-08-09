@@ -103,3 +103,17 @@ export const importCsv = async ({ commit }, users) => {
             });
     })
 };
+
+
+export const fetchOptions = ({ commit }, query) => {
+    return new Promise((resolve, reject) => {
+        UserModel.options(query).then(res => {
+            commit('SET_OPTIONS', res.data)
+            commit('SET_META', res.meta)
+            resolve(res);
+        })
+            .catch(error => {
+                reject(error);
+            });
+    })
+};

@@ -2,6 +2,7 @@
 
 namespace Modules\Item\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Item\Transformers\ItemResource;
@@ -14,7 +15,7 @@ class ItemOptions extends Controller
         return ItemResource::collection(
             Item::query()
                 ->with('media')
-                ->where('is_active', true)
+                ->where('is_active', ActiveEnum::ACTIVED->value)
                 ->when($req->type, fn ($query) => $query->where('type', $req->type))
                 ->when(!empty($req->search), fn ($query) => $query
                     ->where('name', 'LIKE', '%' . $req->search . '%')

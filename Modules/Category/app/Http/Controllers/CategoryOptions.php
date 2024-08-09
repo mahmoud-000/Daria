@@ -2,6 +2,7 @@
 
 namespace Modules\Category\Http\Controllers;
 
+use App\Enums\ActiveEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Category\Transformers\CategoryResource;
@@ -14,7 +15,7 @@ class CategoryOptions extends Controller
         return CategoryResource::collection(
             Category::query()
                 ->with('media')
-                ->where('is_active', true)
+                ->where('is_active', ActiveEnum::ACTIVED->value)
                 ->when(
                     !empty($req->form_id),
                     fn ($query) => $query

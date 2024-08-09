@@ -23,6 +23,27 @@ const config = reactive({
                         <q-badge color="primary">{{ props.value }}</q-badge>
                     </q-td>
                 </template>
+
+                <template #body-cell-manager="props">
+                    <q-td class="text-center" :props="props">
+                        <q-list dense dark>
+                            <q-item>
+                                <q-item-section>
+                                    <q-item-label>{{
+                                        props.value
+                                    }}</q-item-label>
+                                </q-item-section>
+                                <q-item-section side>
+                                    <q-item-label caption>
+                                        <q-avatar size="sm">
+                                            <q-img :src="props.row.manager?.avatar.url" />
+                                        </q-avatar>
+                                    </q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-td>
+                </template>
             </BaseTable>
         </template>
         <template #fallback>

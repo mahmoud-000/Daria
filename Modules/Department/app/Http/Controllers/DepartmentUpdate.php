@@ -13,7 +13,7 @@ class DepartmentUpdate extends Controller
     public function __invoke(UpdateDepartmentRequest $request, Department $department)
     {
         try {
-            $department->update(Arr::except($request->validated(), ['department']));
+            $department->update(Arr::except($request->validated(), ['department', 'manager']));
 
             return $this->success(__('status.updated', ['name' => $department['name'], 'module' => __('modules.department')]));
         } catch (\Illuminate\Database\QueryException $e) {
