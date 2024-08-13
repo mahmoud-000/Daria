@@ -17,7 +17,7 @@ class UsersCollectionResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
-            'fullname' => $this->firstname . ' ' . $this->lastname,
+            'fullname' => $this->fullname,
             'is_active' => $this->is_active,
             'avatar' => $this->whenLoaded('media') && $this->media_count ? (new UploadResource($this->getFirstMedia('users')))->additional(['conversion' => 'avatar'])
                 : config('upload.default_image'),

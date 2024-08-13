@@ -27,9 +27,9 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens, HasFactory, Notifiable, Searchable, HasPermissions, SoftDeletes, InteractsWithMedia;
 
     protected $guard = 'api';
-    
+
     protected $withCount = ['media'];
-    
+
     protected $fillable = [
         'username',
         'password',
@@ -52,14 +52,21 @@ class User extends Authenticatable implements HasMedia
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_active'         => \App\Enums\ActiveEnum::class,
-        'send_notify'       => 'boolean',
-        'is_owner'          => 'boolean',
-        'gender'            => 'integer',
-        'date_of_birth'     => 'immutable_date',
-        'date_of_joining'   => 'immutable_date',
+        'is_active' => \App\Enums\ActiveEnum::class,
+        'send_notify' => 'boolean',
+        'is_owner' => 'boolean',
+        'gender' => 'integer',
+        'date_of_birth' => 'immutable_date',
+        'date_of_joining' => 'immutable_date',
     ];
-    
+
+    protected function fullname(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => $attributes['firstname'] . ' '. $attributes['lastname'],
+        );
+    }
+
     public static function searchable()
     {
         return ['firstname', 'lastname', 'username', 'email'];
@@ -91,7 +98,7 @@ class User extends Authenticatable implements HasMedia
         });
     }
 
-    protected function password(): Attribute 
+    protected function password(): Attribute
     {
         return new Attribute(
             set: fn($value) => bcrypt($value)
@@ -102,7 +109,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-    
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('avatar')

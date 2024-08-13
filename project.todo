@@ -8,8 +8,6 @@ MVP:
     - Add Paymanet
   SaleReturn:
     - Add Paymanet
-  Transfer:
-  Transfer:
   SystemSettings:
     - Country
     - Show Currency Symbol or Code
