@@ -15,7 +15,7 @@ class UserOptions extends Controller
         return UsersCollectionResource::collection(
             User::query()
                 ->select(['id', 'email', 'username', 'firstname', 'lastname', 'is_active', 'created_at', 'updated_at'])
-                ->withCount(['media'])
+                ->with(['media'])
                 ->withCount(['media'])
                 ->where('is_active', ActiveEnum::ACTIVED->value)
                 ->when(!empty($req->search), fn($query) => $query->where('username', 'LIKE', '%' . $req->search . '%'))

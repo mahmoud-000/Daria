@@ -11,14 +11,10 @@ class PermissionDatabaseSeeder extends Seeder
     public function run()
     {
         $modules = [
-            'company' => 'companies',
-            'branch' => 'branches',
-            'department' => 'departments',
             'user' => 'users',
             'supplier' => 'suppliers',
             'customer' => 'customers',
             'delegate' => 'delegates',
-            'shipping company' => 'shipping companies',
             'category' => 'categories',
             'brand' => 'brands',
             'unit' => 'units',
@@ -32,10 +28,7 @@ class PermissionDatabaseSeeder extends Seeder
             'adjustment' => 'adjustments',
             'transfer' => 'transfers',
             'pipeline' => 'pipelines',
-            'channel' => 'channels',
-            'lead' => 'leads',
             'stage' => 'stages',
-            'variant' => 'variants',
             'role' => 'roles',
         ];
 

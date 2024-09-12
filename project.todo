@@ -12,17 +12,18 @@ MVP:
     - Country
     - Show Currency Symbol or Code
     - Decimal point 3.002 or 3.00 [التقريب]
-
+    - Timezone
+    - Default Date Format
+    - Default Time Format
+    
   Company:
     - Start Date
     - Date of Establishment
-    - Default Date Format
-    - Default Time Format
     - Start Working Time
     - Partners
     - Website
     - Social Links
-    - Timezone
+    
   User:
     - Add Region
     - Add Job Title

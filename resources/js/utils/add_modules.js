@@ -5,12 +5,6 @@ import localeModule from '../modules/locale'
 import roleModule from '../modules/role'
 import permissionModule from '../modules/permission'
 import authModule from '../modules/auth'
-import attributeModule from '../modules/attribute'
-import regionModule from '../modules/region'
-import organizationModule from '../modules/organization'
-import companyModule from '../modules/company'
-import branchModule from '../modules/branch'
-import departmentModule from '../modules/department'
 import dashboardModule from '../modules/dashboard'
 import peopleModule from '../modules/people'
 import userModule from '../modules/user'
@@ -24,7 +18,6 @@ import brandModule from '../modules/brand'
 import warehouseModule from '../modules/warehouse'
 import unitModule from '../modules/unit'
 import itemModule from '../modules/item'
-// import variantModule from '../modules/variant'
 import invoiceModule from '../modules/invoice'
 import stockModule from '../modules/stock'
 import purchaseModule from '../modules/purchase'
@@ -40,12 +33,7 @@ import stageModule from '../modules/stage'
 
 const addModules = registerModules({
   pageErrors: pageErrorsModule,
-  region: regionModule,
   locale: localeModule,
-  organization: organizationModule,
-  company: companyModule,
-  branch: branchModule,
-  department: departmentModule,
   dashboard: dashboardModule,
   people: peopleModule,
   user: userModule,
@@ -53,12 +41,10 @@ const addModules = registerModules({
   customer: customerModule,
   delegate: delegateModule,
   category: categoryModule,
-  attribute: attributeModule,
   brand: brandModule,
   warehouse: warehouseModule,
   unit: unitModule,
   item: itemModule,
-  // variant: variantModule,
   invoice: invoiceModule,
   stock: stockModule,
   purchase: purchaseModule,

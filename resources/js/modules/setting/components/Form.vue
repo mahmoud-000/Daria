@@ -32,6 +32,9 @@ const isPwd = ref(true);
 
 const formData = reactive({
     default_currency: null,
+    timezone: null,
+    date_format: null,
+    time_format: null,
     system_email: "",
     system_name: "",
     driver: "",
