@@ -31,10 +31,12 @@ const { t } = useI18n();
 const isPwd = ref(true);
 
 const formData = reactive({
+    company_name: "",
+    company_email: "",
     default_currency: null,
-    timezone: null,
-    date_format: null,
-    time_format: null,
+    // timezone: null,
+    // date_format: null,
+    // time_format: null,
     system_email: "",
     system_name: "",
     driver: "",
@@ -49,7 +51,10 @@ const formData = reactive({
 });
 
 const rules = computed(() => ({
+    company_name: { required },
+    company_email: { email },
     default_currency: { required },
+    system_name: { required },
     system_email: { email },
     host: { requiredIfRef: requiredIf(formData.driver) },
     port: { requiredIfRef: requiredIf(formData.driver) },
@@ -82,8 +87,6 @@ const rules = computed(() => ({
 
 const $v = useVuelidate(rules, formData);
 const store = useStore();
-
-const locale = computed(() => store.getters["locale/getLocale"]);
 
 const onSubmit = async () => {
     let data = [];
@@ -198,8 +201,13 @@ const clearDriver = () => {
                             <BaseInput
                                 v-model="formData.system_name"
                                 :label="t('system_name')"
+                                :error="$v.system_name.$error"
+                                @input="() => $v.system_name.$touch()"
+                                @blur="() => $v.system_name.$touch()"
+                                :errors="$v.system_name.$errors"
                             />
                         </div>
+                        
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >
@@ -213,6 +221,34 @@ const clearDriver = () => {
                                 :errors="$v.system_email.$errors"
                             />
                         </div>
+
+                        <div
+                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.company_name"
+                                :label="t('company_name')"
+                                :error="$v.company_name.$error"
+                                @input="() => $v.company_name.$touch()"
+                                @blur="() => $v.company_name.$touch()"
+                                :errors="$v.company_name.$errors"
+                            />
+                        </div>
+                        
+                        <div
+                            class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
+                        >
+                            <BaseInput
+                                v-model="formData.company_email"
+                                :label="t('company_email')"
+                                type="email"
+                                :error="$v.company_email.$error"
+                                @input="() => $v.company_email.$touch()"
+                                @blur="() => $v.company_email.$touch()"
+                                :errors="$v.company_email.$errors"
+                            />
+                        </div>
+
                         <div
                             class="col-lg-6 col-md-6 col-xs-12 q-px-md q-pb-sm"
                         >

@@ -49,11 +49,20 @@ class SettingDatabaseSeeder extends Seeder
                 ],
                 [
                     'key' => 'system_email',
-                    'value' => 'company@company.com'
+                    'value' => 'system@system.com'
                 ],
                 [
                     'key' => 'system_name',
-                    'value' => 'Ticket System'
+                    'value' => 'Daria CRM'
+                ],
+
+                [
+                    'key' => 'company_email',
+                    'value' => 'company@company.com'
+                ],
+                [
+                    'key' => 'company_name',
+                    'value' => 'Company Name'
                 ],
                 
                 [

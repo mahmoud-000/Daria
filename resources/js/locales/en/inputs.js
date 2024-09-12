@@ -111,6 +111,7 @@ export default {
   sku: "SKU",
   patch_id: "Patch ID",
   company_name: "Company Name",
+  company_email: "Company Email",
   from_warehouse_id: "From Warehouse",
   to_warehouse_id: "To Warehouse",
   parent: "Parent",
