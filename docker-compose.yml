@@ -1,0 +1,52 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: laravel-app
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/apache/vhost.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8001:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: laravel-mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+
+  npm:
+    image: node:20
+    container_name: laravel-npm
+    working_dir: /src
+    volumes:
+      - ./src:/src
+    command: /bin/sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173" # Vite default port
+    depends_on:
+      - app
+
+volumes:
+  db_data:
