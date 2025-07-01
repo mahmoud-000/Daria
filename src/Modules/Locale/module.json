@@ -1,0 +1,11 @@
+{
+    "name": "Locale",
+    "alias": "locale",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Locale\\Providers\\LocaleServiceProvider"
+    ],
+    "files": []
+}

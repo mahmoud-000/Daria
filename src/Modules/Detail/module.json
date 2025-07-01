@@ -1,0 +1,11 @@
+{
+    "name": "Detail",
+    "alias": "detail",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Detail\\Providers\\DetailServiceProvider"
+    ],
+    "files": []
+}
